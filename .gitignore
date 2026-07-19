@@ -5,6 +5,9 @@ projects/*
 !projects/template-project/
 drafts/
 
+### Agent worktrees — per-agent topic-branch checkouts (worktree doctrine) ###
+.worktrees/
+
 ### SciTeX local state — runtime regenerable data (track seed files only) ###
 .scitex/socialia/runtime/*
 !.scitex/socialia/runtime/.gitkeep

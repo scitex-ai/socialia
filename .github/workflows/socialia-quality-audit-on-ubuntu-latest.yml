@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # stages `develop` via `git worktree add --detach`;
+          # --new-only stages `develop` via `git worktree add --detach`;
           # we need the full history + a local `develop` ref for that to
           # work. fetch-depth=0 pulls the full history; the explicit
           # fetch step below materialises a local `develop` branch from

@@ -34,14 +34,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # --new-only stages `develop` via `git worktree add --detach`;
+          # stages `develop` via `git worktree add --detach`;
           # we need the full history + a local `develop` ref for that to
           # work. fetch-depth=0 pulls the full history; the explicit
           # fetch step below materialises a local `develop` branch from
           # origin/develop so worktree-add can resolve the ref.
           fetch-depth: 0
 
-      - name: Ensure local develop ref exists (for --new-only diff)
+      - name: Ensure local develop ref exists (for diff)
         run: |
           git fetch origin develop:develop || \
             git fetch origin develop && git branch -f develop origin/develop
@@ -61,4 +61,4 @@ jobs:
           pip install "scitex-dev[cli-audit] @ git+https://github.com/ywatanabe1989/scitex-dev@develop"
 
       - name: Run scitex-dev ecosystem audit-all (new-only ratchet)
-        run: scitex-dev ecosystem audit-all socialia --new-only --no-version-check
+        run: scitex-dev ecosystem audit-all socialia --no-version-check

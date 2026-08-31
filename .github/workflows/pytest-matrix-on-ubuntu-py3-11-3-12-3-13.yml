@@ -1,13 +1,42 @@
 name: tests
 
-# PILOT: org-level reusable-workflow caller (scitex-ai/.github, 2026-07-10).
-# Triggers preserved verbatim from the prior local file. The prior local
-# job ran on `ubuntu-latest` with `actions/setup-python` + pip; the reusable
-# workflow instead runs on the self-hosted `spartan-cpu` runner with `uv`
-# (same as the org's canonical CI) — this repo already has a
-# `spartan-cpu-socialia-01` self-hosted runner registered (confirmed via
-# `gh api repos/.../actions/runners`), so this is a deliberate
-# infra-standardization, not a functional change to the pytest suite itself.
+# Org-level reusable-workflow caller (scitex-ai/.github, 2026-07-10).
+# Triggers preserved verbatim from the prior local file, which ran on
+# `ubuntu-latest` with `actions/setup-python` + pip; the reusable workflow
+# uses `uv` instead (same as the org's canonical CI).
+#
+# WHICH RUNNER THIS LANDS ON — and why the `with:` block below exists.
+# The callee's `runs_on` input is the ONLY thing that selects a runner, and
+# it defaults to '["ubuntu-latest"]'. Until 2026-08-31 this caller passed
+# NOTHING, so it took that default — which is why setting the repository
+# variable `CI_RUNS_ON` here changed nothing at all: no expression in this
+# file, or in the callee, ever read it. The write was verified; the effect
+# was not, and a rerun still landed on a GitHub-hosted runner. The `with:`
+# block below is what makes the variable load-bearing.
+#
+# `vars.CI_RUNS_ON` is a JSON-array STRING and is forwarded as a string —
+# the callee applies `fromJSON` itself, so do NOT wrap it here. The `||`
+# fallback keeps `["ubuntu-latest"]` for any fork or clone where the
+# variable is unset, so this change is completely inert there.
+#
+# CAUTION, AND ITS EXACT SCOPE. Pointing this at a self-hosted pool is only
+# safe for a pool whose runners do not share a home directory. Every runner
+# on the SPARTAN lease (`spartan-cpu`) inherits one mutable
+# ~/.runner-toolcache on GPFS; they contend for that one directory and jobs
+# fail both reading it (`uv: No such file` -> exit 127) and writing it
+# (ENOENT during copy). Measured on scitex-cards 2026-07-31: seven failures
+# across five pull requests in one afternoon, four differently-named
+# runners, every one cleared by a plain rerun; the tell is DURATION —
+# failures finish in 14-30s where passing legs take 62-66s.
+#
+# THAT HAZARD IS SPARTAN-SPECIFIC. Our own pool (label `scitex-org-cpu`,
+# hosts compute-01/03/04) cannot hit it: each host has its own LOCAL home,
+# verified 2026-08-31 by writing a marker file on compute-04 and finding it
+# ABSENT on compute-01 and compute-03 while the same read succeeded
+# locally. So honouring `CI_RUNS_ON` is safe here as long as the variable
+# does not point at `spartan-cpu`. If it ever does, expect the random
+# reruns described above until each Spartan runner gets its own
+# AGENT_TOOLSDIRECTORY (scitex-ai/.github#24).
 
 on:
   push:
@@ -22,4 +51,6 @@ jobs:
   pytest-matrix:
     # New required-status-check context: "pytest-matrix / pytest-matrix-on-ubuntu-py<X.YY>"
     uses: scitex-ai/.github/.github/workflows/pytest-matrix.yml@main
+    with:
+      runs_on: ${{ vars.CI_RUNS_ON || '["ubuntu-latest"]' }}
     secrets: inherit

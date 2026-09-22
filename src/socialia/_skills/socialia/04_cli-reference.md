@@ -49,4 +49,9 @@ socialia mcp doctor
 
 # Introspection
 socialia list-python-apis [-v]
+
+# Skills (agent-facing docs bundled with the package)
+socialia skills list [--json]
+socialia skills get <name> [--json]
+socialia skills install [--dry-run]
 ```

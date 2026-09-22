@@ -1,16 +1,33 @@
-# Socialia
+# Socialia (<code>socialia</code>)
 
-**Unified social media management — posting, analytics, and insights**
+<p align="center">
+  <a href="https://scitex.ai">
+    <img src="docs/scitex-logo-blue-cropped.png" alt="SciTeX" width="400">
+  </a>
+</p>
 
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Documentation Status](https://readthedocs.org/projects/socialia/badge/?version=latest)](https://socialia.readthedocs.io/en/latest/?badge=latest)
-[![CI](https://github.com/ywatanabe1989/socialia/actions/workflows/pytest-matrix-on-ubuntu-py3-11-3-12-3-13.yml/badge.svg)](https://github.com/ywatanabe1989/socialia/actions/workflows/pytest-matrix-on-ubuntu-py3-11-3-12-3-13.yml)
+<p align="center"><b>Unified social media management — posting, analytics, and insights</b></p>
 
-Part of [**SciTeX**](https://scitex.ai) for scientific research automation.
+<p align="center">
+  <a href="https://socialia.readthedocs.io/">Full Documentation</a> · <code>uv pip install socialia[all]</code>
+</p>
 
-📚 **[Documentation](https://socialia.readthedocs.io/)** | 🐙 **[GitHub](https://github.com/ywatanabe1989/socialia)**
+<!-- scitex-badges:start -->
+<p align="center">
+  <a href="https://pypi.org/project/socialia/"><img src="https://img.shields.io/pypi/v/socialia?label=pypi" alt="pypi"></a>
+  <a href="https://pypi.org/project/socialia/"><img src="https://img.shields.io/pypi/pyversions/socialia?label=python" alt="python"></a>
+  <a href="https://github.com/ywatanabe1989/socialia/actions/workflows/rtd-sphinx-build-on-ubuntu-latest.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/socialia/rtd-sphinx-build-on-ubuntu-latest.yml?branch=develop&label=docs" alt="docs"></a>
+  <a href="https://socialia.readthedocs.io/en/latest/"><img src="https://img.shields.io/readthedocs/socialia?label=docs" alt="docs"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/ywatanabe1989/socialia/actions/workflows/pytest-matrix-on-ubuntu-py3-11-3-12-3-13.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/socialia/pytest-matrix-on-ubuntu-py3-11-3-12-3-13.yml?branch=develop&label=tests" alt="tests"></a>
+  <a href="https://github.com/ywatanabe1989/socialia/actions/workflows/import-smoke-on-ubuntu-py3-12.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/socialia/import-smoke-on-ubuntu-py3-12.yml?branch=develop&label=install-check" alt="install-check"></a>
+  <a href="https://github.com/ywatanabe1989/socialia/actions/workflows/quality-audit-on-ubuntu-latest.yml"><img src="https://img.shields.io/github/actions/workflow/status/ywatanabe1989/socialia/quality-audit-on-ubuntu-latest.yml?branch=develop&label=quality" alt="quality"></a>
+  <a href="https://codecov.io/gh/ywatanabe1989/socialia"><img src="https://img.shields.io/codecov/c/github/ywatanabe1989/socialia/develop?label=cov" alt="cov"></a>
+</p>
+<!-- scitex-badges:end -->
 
-> **Interfaces:** Python ⭐ · CLI ⭐ · MCP ⭐⭐⭐ (primary) · Skills ⭐⭐ · Hook — · HTTP —
+---
 
 ## Problem and Solution
 
@@ -18,59 +35,7 @@ Part of [**SciTeX**](https://scitex.ai) for scientific research automation.
 | # | Problem | Solution |
 |---|---------|----------|
 | 1 | **Each social platform has a different API** -- tweepy + LinkedIn UGC + PRAW + slack-sdk + YouTube Data API + GA4 — 6 different auth stories | **Unified `socialia post <platform>`** -- one CLI + MCP interface across Twitter / LinkedIn / Reddit / Slack / YouTube; auth handled behind the scenes |
-| 2 | **Agents need to post/retract without clicking** -- but every platform's Python SDK is a different shape | **MCP tools `social_post` / `social_delete` / `social_status`** -- agent-friendly surface: one call per action; structured response |
-
-## Installation
-
-> **Recommended**: `uv pip install socialia[all]` —
-> uv's Rust resolver handles the SciTeX dep set in 1-3 min where
-> pip's serial backtracker can take 30+ min on the full extras.
-> Plain `pip install` still works; the install block below shows both.
-
-
-```bash
-pip install socialia
-
-# Or with optional dependencies
-pip install socialia[reddit]      # Reddit support
-pip install socialia[youtube]     # YouTube support
-pip install socialia[analytics]   # Google Analytics Data API
-pip install socialia[all]         # Everything
-```
-
-## Demo
-
-```bash
-# One-shot post across platforms (uses ~/.scitex/socialia/config.yaml creds)
-socialia post twitter "Hello World!"
-socialia post linkedin --file drafts/announce.md
-
-# Schedule + analytics
-socialia schedule list
-socialia analytics show-pageviews --days 7
-```
-
-![socialia CLI demo](docs/cli-demo.svg)
-
-## Architecture
-
-```
-┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-│ drafts/*.org/.md │   │ projects/*.yaml  │   │ ~/.scitex/socialia/ │
-│ (content source) │   │ (campaign defs)  │   │ (creds, scheduler)  │
-└────────┬─────────┘   └────────┬─────────┘   └────────┬─────────┘
-         │                      │                      │
-         ▼                      ▼                      ▼
-   ┌────────────────────────────────────────────────────────┐
-   │ socialia — Python / CLI / MCP                           │
-   │   post · schedule · analytics · grow · feed             │
-   │   per-platform adapters: twitter · linkedin · reddit ·  │
-   │   youtube · medium · github · google-analytics          │
-   └────────────────────────────────────────────────────────┘
-```
-
-A single Python core dispatches to per-platform adapters; CLI / MCP
-share the same Python API surface.
+| 2 | Agents need to **post and retract** without clicking, but every platform's Python SDK is a different shape | MCP tools `social_post` / `social_delete` / `social_status` give agents **one call per action** with a structured response |
 
 ## Quick Start
 
@@ -89,6 +54,88 @@ linkedin.post("Professional update!")
 ga = GoogleAnalytics()
 ga.track_event("page_view", {"page": "/docs"})
 ```
+
+
+## Demo
+
+```bash
+# One-shot post across platforms (uses ~/.scitex/socialia/config.yaml creds)
+socialia post twitter "Hello World!"
+socialia post linkedin --file drafts/announce.md
+
+# Schedule + analytics
+socialia schedule list
+socialia analytics show-pageviews --days 7
+```
+
+![socialia CLI demo](docs/cli-demo.svg)
+
+## Installation
+
+```bash
+uv pip install "socialia[all]"
+```
+
+> **Recommended**: `uv pip install socialia[all]` —
+> uv's Rust resolver handles the SciTeX dep set in 1-3 min where
+> pip's serial backtracker can take 30+ min on the full extras.
+> Plain `pip install` still works; the extras matrix below shows both.
+
+<details>
+<summary><b>Extras matrix</b></summary>
+
+| Extra | Install | Enables |
+|-------|---------|---------|
+| (core) | `pip install socialia` | Twitter/X, LinkedIn, Slack posting, scheduling, org drafts |
+| reddit | `pip install socialia[reddit]` | Reddit via PRAW |
+| youtube | `pip install socialia[youtube]` | YouTube Data API upload |
+| analytics | `pip install socialia[analytics]` | Google Analytics Data API |
+| mcp | `pip install socialia[mcp]` | MCP server tools |
+| docs | `pip install socialia[docs]` | Sphinx documentation build |
+| all | `pip install socialia[all]` | Everything |
+
+</details>
+
+## Architecture
+
+```mermaid
+flowchart LR
+    drafts[drafts content<br/>*.org / *.md] --> core
+    projects[campaign defs<br/>projects/*.yaml] --> core
+    creds[credentials + scheduler<br/>~/.scitex/socialia/] --> core
+    core[socialia core<br/>post · schedule · analytics · grow · feed] --> adapters
+    adapters[per-platform adapters<br/>twitter · linkedin · reddit<br/>youtube · slack · analytics] --> platforms[platform APIs]
+```
+
+<p align="center"><sub><b>Figure 1.</b> Drafts, campaign files, and stored credentials flow through one Python core to per-platform adapters.</sub></p>
+
+A single Python core dispatches to per-platform adapters; CLI / MCP
+share the same Python API surface.
+
+## Four Interfaces
+
+### MCP ⭐⭐⭐ (primary)
+
+Agent-friendly tools (`social_post`, `social_delete`, `social_status`,
+analytics helpers) served over one MCP server — see the
+<details><summary><b>MCP Server</b></summary> section below.
+
+### Python API ⭐⭐
+
+One client per platform (`Twitter`, `LinkedIn`, `Reddit`, `YouTube`,
+`GoogleAnalytics`) sharing a common base — see
+<details><summary><b>Python API</b></summary> below.
+
+### CLI ⭐⭐
+
+`socialia post / schedule / analytics / grow / feed` on one command tree —
+see <details><summary><b>CLI Usage</b></summary> below.
+
+### Skills ⭐
+
+Packaged agent skills under `src/socialia/_skills` with their own
+quality gate (`tests/develop/test_skills_quality.py`).
+
 
 <details>
 <summary><b>CLI Usage</b></summary>
@@ -388,8 +435,10 @@ socialia/
 │   ├── _server.py        # Platform-specific content strategies
 │   ├── _base.py          # Base class
 │   ├── _branding.py      # Branding/env prefix resolution
-│   ├── _twitter_growth.py # Twitter follow/growth automation
-│   └── _twitter_media.py  # Twitter media upload
+│   ├── _twitter/           # Twitter/X subpackage
+│   │   ├── growth.py       # Follow/growth automation
+│   │   ├── media.py        # Media upload
+│   │   └── read_backend.py # Optional Xquik read backend
 ├── docs/
 │   ├── platforms/        # Platform API documentation
 │   ├── sphinx/           # Sphinx/ReadTheDocs sources
@@ -422,6 +471,19 @@ def share_results(twitter=stx.INJECTED):
 ```
 
 </details>
+
+## Part of SciTeX
+
+`socialia` is part of [**SciTeX**](https://scitex.ai).
+
+>Four Freedoms for Research
+>
+>0. The freedom to **run** your research anywhere — your machine, your terms.
+>1. The freedom to **study** how every step works — from raw data to final manuscript.
+>2. The freedom to **redistribute** your workflows, not just your papers.
+>3. The freedom to **modify** any module and share improvements with the community.
+>
+>AGPL-3.0 — because we believe research infrastructure deserves the same freedoms as the software it runs on.
 
 ---
 

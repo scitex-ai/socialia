@@ -9,7 +9,12 @@ from __future__ import annotations
 
 from typing import Optional
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+except ImportError as exc:
+    raise ImportError(
+        "socialia[mcp] is required for MCP tools: pip install socialia[mcp]"
+    ) from exc
 
 from ..handlers import analytics_pageviews as _analytics_pageviews
 from ..handlers import analytics_realtime as _analytics_realtime

@@ -80,7 +80,7 @@ class TestMCPDoctor:
         from socialia.cli import main
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Health Check" in out
 
@@ -89,7 +89,7 @@ class TestMCPDoctor:
         from socialia.cli import main
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Twitter" in out
 
@@ -98,7 +98,7 @@ class TestMCPDoctor:
         from socialia.cli import main
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "LinkedIn" in out
 
@@ -107,7 +107,7 @@ class TestMCPDoctor:
         from socialia.cli import main
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Reddit" in out
 
@@ -129,7 +129,7 @@ class TestMCPInstallation:
         from socialia.cli import main
         main(["mcp", "installation"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Claude Desktop" in out
 

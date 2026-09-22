@@ -17,10 +17,19 @@ import os
 import sys
 from pathlib import Path
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+except ImportError as exc:
+    raise ImportError(
+        "socialia[mcp] is required for the MCP server: pip install socialia[mcp]"
+    ) from exc
+
+import scitex_logging as slogging
 
 from ._branding import get_mcp_server_name
 from ._mcp.tools import register_all_tools
+
+log = slogging.getLogger(__name__)
 
 
 # =============================================================================
@@ -32,7 +41,7 @@ def _load_env_file(env_file: str) -> None:
     """Load environment variables from a file."""
     path = Path(os.path.expandvars(env_file)).expanduser()
     if not path.exists():
-        print(f"Warning: SOCIALIA_ENV_FILE not found: {path}", file=sys.stderr)
+        log.error(f"Warning: SOCIALIA_ENV_FILE not found: {path}")
         return
 
     with open(path) as f:
@@ -119,9 +128,30 @@ mcp = FastMCP(name=get_mcp_server_name(), instructions=MCP_INSTRUCTIONS)
 
 
 @mcp.tool()
-def usage() -> str:
+def get_usage() -> str:
     """Get platform content strategies and usage guide for socialia."""
     return MCP_INSTRUCTIONS
+
+
+# §5 audit-mcp-tools — every package's MCP server MUST expose
+# skills_list + skills_get so agents can discover skill pages.
+# Bare names (Convention A standalone source): the umbrella mounts with
+# a namespace, so no `socialia_` prefix here. Skill tools are excluded
+# from the §6 orphan check by the auditor.
+@mcp.tool()
+async def skills_list() -> dict:
+    """List available skill pages for socialia."""
+    from scitex_dev.ecosystem import list_skills
+
+    return list_skills(package="socialia")
+
+
+@mcp.tool()
+async def skills_get(name: str | None = None) -> str | None:
+    """Get a socialia skill page by name (or list when name is None)."""
+    from scitex_dev.ecosystem import get_skill
+
+    return get_skill(package="socialia", name=name)
 
 
 @mcp.resource("socialia://strategies")

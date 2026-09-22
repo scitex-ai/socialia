@@ -136,7 +136,7 @@ class TwitterGrowthMixin:
         Get list of users who follow the authenticated user.
 
         Args:
-            limit: Maximum number of followers to return (max 1000)
+            limit: Maximum number of accounts to return (max 1000)
 
         Returns:
             dict with 'success', 'followers' list or 'error'
@@ -330,7 +330,7 @@ class TwitterGrowthMixin:
         Args:
             query: Search query to find relevant tweets
             limit: Maximum number of tweets to search
-            min_followers: Minimum follower count filter
+            min_followers: Minimum audience-size filter
 
         Returns:
             dict with 'success', 'users' list or 'error'
@@ -373,7 +373,7 @@ class TwitterGrowthMixin:
         Args:
             query: Search query to find relevant users
             limit: Maximum number of users to follow
-            min_followers: Minimum follower count filter
+            min_followers: Minimum audience-size filter
             dry_run: If True, only discover users without following
 
         Returns:

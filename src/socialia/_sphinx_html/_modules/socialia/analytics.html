@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>socialia.analytics &mdash; Socialia v0.5.12</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6262202b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Socialia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#social-module-7-tools">Social Module (7 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#analytics-module-4-tools">Analytics Module (4 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#platform-clients">Platform Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#twitter">Twitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Twitter"><code class="docutils literal notranslate"><span class="pre">Twitter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#linkedin">LinkedIn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.LinkedIn"><code class="docutils literal notranslate"><span class="pre">LinkedIn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#reddit">Reddit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Reddit"><code class="docutils literal notranslate"><span class="pre">Reddit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#slack">Slack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#youtube">YouTube</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.YouTube"><code class="docutils literal notranslate"><span class="pre">YouTube</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#analytics">Analytics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.GoogleAnalytics"><code class="docutils literal notranslate"><span class="pre">GoogleAnalytics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_scheduled"><code class="docutils literal notranslate"><span class="pre">move_to_scheduled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_posted"><code class="docutils literal notranslate"><span class="pre">move_to_posted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.ensure_project_dirs"><code class="docutils literal notranslate"><span class="pre">ensure_project_dirs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Socialia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">socialia.analytics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for socialia.analytics</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Google Analytics integration for tracking and metrics."""</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"GoogleAnalytics"</span><span class="p">]</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">._branding</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_env</span>
+
+
+<div class="viewcode-block" id="GoogleAnalytics">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GoogleAnalytics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Google Analytics 4 integration.</span>
+
+<span class="sd">    Supports:</span>
+
+<span class="sd">    - Measurement Protocol (sending events)</span>
+<span class="sd">    - Data API (retrieving metrics) - requires service account</span>
+
+<span class="sd">    Environment Variables (use branded prefix, e.g. ``SOCIALIA_``):</span>
+
+<span class="sd">    - ``GOOGLE_ANALYTICS_MEASUREMENT_ID`` -- GA4 Measurement ID (G-XXXXXXXXXX)</span>
+<span class="sd">    - ``GOOGLE_ANALYTICS_API_SECRET`` -- Measurement Protocol API secret</span>
+<span class="sd">    - ``GOOGLE_ANALYTICS_PROPERTY_ID`` -- Property ID (numeric, for Data API)</span>
+<span class="sd">    - ``GOOGLE_APPLICATION_CREDENTIALS`` -- Path to service account JSON (for Data API)</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="GoogleAnalytics.__init__">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">measurement_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">property_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">http</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Initialize Google Analytics client.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            measurement_id: GA4 Measurement ID (G-XXXXXXXXXX)</span>
+<span class="sd">            api_secret: Measurement Protocol API secret</span>
+<span class="sd">            property_id: GA4 Property ID (numeric, for Data API)</span>
+<span class="sd">            http: Injectable requests-shaped HTTP client (exposes ``post``);</span>
+<span class="sd">                production code leaves this ``None`` and the ``requests``</span>
+<span class="sd">                module is used. Tests pass a hand-rolled fake.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_http</span> <span class="o">=</span> <span class="n">http</span> <span class="ow">or</span> <span class="n">requests</span>
+        <span class="c1"># Google Analytics credentials (use branding-aware get_env)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measurement_id</span> <span class="o">=</span> <span class="n">measurement_id</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">get_env</span><span class="p">(</span><span class="s2">"GOOGLE_ANALYTICS_MEASUREMENT_ID"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"GA_MEASUREMENT_ID"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_secret</span> <span class="o">=</span> <span class="n">api_secret</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">get_env</span><span class="p">(</span><span class="s2">"GOOGLE_ANALYTICS_API_SECRET"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"GA_API_SECRET"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">property_id</span> <span class="o">=</span> <span class="n">property_id</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">get_env</span><span class="p">(</span><span class="s2">"GOOGLE_ANALYTICS_PROPERTY_ID"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"GA_PROPERTY_ID"</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Google Application Credentials (for Data API service account)</span>
+        <span class="n">credentials_path</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"GOOGLE_APPLICATION_CREDENTIALS"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span>
+            <span class="s2">"GA_CREDENTIALS"</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">credentials_path</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"GOOGLE_APPLICATION_CREDENTIALS"</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GOOGLE_APPLICATION_CREDENTIALS"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span>
+                <span class="n">credentials_path</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Measurement Protocol endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mp_endpoint</span> <span class="o">=</span> <span class="s2">"https://www.google-analytics.com/mp/collect"</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.validate_credentials">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.validate_credentials">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check which features are available based on credentials."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"measurement_protocol"</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measurement_id</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_secret</span><span class="p">),</span>
+            <span class="s2">"data_api"</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.track_event">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.track_event">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">track_event</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Send event to Google Analytics via Measurement Protocol.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Event name (e.g., 'social_post', 'social_share')</span>
+<span class="sd">            params: Event parameters dict</span>
+<span class="sd">            client_id: Client ID (generated if not provided)</span>
+<span class="sd">            user_id: Optional user ID for cross-device tracking</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' and details</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                ga.track_event('social_post', {</span>
+<span class="sd">                    'platform': 'twitter',</span>
+<span class="sd">                    'post_id': '123456',</span>
+<span class="sd">                    'content_length': 280,</span>
+<span class="sd">                })</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">measurement_id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_secret</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing GA_MEASUREMENT_ID or GA_API_SECRET"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Generate client_id if not provided</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">client_id</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
+            <span class="n">client_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+
+        <span class="c1"># Build payload</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"client_id"</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span>
+            <span class="s2">"events"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                    <span class="s2">"params"</span><span class="p">:</span> <span class="n">params</span> <span class="ow">or</span> <span class="p">{},</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">user_id</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_id</span>
+
+        <span class="c1"># Add timestamp</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">"events"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"params"</span><span class="p">][</span><span class="s2">"engagement_time_msec"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"100"</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mp_endpoint</span><span class="si">}</span><span class="s2">?measurement_id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">measurement_id</span><span class="si">}</span><span class="s2">&amp;api_secret=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_secret</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+            <span class="c1"># Measurement Protocol returns 204 on success (no content)</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">204</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span>
+                    <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">"client_id"</span><span class="p">:</span> <span class="n">client_id</span><span class="p">,</span>
+                    <span class="s2">"event"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span>
+                    <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"HTTP </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="p">}</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.track_social_post">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.track_social_post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">track_social_post</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"text"</span><span class="p">,</span>
+        <span class="n">success</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Track a social media post event.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            platform: Platform name (twitter, linkedin, reddit)</span>
+<span class="sd">            post_id: Post ID from the platform</span>
+<span class="sd">            content_type: Type of content (text, link, image, thread)</span>
+<span class="sd">            success: Whether the post was successful</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with tracking result</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">track_event</span><span class="p">(</span>
+            <span class="s2">"social_post"</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">"platform"</span><span class="p">:</span> <span class="n">platform</span><span class="p">,</span>
+                <span class="s2">"post_id"</span><span class="p">:</span> <span class="n">post_id</span><span class="p">,</span>
+                <span class="s2">"content_type"</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.track_social_delete">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.track_social_delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">track_social_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Track a social media delete event."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">track_event</span><span class="p">(</span>
+            <span class="s2">"social_delete"</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">"platform"</span><span class="p">:</span> <span class="n">platform</span><span class="p">,</span>
+                <span class="s2">"post_id"</span><span class="p">:</span> <span class="n">post_id</span><span class="p">,</span>
+                <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.get_realtime_users">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.get_realtime_users">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_realtime_users</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get realtime active users (requires Data API setup).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' and 'active_users' count</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing GA_PROPERTY_ID for Data API"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta</span><span class="w"> </span><span class="kn">import</span> <span class="n">BetaAnalyticsDataClient</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">RunRealtimeReportRequest</span><span class="p">,</span>
+                <span class="n">Metric</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">client</span> <span class="o">=</span> <span class="n">BetaAnalyticsDataClient</span><span class="p">()</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">RunRealtimeReportRequest</span><span class="p">(</span>
+                <span class="nb">property</span><span class="o">=</span><span class="sa">f</span><span class="s2">"properties/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"activeUsers"</span><span class="p">)],</span>
+            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">run_realtime_report</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+            <span class="n">active_users</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span>
+                <span class="n">active_users</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"active_users"</span><span class="p">:</span> <span class="n">active_users</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"google-analytics-data not installed. Run: pip install google-analytics-data"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.get_page_views">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.get_page_views">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_page_views</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"7daysAgo"</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"today"</span><span class="p">,</span>
+        <span class="n">page_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get page view metrics (requires Data API setup).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            start_date: Start date (YYYY-MM-DD or relative like '7daysAgo')</span>
+<span class="sd">            end_date: End date (YYYY-MM-DD or 'today')</span>
+<span class="sd">            page_path: Optional page path filter</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' and metrics</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing GA_PROPERTY_ID for Data API"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta</span><span class="w"> </span><span class="kn">import</span> <span class="n">BetaAnalyticsDataClient</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">RunReportRequest</span><span class="p">,</span>
+                <span class="n">DateRange</span><span class="p">,</span>
+                <span class="n">Metric</span><span class="p">,</span>
+                <span class="n">Dimension</span><span class="p">,</span>
+                <span class="n">FilterExpression</span><span class="p">,</span>
+                <span class="n">Filter</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">client</span> <span class="o">=</span> <span class="n">BetaAnalyticsDataClient</span><span class="p">()</span>
+
+            <span class="n">request_params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"property"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"properties/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"date_ranges"</span><span class="p">:</span> <span class="p">[</span><span class="n">DateRange</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">)],</span>
+                <span class="s2">"metrics"</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"screenPageViews"</span><span class="p">),</span>
+                    <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sessions"</span><span class="p">),</span>
+                    <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"totalUsers"</span><span class="p">),</span>
+                <span class="p">],</span>
+                <span class="s2">"dimensions"</span><span class="p">:</span> <span class="p">[</span><span class="n">Dimension</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"pagePath"</span><span class="p">)],</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="n">page_path</span><span class="p">:</span>
+                <span class="n">request_params</span><span class="p">[</span><span class="s2">"dimension_filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">FilterExpression</span><span class="p">(</span>
+                    <span class="nb">filter</span><span class="o">=</span><span class="n">Filter</span><span class="p">(</span>
+                        <span class="n">field_name</span><span class="o">=</span><span class="s2">"pagePath"</span><span class="p">,</span>
+                        <span class="n">string_filter</span><span class="o">=</span><span class="n">Filter</span><span class="o">.</span><span class="n">StringFilter</span><span class="p">(</span>
+                            <span class="n">match_type</span><span class="o">=</span><span class="n">Filter</span><span class="o">.</span><span class="n">StringFilter</span><span class="o">.</span><span class="n">MatchType</span><span class="o">.</span><span class="n">CONTAINS</span><span class="p">,</span>
+                            <span class="n">value</span><span class="o">=</span><span class="n">page_path</span><span class="p">,</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">run_report</span><span class="p">(</span><span class="n">RunReportRequest</span><span class="p">(</span><span class="o">**</span><span class="n">request_params</span><span class="p">))</span>
+
+            <span class="n">pages</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span>
+                <span class="n">pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"path"</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">dimension_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="s2">"page_views"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                        <span class="s2">"sessions"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                        <span class="s2">"users"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"date_range"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"pages"</span><span class="p">:</span> <span class="n">pages</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"google-analytics-data not installed. Run: pip install google-analytics-data"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="GoogleAnalytics.get_traffic_sources">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.GoogleAnalytics.get_traffic_sources">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_traffic_sources</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"7daysAgo"</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"today"</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get traffic source breakdown (requires Data API setup).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with traffic sources and their metrics</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing GA_PROPERTY_ID for Data API"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta</span><span class="w"> </span><span class="kn">import</span> <span class="n">BetaAnalyticsDataClient</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">google.analytics.data_v1beta.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">RunReportRequest</span><span class="p">,</span>
+                <span class="n">DateRange</span><span class="p">,</span>
+                <span class="n">Metric</span><span class="p">,</span>
+                <span class="n">Dimension</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">client</span> <span class="o">=</span> <span class="n">BetaAnalyticsDataClient</span><span class="p">()</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">run_report</span><span class="p">(</span>
+                <span class="n">RunReportRequest</span><span class="p">(</span>
+                    <span class="nb">property</span><span class="o">=</span><span class="sa">f</span><span class="s2">"properties/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">property_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">date_ranges</span><span class="o">=</span><span class="p">[</span><span class="n">DateRange</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">)],</span>
+                    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sessions"</span><span class="p">),</span>
+                        <span class="n">Metric</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"totalUsers"</span><span class="p">),</span>
+                    <span class="p">],</span>
+                    <span class="n">dimensions</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Dimension</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sessionSource"</span><span class="p">),</span>
+                        <span class="n">Dimension</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sessionMedium"</span><span class="p">),</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">sources</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span>
+                <span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"source"</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">dimension_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="s2">"medium"</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">dimension_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="s2">"sessions"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                        <span class="s2">"users"</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">metric_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Sort by sessions descending</span>
+            <span class="n">sources</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"sessions"</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"date_range"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"sources"</span><span class="p">:</span> <span class="n">sources</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"google-analytics-data not installed. Run: pip install google-analytics-data"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

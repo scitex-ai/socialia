@@ -16,16 +16,21 @@ Environment:
     SOCIALIA_GOOGLE_ANALYTICS_PROPERTY_ID     - Optional, for Data API queries
 """
 
+import scitex as stx
 from socialia import GoogleAnalytics
 
 
-def main():
+@stx.session
+def main(
+    CONFIG=stx.session.INJECTED,
+    logger=stx.session.INJECTED,
+):
     ga = GoogleAnalytics()
 
-    print("=== Google Analytics Demo ===\n")
+    logger.info("=== Google Analytics Demo ===\n")
 
     # 1. Track a custom event
-    print("1. Tracking custom event...")
+    logger.info("1. Tracking custom event...")
     result = ga.track_event(
         "example_demo",
         params={
@@ -34,44 +39,42 @@ def main():
         },
     )
     if result["success"]:
-        print("   Event tracked successfully")
+        logger.info("   Event tracked successfully")
     else:
-        print(f"   Event tracking failed: {result.get('error', 'Unknown')}")
+        logger.info(f"   Event tracking failed: {result.get('error', 'Unknown')}")
 
     # 2. Get page views (requires Data API setup)
-    print("\n2. Querying page views...")
+    logger.info("\n2. Querying page views...")
     result = ga.get_page_views(start_date="7daysAgo", end_date="today")
     if result["success"]:
-        print(f"   Date range: {result['date_range']}")
+        logger.info(f"   Date range: {result['date_range']}")
         pages = result.get("pages", [])
         if pages:
-            print("   Top pages:")
+            logger.info("   Top pages:")
             for page in pages[:5]:
-                print(f"     {page['path']}: {page['page_views']} views")
+                logger.info(f"     {page['path']}: {page['page_views']} views")
         else:
-            print("   No page data available")
+            logger.info("   No page data available")
     else:
-        print(f"   Query failed: {result.get('error', 'Unknown')}")
+        logger.info(f"   Query failed: {result.get('error', 'Unknown')}")
 
     # 3. Get traffic sources
-    print("\n3. Querying traffic sources...")
+    logger.info("\n3. Querying traffic sources...")
     result = ga.get_traffic_sources(start_date="7daysAgo", end_date="today")
     if result["success"]:
         sources = result.get("sources", [])
         if sources:
-            print("   Top sources:")
+            logger.info("   Top sources:")
             for src in sources[:5]:
-                print(
-                    f"     {src['source']}/{src['medium']}: {src['sessions']} sessions"
-                )
+                logger.info(f"     {src['source']}/{src['medium']}: {src['sessions']} sessions")
         else:
-            print("   No source data available")
+            logger.info("   No source data available")
     else:
-        print(f"   Query failed: {result.get('error', 'Unknown')}")
+        logger.info(f"   Query failed: {result.get('error', 'Unknown')}")
 
-    print("\n=== Demo Complete ===")
+    logger.info("\n=== Demo Complete ===")
     return 0
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

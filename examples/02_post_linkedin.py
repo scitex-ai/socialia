@@ -16,11 +16,16 @@ Environment:
 """
 
 import argparse
+import scitex as stx
 
 from socialia import LinkedIn
 
 
-def main():
+@stx.session
+def main(
+    CONFIG=stx.session.INJECTED,
+    logger=stx.session.INJECTED,
+):
     parser = argparse.ArgumentParser(description="Post to LinkedIn")
     parser.add_argument(
         "--dry-run", action="store_true", help="Preview without posting"
@@ -38,9 +43,9 @@ def main():
 
     # Check credentials
     if not linkedin.validate_credentials():
-        print("ERROR: LinkedIn credentials not configured")
-        print("Set environment variable:")
-        print("  SOCIALIA_LINKEDIN_ACCESS_TOKEN")
+        logger.error("ERROR: LinkedIn credentials not configured")
+        logger.info("Set environment variable:")
+        logger.info("  SOCIALIA_LINKEDIN_ACCESS_TOKEN")
         return 1
 
     # Content to post
@@ -51,26 +56,26 @@ Testing the LinkedIn API integration. This tool helps automate social media mana
 #automation #python #api"""
 
     if args.dry_run:
-        print("=== DRY RUN ===")
-        print("Platform: LinkedIn")
-        print(f"Visibility: {args.visibility}")
-        print(f"Text ({len(text)} chars):")
-        print(text[:200] + "..." if len(text) > 200 else text)
-        print("Credentials: Valid")
+        logger.info("=== DRY RUN ===")
+        logger.info("Platform: LinkedIn")
+        logger.info(f"Visibility: {args.visibility}")
+        logger.info(f"Text ({len(text)} chars):")
+        logger.info(text[:200] + "..." if len(text) > 200 else text)
+        logger.info("Credentials: Valid")
         return 0
 
     # Post
     result = linkedin.post(text, visibility=args.visibility)
 
     if result["success"]:
-        print("Posted successfully!")
-        print(f"ID: {result['id']}")
-        print(f"URL: {result['url']}")
+        logger.info("Posted successfully!")
+        logger.info(f"ID: {result['id']}")
+        logger.info(f"URL: {result['url']}")
         return 0
     else:
-        print(f"ERROR: {result['error']}")
+        logger.error(f"ERROR: {result['error']}")
         return 1
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

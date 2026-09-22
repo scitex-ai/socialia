@@ -11,6 +11,8 @@ from ..reddit import Reddit
 from ..slack import Slack
 from ..analytics import GoogleAnalytics
 from ..youtube import YouTube
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def get_client(platform: str):
@@ -33,34 +35,30 @@ def cmd_post(args, output_json: bool = False) -> int:
     """Handle post command."""
     if args.file:
         if not args.file.exists():
-            print(f"Error: File not found: {args.file}", file=sys.stderr)
+            log.error(f"Error: File not found: {args.file}")
             return 1
         text = args.file.read_text().strip()
     elif args.text:
         text = args.text
     else:
-        print("Error: Provide text or --file", file=sys.stderr)
+        log.error("Error: Provide text or --file")
         return 1
 
     if args.dry_run:
-        print("=== DRY RUN ===")
-        print(f"Platform: {args.platform}")
+        sys.stdout.write("=== DRY RUN ===" + "\n")
+        sys.stdout.write(f"Platform: {args.platform}" + "\n")
         if args.platform == "reddit":
-            print(f"Subreddit: r/{getattr(args, 'subreddit', 'test')}")
+            sys.stdout.write(f"Subreddit: r/{getattr(args, 'subreddit', 'test')}" + "\n")
             title = getattr(args, "title", None) or text.split("\n")[0][:100]
-            print(f"Title: {title}")
+            sys.stdout.write(f"Title: {title}" + "\n")
         elif args.platform == "youtube":
             video = getattr(args, "video", None)
-            print(f"Video: {video or 'None (community post)'}")
-            print(
-                f"Title: {getattr(args, 'title', None) or text.split(chr(10))[0][:100]}"
-            )
-            print(f"Privacy: {getattr(args, 'privacy', 'public')}")
-        print(
-            f"Text ({len(text)} chars): {text[:100]}{'...' if len(text) > 100 else ''}"
-        )
+            sys.stdout.write(f"Video: {video or 'None (community post)'}" + "\n")
+            sys.stdout.write(f"Title: {getattr(args, 'title', None) or text.split(chr(10))[0][:100]}" + "\n")
+            sys.stdout.write(f"Privacy: {getattr(args, 'privacy', 'public')}" + "\n")
+        sys.stdout.write(f"Text ({len(text)} chars): {text[:100]}{'...' if len(text) > 100 else ''}" + "\n")
         if getattr(args, "schedule", None):
-            print(f"Schedule: {args.schedule}")
+            sys.stdout.write(f"Schedule: {args.schedule}" + "\n")
         return 0
 
     # Handle scheduled posts
@@ -78,14 +76,14 @@ def cmd_post(args, output_json: bool = False) -> int:
         result = schedule_post(args.platform, text, args.schedule, **kwargs)
 
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
-            print(f"📅 Scheduled for {result['scheduled_for']}")
-            print(f"   Job ID: {result['job_id']}")
-            print("   Run 'socialia schedule list' to view pending posts")
-            print("   Run 'socialia schedule daemon' to start the scheduler")
+            log.info(f"📅 Scheduled for {result['scheduled_for']}")
+            log.info(f"   Job ID: {result['job_id']}")
+            log.info("   Run 'socialia schedule list' to view pending posts")
+            log.info("   Run 'socialia schedule daemon' to start the scheduler")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
         return 0
 
@@ -98,9 +96,7 @@ def cmd_post(args, output_json: bool = False) -> int:
             if upload_result["success"]:
                 media_ids = [upload_result["media_id"]]
             else:
-                print(
-                    f"Error uploading image: {upload_result['error']}", file=sys.stderr
-                )
+                log.error(f"Error uploading image: {upload_result['error']}")
                 return 1
         result = client.post(
             text,
@@ -137,13 +133,13 @@ def cmd_post(args, output_json: bool = False) -> int:
         result = client.post(text)
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     elif result["success"]:
-        print("Posted successfully!")
-        print(f"ID: {result['id']}")
-        print(f"URL: {result['url']}")
+        log.info("Posted successfully!")
+        log.info(f"ID: {result['id']}")
+        log.info(f"URL: {result['url']}")
     else:
-        print(f"Error: {result['error']}", file=sys.stderr)
+        log.error(f"Error: {result['error']}")
         return 1
 
     return 0
@@ -155,11 +151,11 @@ def cmd_delete(args, output_json: bool = False) -> int:
     result = client.delete(args.post_id)
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     elif result["success"]:
-        print(f"Deleted: {args.post_id}")
+        log.info(f"Deleted: {args.post_id}")
     else:
-        print(f"Error: {result['error']}", file=sys.stderr)
+        log.error(f"Error: {result['error']}")
         return 1
 
     return 0
@@ -168,36 +164,36 @@ def cmd_delete(args, output_json: bool = False) -> int:
 def cmd_thread(args, output_json: bool = False) -> int:
     """Handle thread command."""
     if not args.file.exists():
-        print(f"Error: File not found: {args.file}", file=sys.stderr)
+        log.error(f"Error: File not found: {args.file}")
         return 1
 
     content = args.file.read_text()
     tweets = [t.strip() for t in content.split("---") if t.strip()]
 
     if not tweets:
-        print("Error: No content found in file", file=sys.stderr)
+        log.error("Error: No content found in file")
         return 1
 
     if args.dry_run:
-        print("=== DRY RUN (Thread) ===")
-        print(f"Platform: {args.platform}")
-        print(f"Posts: {len(tweets)}")
+        sys.stdout.write("=== DRY RUN (Thread) ===" + "\n")
+        sys.stdout.write(f"Platform: {args.platform}" + "\n")
+        sys.stdout.write(f"Posts: {len(tweets)}" + "\n")
         for i, t in enumerate(tweets, 1):
-            print(f"\n--- Post {i} ({len(t)} chars) ---")
-            print(t[:200] + ("..." if len(t) > 200 else ""))
+            sys.stdout.write(f"\n--- Post {i} ({len(t)} chars) ---" + "\n")
+            sys.stdout.write(t[:200] + ("..." if len(t) > 200 else "") + "\n")
         return 0
 
     client = get_client(args.platform)
     result = client.post_thread(tweets)
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     elif result["success"]:
-        print(f"Thread posted! ({len(result['ids'])} posts)")
+        log.info(f"Thread posted! ({len(result['ids'])} posts)")
         for url in result["urls"]:
-            print(f"  {url}")
+            log.info(f"  {url}")
     else:
-        print(f"Error: {result['error']}", file=sys.stderr)
+        log.error(f"Error: {result['error']}")
         return 1
 
     return 0
@@ -231,31 +227,26 @@ def cmd_analytics(args, output_json: bool = False) -> int:
         )
 
     else:
-        print(
-            "Error: Specify analytics subcommand (track, realtime, pageviews, sources)",
-            file=sys.stderr,
-        )
+        log.error("Error: Specify analytics subcommand (track, realtime, pageviews, sources)")
         return 1
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     elif result["success"]:
         if args.analytics_command == "track":
-            print(f"Event tracked: {args.event_name}")
+            log.info(f"Event tracked: {args.event_name}")
         elif args.analytics_command == "realtime":
-            print(f"Active users: {result.get('active_users', 0)}")
+            log.info(f"Active users: {result.get('active_users', 0)}")
         elif args.analytics_command == "pageviews":
-            print(f"Page views ({result['date_range']}):")
+            log.info(f"Page views ({result['date_range']}):")
             for page in result.get("pages", [])[:10]:
-                print(
-                    f"  {page['path']}: {page['page_views']} views, {page['users']} users"
-                )
+                log.info(f"  {page['path']}: {page['page_views']} views, {page['users']} users")
         elif args.analytics_command == "sources":
-            print(f"Traffic sources ({result['date_range']}):")
+            log.info(f"Traffic sources ({result['date_range']}):")
             for src in result.get("sources", [])[:10]:
-                print(f"  {src['source']}/{src['medium']}: {src['sessions']} sessions")
+                log.info(f"  {src['source']}/{src['medium']}: {src['sessions']} sessions")
     else:
-        print(f"Error: {result['error']}", file=sys.stderr)
+        log.error(f"Error: {result['error']}")
         return 1
 
     return 0
@@ -311,10 +302,10 @@ def cmd_status(output_json: bool = False) -> int:
         }
 
     if output_json:
-        print(json.dumps({"version": __version__, "platforms": status}, indent=2))
+        sys.stdout.write(json.dumps({"version": __version__, "platforms": status}, indent=2) + "\n")
     else:
-        print(f"Socialia v{__version__}")
-        print("=" * 40)
+        log.info(f"Socialia v{__version__}")
+        log.info("=" * 40)
         for platform, info in status.items():
             if info["configured"]:
                 mark = "[OK]"
@@ -322,10 +313,10 @@ def cmd_status(output_json: bool = False) -> int:
                 mark = "[PARTIAL]"
             else:
                 mark = "[NOT SET]"
-            print(f"\n{platform.upper():12} {mark}")
+            log.info(f"\n{platform.upper():12} {mark}")
             for var, state in info["vars"].items():
                 indicator = "+" if state == "set" else "-"
-                print(f"  {indicator} {var}")
+                log.info(f"  {indicator} {var}")
 
     return 0
 
@@ -460,8 +451,8 @@ def cmd_setup(args) -> int:
 
     if platform == "all":
         for name in ["twitter", "linkedin", "reddit", "youtube", "analytics"]:
-            print(_get_setup_guide(name))
+            log.info(_get_setup_guide(name))
     else:
-        print(_get_setup_guide(platform))
+        log.info(_get_setup_guide(platform))
 
     return 0

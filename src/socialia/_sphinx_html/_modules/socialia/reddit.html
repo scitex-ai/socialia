@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>socialia.reddit &mdash; Socialia v0.5.12</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6262202b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Socialia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#social-module-7-tools">Social Module (7 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#analytics-module-4-tools">Analytics Module (4 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#platform-clients">Platform Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#twitter">Twitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Twitter"><code class="docutils literal notranslate"><span class="pre">Twitter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#linkedin">LinkedIn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.LinkedIn"><code class="docutils literal notranslate"><span class="pre">LinkedIn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#reddit">Reddit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Reddit"><code class="docutils literal notranslate"><span class="pre">Reddit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#slack">Slack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#youtube">YouTube</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.YouTube"><code class="docutils literal notranslate"><span class="pre">YouTube</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#analytics">Analytics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.GoogleAnalytics"><code class="docutils literal notranslate"><span class="pre">GoogleAnalytics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_scheduled"><code class="docutils literal notranslate"><span class="pre">move_to_scheduled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_posted"><code class="docutils literal notranslate"><span class="pre">move_to_posted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.ensure_project_dirs"><code class="docutils literal notranslate"><span class="pre">ensure_project_dirs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Socialia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">socialia.reddit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for socialia.reddit</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Reddit API client using PRAW."""</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Reddit"</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">._branding</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Base</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scitex_dev</span><span class="w"> </span><span class="kn">import</span> <span class="n">try_import_optional</span>
+
+<span class="n">praw</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span><span class="s2">"praw"</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">"reddit"</span><span class="p">,</span> <span class="n">pkg</span><span class="o">=</span><span class="s2">"praw"</span><span class="p">)</span>
+<span class="n">HAS_PRAW</span> <span class="o">=</span> <span class="n">praw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="Reddit">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reddit</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Reddit API client using PRAW (Python Reddit API Wrapper)."""</span>
+
+    <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"reddit"</span>
+
+<div class="viewcode-block" id="Reddit.__init__">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">user_agent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">client_id</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"REDDIT_CLIENT_ID"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">client_secret</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"REDDIT_CLIENT_SECRET"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"REDDIT_USERNAME"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"REDDIT_PASSWORD"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">get_env</span><span class="p">(</span><span class="s2">"REDDIT_USER_AGENT"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"Socialia v0.1"</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reddit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"praw.Reddit"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Reddit._get_client">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit._get_client">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"praw.Reddit"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get authenticated Reddit client."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reddit</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reddit</span> <span class="o">=</span> <span class="n">praw</span><span class="o">.</span><span class="n">Reddit</span><span class="p">(</span>
+            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">user_agent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reddit</span></div>
+
+
+<div class="viewcode-block" id="Reddit.validate_credentials">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.validate_credentials">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if all credentials are set."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Reddit.post">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">subreddit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"test"</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">flair_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Post to a subreddit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: Post body (for self posts) or ignored for link posts</span>
+<span class="sd">            subreddit: Target subreddit name (without r/)</span>
+<span class="sd">            title: Post title (required for Reddit)</span>
+<span class="sd">            url: URL for link posts (makes it a link post instead of self post)</span>
+<span class="sd">            flair_id: Optional flair ID</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'id', 'url' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed. Run: pip install praw"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+            <span class="c1"># Use first line or truncated text as title</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">300</span><span class="p">]</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">reddit</span><span class="o">.</span><span class="n">subreddit</span><span class="p">(</span><span class="n">subreddit</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">url</span><span class="p">:</span>
+                <span class="c1"># Link post</span>
+                <span class="n">submission</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                    <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                    <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                    <span class="n">flair_id</span><span class="o">=</span><span class="n">flair_id</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Self/text post</span>
+                <span class="n">submission</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                    <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                    <span class="n">selftext</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+                    <span class="n">flair_id</span><span class="o">=</span><span class="n">flair_id</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://reddit.com</span><span class="si">{</span><span class="n">submission</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">except</span> <span class="n">praw</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">APIException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Reddit API error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.delete">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Delete a Reddit post.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            post_id: Reddit submission ID</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">submission</span> <span class="o">=</span> <span class="n">reddit</span><span class="o">.</span><span class="n">submission</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">post_id</span><span class="p">)</span>
+            <span class="n">submission</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"deleted"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.comment">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.comment">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">comment</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Add a comment to a post.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            post_id: Reddit submission ID</span>
+<span class="sd">            text: Comment text</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'id' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">submission</span> <span class="o">=</span> <span class="n">reddit</span><span class="o">.</span><span class="n">submission</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">post_id</span><span class="p">)</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">submission</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">comment</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://reddit.com</span><span class="si">{</span><span class="n">comment</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.me">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.me">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">me</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get authenticated user information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', user info or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">reddit</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">me</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">"username"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">"karma"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">link_karma</span> <span class="o">+</span> <span class="n">user</span><span class="o">.</span><span class="n">comment_karma</span><span class="p">,</span>
+                <span class="s2">"link_karma"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">link_karma</span><span class="p">,</span>
+                <span class="s2">"comment_karma"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">comment_karma</span><span class="p">,</span>
+                <span class="s2">"created_utc"</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_utc</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://reddit.com/user/</span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.feed">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.feed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get user's recent submissions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            limit: Maximum number of posts to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'posts' list or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">submission</span> <span class="ow">in</span> <span class="n">reddit</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">me</span><span class="p">()</span><span class="o">.</span><span class="n">submissions</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">):</span>
+                <span class="n">posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"id"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s2">"title"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                        <span class="s2">"text"</span><span class="p">:</span> <span class="p">(</span><span class="n">submission</span><span class="o">.</span><span class="n">selftext</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">submission</span><span class="o">.</span><span class="n">selftext</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span>
+                        <span class="k">else</span> <span class="n">submission</span><span class="o">.</span><span class="n">selftext</span><span class="p">,</span>
+                        <span class="s2">"subreddit"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">subreddit</span><span class="o">.</span><span class="n">display_name</span><span class="p">,</span>
+                        <span class="s2">"score"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                        <span class="s2">"upvote_ratio"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">upvote_ratio</span><span class="p">,</span>
+                        <span class="s2">"num_comments"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">num_comments</span><span class="p">,</span>
+                        <span class="s2">"created_utc"</span><span class="p">:</span> <span class="n">submission</span><span class="o">.</span><span class="n">created_utc</span><span class="p">,</span>
+                        <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://reddit.com</span><span class="si">{</span><span class="n">submission</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"posts"</span><span class="p">:</span> <span class="n">posts</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">posts</span><span class="p">)}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.mentions">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.mentions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mentions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get recent inbox mentions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            limit: Maximum number of mentions to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'mentions' list or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mentions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">reddit</span><span class="o">.</span><span class="n">inbox</span><span class="o">.</span><span class="n">mentions</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">):</span>
+                <span class="n">mentions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"id"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s2">"text"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">body</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span>
+                        <span class="k">else</span> <span class="n">item</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
+                        <span class="s2">"author"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">author</span> <span class="k">else</span> <span class="s2">"[deleted]"</span><span class="p">,</span>
+                        <span class="s2">"subreddit"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">subreddit</span><span class="o">.</span><span class="n">display_name</span>
+                        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">subreddit</span>
+                        <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="s2">"created_utc"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">created_utc</span><span class="p">,</span>
+                        <span class="s2">"context"</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"mentions"</span><span class="p">:</span> <span class="n">mentions</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">mentions</span><span class="p">)}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="Reddit.update">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.Reddit.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Edit a Reddit post.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            post_id: Reddit submission ID</span>
+<span class="sd">            text: New text content</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PRAW</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"PRAW not installed"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+
+        <span class="n">reddit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reddit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create Reddit client"</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">submission</span> <span class="o">=</span> <span class="n">reddit</span><span class="o">.</span><span class="n">submission</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">post_id</span><span class="p">)</span>
+            <span class="n">submission</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">post_id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://reddit.com</span><span class="si">{</span><span class="n">submission</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

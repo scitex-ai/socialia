@@ -17,7 +17,13 @@ For new code, use:
 from __future__ import annotations
 
 # Check if FastMCP is available
+import sys
+
 from scitex_dev import try_import_optional
+
+import scitex_logging as slogging
+
+log = slogging.getLogger(__name__)
 
 fastmcp = try_import_optional("fastmcp", extra="mcp", pkg="fastmcp")
 HAS_MCP = fastmcp is not None
@@ -42,7 +48,7 @@ else:
         """Stub when MCP not installed."""
         import sys
 
-        print("Error: MCP package not installed. Run: pip install socialia[mcp]")
+        log.error("Error: MCP package not installed. Run: pip install socialia[mcp]")
         sys.exit(1)
 
     create_server = lambda: None  # noqa: E731

@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 
 from .._paths import get_completion_dir as _get_completion_dir
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 BASH_COMPLETION_DIR = _get_completion_dir()
@@ -47,11 +49,11 @@ def cmd_completion(args, output_json: bool = False) -> int:
     """Handle completion command."""
 
     if args.completion_command == "bash":
-        print(_get_bash_script())
+        sys.stdout.write(_get_bash_script() + "\n")
         return 0
 
     elif args.completion_command == "zsh":
-        print(_get_zsh_script())
+        sys.stdout.write(_get_zsh_script() + "\n")
         return 0
 
     elif args.completion_command == "install":
@@ -61,7 +63,7 @@ def cmd_completion(args, output_json: bool = False) -> int:
         return _show_status(output_json)
 
     else:
-        print("Usage: socialia completion {bash|zsh|install|status}", file=sys.stderr)
+        log.error("Usage: socialia completion {bash|zsh|install|status}")
         return 1
 
 
@@ -136,18 +138,18 @@ def _install_completion(args, output_json: bool = False) -> int:
         results["installed"] = True
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        sys.stdout.write(json.dumps(results, indent=2) + "\n")
     else:
         if results["installed"]:
-            print(f"Installed {shell} completion:")
+            log.info(f"Installed {shell} completion:")
             for f in results["files"]:
-                print(f"  {f}")
+                log.info(f"  {f}")
             if results.get("bashrc_updated") or results.get("zshrc_updated"):
-                print(f"\nRestart your shell or run: source ~/.{shell}rc")
+                log.info(f"\nRestart your shell or run: source ~/.{shell}rc")
             else:
-                print("\nShell config already configured.")
+                log.info("\nShell config already configured.")
         else:
-            print(f"Failed to install {shell} completion", file=sys.stderr)
+            log.error(f"Failed to install {shell} completion")
             return 1
 
     return 0
@@ -173,30 +175,24 @@ def _show_status(output_json: bool = False) -> int:
     }
 
     if output_json:
-        print(json.dumps(status, indent=2))
+        sys.stdout.write(json.dumps(status, indent=2) + "\n")
     else:
-        print("Socialia Completion Status")
-        print("=" * 40)
-        print()
-        print(f"Current shell: {status['current_shell']}")
-        print(
-            f"argcomplete:   {'installed' if status['argcomplete_installed'] else 'NOT INSTALLED'}"
-        )
-        print()
-        print("Bash:")
-        print(f"  File: {status['bash']['completion_file']}")
-        print(
-            f"  Status: {'installed' if status['bash']['installed'] else 'not installed'}"
-        )
-        print()
-        print("Zsh:")
-        print(f"  File: {status['zsh']['completion_file']}")
-        print(
-            f"  Status: {'installed' if status['zsh']['installed'] else 'not installed'}"
-        )
-        print()
+        log.info("Socialia Completion Status")
+        log.info("=" * 40)
+        log.info("")
+        log.info(f"Current shell: {status['current_shell']}")
+        log.info(f"argcomplete:   {'installed' if status['argcomplete_installed'] else 'NOT INSTALLED'}")
+        log.info("")
+        log.info("Bash:")
+        log.info(f"  File: {status['bash']['completion_file']}")
+        log.info(f"  Status: {'installed' if status['bash']['installed'] else 'not installed'}")
+        log.info("")
+        log.info("Zsh:")
+        log.info(f"  File: {status['zsh']['completion_file']}")
+        log.info(f"  Status: {'installed' if status['zsh']['installed'] else 'not installed'}")
+        log.info("")
         if not status["argcomplete_installed"]:
-            print("Note: Install argcomplete for dynamic completion:")
-            print("  pip install argcomplete")
+            log.info("Note: Install argcomplete for dynamic completion:")
+            log.info("  pip install argcomplete")
 
     return 0

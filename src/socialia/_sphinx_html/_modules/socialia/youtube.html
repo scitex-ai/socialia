@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>socialia.youtube &mdash; Socialia v0.5.12</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6262202b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Socialia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#social-module-7-tools">Social Module (7 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#analytics-module-4-tools">Analytics Module (4 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#platform-clients">Platform Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#twitter">Twitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Twitter"><code class="docutils literal notranslate"><span class="pre">Twitter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#linkedin">LinkedIn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.LinkedIn"><code class="docutils literal notranslate"><span class="pre">LinkedIn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#reddit">Reddit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Reddit"><code class="docutils literal notranslate"><span class="pre">Reddit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#slack">Slack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#youtube">YouTube</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.YouTube"><code class="docutils literal notranslate"><span class="pre">YouTube</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#analytics">Analytics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.GoogleAnalytics"><code class="docutils literal notranslate"><span class="pre">GoogleAnalytics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_scheduled"><code class="docutils literal notranslate"><span class="pre">move_to_scheduled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_posted"><code class="docutils literal notranslate"><span class="pre">move_to_posted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.ensure_project_dirs"><code class="docutils literal notranslate"><span class="pre">ensure_project_dirs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Socialia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">socialia.youtube</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for socialia.youtube</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""YouTube API integration for video uploads and community posts."""</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"YouTube"</span><span class="p">]</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Base</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._branding</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_youtube_token_file</span> <span class="k">as</span> <span class="n">_get_youtube_token_file</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scitex_dev</span><span class="w"> </span><span class="kn">import</span> <span class="n">try_import_optional</span>
+
+<span class="n">Credentials</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span>
+    <span class="s2">"google.oauth2.credentials"</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s2">"Credentials"</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">"youtube"</span><span class="p">,</span> <span class="n">pkg</span><span class="o">=</span><span class="s2">"google-auth"</span>
+<span class="p">)</span>
+<span class="n">InstalledAppFlow</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span>
+    <span class="s2">"google_auth_oauthlib.flow"</span><span class="p">,</span>
+    <span class="n">attr</span><span class="o">=</span><span class="s2">"InstalledAppFlow"</span><span class="p">,</span>
+    <span class="n">extra</span><span class="o">=</span><span class="s2">"youtube"</span><span class="p">,</span>
+    <span class="n">pkg</span><span class="o">=</span><span class="s2">"google-auth-oauthlib"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">Request</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span>
+    <span class="s2">"google.auth.transport.requests"</span><span class="p">,</span>
+    <span class="n">attr</span><span class="o">=</span><span class="s2">"Request"</span><span class="p">,</span>
+    <span class="n">extra</span><span class="o">=</span><span class="s2">"youtube"</span><span class="p">,</span>
+    <span class="n">pkg</span><span class="o">=</span><span class="s2">"google-auth"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">build</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span>
+    <span class="s2">"googleapiclient.discovery"</span><span class="p">,</span>
+    <span class="n">attr</span><span class="o">=</span><span class="s2">"build"</span><span class="p">,</span>
+    <span class="n">extra</span><span class="o">=</span><span class="s2">"youtube"</span><span class="p">,</span>
+    <span class="n">pkg</span><span class="o">=</span><span class="s2">"google-api-python-client"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">MediaFileUpload</span> <span class="o">=</span> <span class="n">try_import_optional</span><span class="p">(</span>
+    <span class="s2">"googleapiclient.http"</span><span class="p">,</span>
+    <span class="n">attr</span><span class="o">=</span><span class="s2">"MediaFileUpload"</span><span class="p">,</span>
+    <span class="n">extra</span><span class="o">=</span><span class="s2">"youtube"</span><span class="p">,</span>
+    <span class="n">pkg</span><span class="o">=</span><span class="s2">"google-api-python-client"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">HAS_YOUTUBE</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
+    <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Credentials</span><span class="p">,</span> <span class="n">InstalledAppFlow</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">build</span><span class="p">,</span> <span class="n">MediaFileUpload</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"https://www.googleapis.com/auth/youtube.upload"</span><span class="p">,</span>
+    <span class="s2">"https://www.googleapis.com/auth/youtube"</span><span class="p">,</span>
+    <span class="s2">"https://www.googleapis.com/auth/youtube.force-ssl"</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="YouTube">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">YouTube</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""YouTube API client for video uploads and management.</span>
+
+<span class="sd">    Environment Variables:</span>
+<span class="sd">        YOUTUBE_CLIENT_SECRETS_FILE: Path to OAuth client secrets JSON</span>
+<span class="sd">        YOUTUBE_TOKEN_FILE: Path to store OAuth tokens (default: runtime/youtube_token.json)</span>
+<span class="sd">    """</span>
+
+    <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"youtube"</span>
+
+<div class="viewcode-block" id="YouTube.__init__">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">client_secrets_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">token_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Initialize YouTube client.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            client_secrets_file: Path to OAuth client secrets JSON from Google Console</span>
+<span class="sd">            token_file: Path to store/load OAuth tokens</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span> <span class="o">=</span> <span class="n">client_secrets_file</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span>
+            <span class="s2">"YOUTUBE_CLIENT_SECRETS_FILE"</span>
+        <span class="p">)</span>
+        <span class="n">default_token</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_get_youtube_token_file</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_file</span> <span class="o">=</span> <span class="n">token_file</span> <span class="ow">or</span> <span class="p">(</span><span class="n">get_env</span><span class="p">(</span><span class="s2">"YOUTUBE_TOKEN_FILE"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_youtube</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_credentials</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="YouTube.validate_credentials">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.validate_credentials">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if credentials are available."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_file</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="YouTube._get_credentials">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube._get_credentials">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"Credentials"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get or refresh OAuth credentials."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">creds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_file</span><span class="p">):</span>
+            <span class="n">creds</span> <span class="o">=</span> <span class="n">Credentials</span><span class="o">.</span><span class="n">from_authorized_user_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_file</span><span class="p">,</span> <span class="n">SCOPES</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">expired</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">refresh_token</span><span class="p">:</span>
+                <span class="n">creds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">Request</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span><span class="p">):</span>
+                <span class="n">flow</span> <span class="o">=</span> <span class="n">InstalledAppFlow</span><span class="o">.</span><span class="n">from_client_secrets_file</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client_secrets_file</span><span class="p">,</span> <span class="n">SCOPES</span>
+                <span class="p">)</span>
+                <span class="n">creds</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">run_local_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">creds</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">creds</span></div>
+
+
+<div class="viewcode-block" id="YouTube._get_client">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube._get_client">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get authenticated YouTube client."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_youtube</span>
+        <span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_credentials</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_youtube</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s2">"youtube"</span><span class="p">,</span> <span class="s2">"v3"</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_youtube</span></div>
+
+
+<div class="viewcode-block" id="YouTube.post">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">video_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">category_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"22"</span><span class="p">,</span>
+        <span class="n">privacy_status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"public"</span><span class="p">,</span>
+        <span class="n">thumbnail_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Upload a video or create a community post.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: Description text (or community post text if no video)</span>
+<span class="sd">            video_path: Path to video file (required for video upload)</span>
+<span class="sd">            title: Video title (uses first line of text if not provided)</span>
+<span class="sd">            description: Video description (uses text if not provided)</span>
+<span class="sd">            tags: List of tags for the video</span>
+<span class="sd">            category_id: YouTube category ID (default: 22 = People &amp; Blogs)</span>
+<span class="sd">            privacy_status: 'public', 'private', or 'unlisted'</span>
+<span class="sd">            thumbnail_path: Path to custom thumbnail image</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'id', 'url' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"YouTube libraries not installed. Run: pip install google-api-python-client google-auth-oauthlib"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing YouTube credentials"</span><span class="p">}</span>
+
+        <span class="n">youtube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create YouTube client"</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">video_path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_upload_video</span><span class="p">(</span>
+                <span class="n">youtube</span><span class="p">,</span>
+                <span class="n">video_path</span><span class="o">=</span><span class="n">video_path</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">title</span> <span class="ow">or</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">100</span><span class="p">],</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">description</span> <span class="ow">or</span> <span class="n">text</span><span class="p">,</span>
+                <span class="n">tags</span><span class="o">=</span><span class="n">tags</span> <span class="ow">or</span> <span class="p">[],</span>
+                <span class="n">category_id</span><span class="o">=</span><span class="n">category_id</span><span class="p">,</span>
+                <span class="n">privacy_status</span><span class="o">=</span><span class="n">privacy_status</span><span class="p">,</span>
+                <span class="n">thumbnail_path</span><span class="o">=</span><span class="n">thumbnail_path</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_community_post</span><span class="p">(</span><span class="n">youtube</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="YouTube._upload_video">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube._upload_video">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_upload_video</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">youtube</span><span class="p">,</span>
+        <span class="n">video_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">category_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">privacy_status</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">thumbnail_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Upload a video to YouTube."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">video_path</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Video file not found: </span><span class="si">{</span><span class="n">video_path</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"snippet"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                <span class="s2">"description"</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                <span class="s2">"tags"</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span>
+                <span class="s2">"categoryId"</span><span class="p">:</span> <span class="n">category_id</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">"status"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"privacyStatus"</span><span class="p">:</span> <span class="n">privacy_status</span><span class="p">,</span>
+                <span class="s2">"selfDeclaredMadeForKids"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">media</span> <span class="o">=</span> <span class="n">MediaFileUpload</span><span class="p">(</span>
+                <span class="n">video_path</span><span class="p">,</span>
+                <span class="n">chunksize</span><span class="o">=</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>
+                <span class="n">resumable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">request</span> <span class="o">=</span> <span class="n">youtube</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                <span class="n">part</span><span class="o">=</span><span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+                <span class="n">media_body</span><span class="o">=</span><span class="n">media</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">while</span> <span class="n">response</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">status</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">next_chunk</span><span class="p">()</span>
+
+            <span class="n">video_id</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">thumbnail_path</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">thumbnail_path</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">youtube</span><span class="o">.</span><span class="n">thumbnails</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+                        <span class="n">videoId</span><span class="o">=</span><span class="n">video_id</span><span class="p">,</span>
+                        <span class="n">media_body</span><span class="o">=</span><span class="n">MediaFileUpload</span><span class="p">(</span><span class="n">thumbnail_path</span><span class="p">),</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.youtube.com/watch?v=</span><span class="si">{</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="YouTube._create_community_post">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube._create_community_post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_community_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">youtube</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create a community post (placeholder - requires channel eligibility)."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Community posts require channel eligibility (500+ subscribers) and manual posting via YouTube Studio"</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="YouTube.delete">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete a video by ID.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            video_id: YouTube video ID</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"YouTube libraries not installed"</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing credentials"</span><span class="p">}</span>
+        <span class="n">youtube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create YouTube client"</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">youtube</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">video_id</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"deleted"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="YouTube.update">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">video_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">privacy_status</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Update video metadata.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            video_id: YouTube video ID</span>
+<span class="sd">            title: New title (optional)</span>
+<span class="sd">            description: New description (optional)</span>
+<span class="sd">            tags: New tags (optional)</span>
+<span class="sd">            privacy_status: New privacy status (optional)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"YouTube libraries not installed"</span><span class="p">}</span>
+        <span class="n">youtube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create YouTube client"</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">youtube</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">part</span><span class="o">=</span><span class="s2">"snippet,status"</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">video_id</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">current</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Video not found: </span><span class="si">{</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+
+            <span class="n">video</span> <span class="o">=</span> <span class="n">current</span><span class="p">[</span><span class="s2">"items"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">snippet</span> <span class="o">=</span> <span class="n">video</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">]</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">video</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+                <span class="n">snippet</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>
+            <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+                <span class="n">snippet</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+            <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
+                <span class="n">snippet</span><span class="p">[</span><span class="s2">"tags"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tags</span>
+            <span class="k">if</span> <span class="n">privacy_status</span><span class="p">:</span>
+                <span class="n">status</span><span class="p">[</span><span class="s2">"privacyStatus"</span><span class="p">]</span> <span class="o">=</span> <span class="n">privacy_status</span>
+
+            <span class="n">youtube</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">part</span><span class="o">=</span><span class="s2">"snippet,status"</span><span class="p">,</span>
+                <span class="n">body</span><span class="o">=</span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">,</span> <span class="s2">"snippet"</span><span class="p">:</span> <span class="n">snippet</span><span class="p">,</span> <span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">},</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.youtube.com/watch?v=</span><span class="si">{</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="YouTube.get_channel_info">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.get_channel_info">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_channel_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get authenticated user's channel information."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"YouTube libraries not installed"</span><span class="p">}</span>
+        <span class="n">youtube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create YouTube client"</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">youtube</span><span class="o">.</span><span class="n">channels</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">part</span><span class="o">=</span><span class="s2">"snippet,statistics"</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"No channel found"</span><span class="p">}</span>
+
+            <span class="n">channel</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">][</span><span class="s2">"title"</span><span class="p">],</span>
+                <span class="s2">"description"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"description"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)[:</span><span class="mi">100</span><span class="p">],</span>
+                <span class="s2">"subscribers"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"statistics"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"subscriberCount"</span><span class="p">,</span> <span class="s2">"hidden"</span><span class="p">),</span>
+                <span class="s2">"videos"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"statistics"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"videoCount"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s2">"views"</span><span class="p">:</span> <span class="n">channel</span><span class="p">[</span><span class="s2">"statistics"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"viewCount"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.youtube.com/channel/</span><span class="si">{</span><span class="n">channel</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="YouTube.list_videos">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.list_videos">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_videos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""List user's uploaded videos.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_results: Maximum number of videos to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with videos list or error</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_YOUTUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"YouTube libraries not installed"</span><span class="p">}</span>
+        <span class="n">youtube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">youtube</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not create YouTube client"</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">youtube</span><span class="o">.</span><span class="n">channels</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">part</span><span class="o">=</span><span class="s2">"contentDetails"</span><span class="p">,</span> <span class="n">mine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">channels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"No channel found"</span><span class="p">}</span>
+
+            <span class="n">uploads_id</span> <span class="o">=</span> <span class="n">channels</span><span class="p">[</span><span class="s2">"items"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"contentDetails"</span><span class="p">][</span><span class="s2">"relatedPlaylists"</span><span class="p">][</span>
+                <span class="s2">"uploads"</span>
+            <span class="p">]</span>
+            <span class="n">videos_response</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">youtube</span><span class="o">.</span><span class="n">playlistItems</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">list</span><span class="p">(</span>
+                    <span class="n">part</span><span class="o">=</span><span class="s2">"snippet"</span><span class="p">,</span>
+                    <span class="n">playlistId</span><span class="o">=</span><span class="n">uploads_id</span><span class="p">,</span>
+                    <span class="n">maxResults</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="p">)</span>
+
+            <span class="n">videos</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">videos_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">snippet</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">]</span>
+                <span class="n">video_id</span> <span class="o">=</span> <span class="n">snippet</span><span class="p">[</span><span class="s2">"resourceId"</span><span class="p">][</span><span class="s2">"videoId"</span><span class="p">]</span>
+                <span class="n">videos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"id"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">,</span>
+                        <span class="s2">"title"</span><span class="p">:</span> <span class="n">snippet</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+                        <span class="s2">"description"</span><span class="p">:</span> <span class="n">snippet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"description"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)[:</span><span class="mi">100</span><span class="p">],</span>
+                        <span class="s2">"published_at"</span><span class="p">:</span> <span class="n">snippet</span><span class="p">[</span><span class="s2">"publishedAt"</span><span class="p">],</span>
+                        <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.youtube.com/watch?v=</span><span class="si">{</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"videos"</span><span class="p">:</span> <span class="n">videos</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">videos</span><span class="p">)}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="YouTube.me">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.me">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">me</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get authenticated user's channel information."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_channel_info</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="YouTube.feed">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.YouTube.feed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get user's recent videos.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            limit: Maximum number of videos to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'posts' list or 'error'</span>
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_videos</span><span class="p">(</span><span class="n">max_results</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"success"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"posts"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"videos"</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">"count"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"count"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -9,7 +9,12 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+except ImportError as exc:
+    raise ImportError(
+        "socialia[mcp] is required for MCP tools: pip install socialia[mcp]"
+    ) from exc
 
 from ..handlers import social_delete as _social_delete
 from ..handlers import social_post as _social_post

@@ -19,11 +19,16 @@ Environment:
 """
 
 import argparse
+import scitex as stx
 
 from socialia import Twitter
 
 
-def main():
+@stx.session
+def main(
+    CONFIG=stx.session.INJECTED,
+    logger=stx.session.INJECTED,
+):
     parser = argparse.ArgumentParser(description="Post to Twitter/X")
     parser.add_argument(
         "--dry-run", action="store_true", help="Preview without posting"
@@ -35,36 +40,36 @@ def main():
 
     # Check credentials
     if not twitter.validate_credentials():
-        print("ERROR: Twitter credentials not configured")
-        print("Set environment variables:")
-        print("  SOCIALIA_X_CONSUMER_KEY")
-        print("  SOCIALIA_X_CONSUMER_KEY_SECRET")
-        print("  SOCIALIA_X_ACCESSTOKEN")
-        print("  SOCIALIA_X_ACCESSTOKEN_SECRET")
+        logger.error("ERROR: Twitter credentials not configured")
+        logger.info("Set environment variables:")
+        logger.info("  SOCIALIA_X_CONSUMER_KEY")
+        logger.info("  SOCIALIA_X_CONSUMER_KEY_SECRET")
+        logger.info("  SOCIALIA_X_ACCESSTOKEN")
+        logger.info("  SOCIALIA_X_ACCESSTOKEN_SECRET")
         return 1
 
     # Content to post
     text = "Hello from Socialia! Testing the Python API."
 
     if args.dry_run:
-        print("=== DRY RUN ===")
-        print("Platform: Twitter")
-        print(f"Text ({len(text)} chars): {text}")
-        print("Credentials: Valid")
+        logger.info("=== DRY RUN ===")
+        logger.info("Platform: Twitter")
+        logger.info(f"Text ({len(text)} chars): {text}")
+        logger.info("Credentials: Valid")
         return 0
 
     # Post
     result = twitter.post(text)
 
     if result["success"]:
-        print("Posted successfully!")
-        print(f"ID: {result['id']}")
-        print(f"URL: {result['url']}")
+        logger.info("Posted successfully!")
+        logger.info(f"ID: {result['id']}")
+        logger.info(f"URL: {result['url']}")
         return 0
     else:
-        print(f"ERROR: {result['error']}")
+        logger.error(f"ERROR: {result['error']}")
         return 1
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

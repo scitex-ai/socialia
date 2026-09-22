@@ -21,11 +21,16 @@ Environment:
 """
 
 import argparse
+import scitex as stx
 
 from socialia import Twitter
 
 
-def main():
+@stx.session
+def main(
+    CONFIG=stx.session.INJECTED,
+    logger=stx.session.INJECTED,
+):
     parser = argparse.ArgumentParser(description="Fetch feed, mentions, and replies")
     parser.add_argument("--mentions", action="store_true", help="Show mentions")
     parser.add_argument("--replies", action="store_true", help="Show replies (Twitter)")
@@ -37,37 +42,37 @@ def main():
 
     # Check credentials
     if not twitter.validate_credentials():
-        print("ERROR: Twitter credentials not configured")
-        print("Set environment variables:")
-        print("  SOCIALIA_X_CONSUMER_KEY")
-        print("  SOCIALIA_X_CONSUMER_KEY_SECRET")
-        print("  SOCIALIA_X_ACCESSTOKEN")
-        print("  SOCIALIA_X_ACCESSTOKEN_SECRET")
+        logger.error("ERROR: Twitter credentials not configured")
+        logger.info("Set environment variables:")
+        logger.info("  SOCIALIA_X_CONSUMER_KEY")
+        logger.info("  SOCIALIA_X_CONSUMER_KEY_SECRET")
+        logger.info("  SOCIALIA_X_ACCESSTOKEN")
+        logger.info("  SOCIALIA_X_ACCESSTOKEN_SECRET")
         return 1
 
     # Get user info
     me = twitter.me()
     if me["success"]:
-        print(f"Logged in as: @{me['username']} ({me['name']})")
-        print()
+        logger.info(f"Logged in as: @{me['username']} ({me['name']})")
+        logger.info("")
 
     if args.replies:
         # Get replies to your posts
-        print("=== Replies to Your Posts ===")
+        logger.info("=== Replies to Your Posts ===")
         result = twitter.replies(limit=args.limit)
     elif args.mentions:
         # Get mentions
-        print("=== Mentions ===")
+        logger.info("=== Mentions ===")
         result = twitter.mentions(limit=args.limit)
     else:
         # Get recent feed
-        print("=== Recent Posts ===")
+        logger.info("=== Recent Posts ===")
         result = twitter.feed(limit=args.limit)
 
     if result["success"]:
         posts = result.get("posts", result.get("tweets", []))
         if not posts:
-            print("No posts found.")
+            logger.info("No posts found.")
             return 0
 
         for i, post in enumerate(posts, 1):
@@ -76,21 +81,21 @@ def main():
             url = post.get("url", "")
             author = post.get("author_username", "")
 
-            print(f"{i}. {text}{'...' if len(post.get('text', '')) > 100 else ''}")
+            logger.info(f"{i}. {text}{'...' if len(post.get('text', '')) > 100 else ''}")
             if author:
-                print(f"   by @{author}")
+                logger.info(f"   by @{author}")
             if created:
-                print(f"   {created}")
+                logger.info(f"   {created}")
             if url:
-                print(f"   {url}")
-            print()
+                logger.info(f"   {url}")
+            logger.info("")
 
-        print(f"Total: {len(posts)} posts")
+        logger.info(f"Total: {len(posts)} posts")
         return 0
     else:
-        print(f"ERROR: {result['error']}")
+        logger.error(f"ERROR: {result['error']}")
         return 1
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

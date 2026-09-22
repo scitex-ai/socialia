@@ -126,7 +126,7 @@ class TestCLIStatus:
         # Arrange
         main(["show-status"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Socialia" in out or "socialia" in out.lower()
 
@@ -221,7 +221,7 @@ class TestCLICompletion:
         # Arrange
         main(["completion", "status"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Completion Status" in out
 

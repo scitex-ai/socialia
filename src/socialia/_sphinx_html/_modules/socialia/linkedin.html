@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>socialia.linkedin &mdash; Socialia v0.5.12</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6262202b"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Socialia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#social-module-7-tools">Social Module (7 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mcp.html#analytics-module-4-tools">Analytics Module (4 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#platform-clients">Platform Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#twitter">Twitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Twitter"><code class="docutils literal notranslate"><span class="pre">Twitter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#linkedin">LinkedIn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.LinkedIn"><code class="docutils literal notranslate"><span class="pre">LinkedIn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#reddit">Reddit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Reddit"><code class="docutils literal notranslate"><span class="pre">Reddit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#slack">Slack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#youtube">YouTube</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.YouTube"><code class="docutils literal notranslate"><span class="pre">YouTube</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#analytics">Analytics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/socialia.html#socialia.GoogleAnalytics"><code class="docutils literal notranslate"><span class="pre">GoogleAnalytics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/socialia.html#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_scheduled"><code class="docutils literal notranslate"><span class="pre">move_to_scheduled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.move_to_posted"><code class="docutils literal notranslate"><span class="pre">move_to_posted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/socialia.html#socialia.ensure_project_dirs"><code class="docutils literal notranslate"><span class="pre">ensure_project_dirs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Socialia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">socialia.linkedin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for socialia.linkedin</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""LinkedIn API client."""</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"LinkedIn"</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Base</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._branding</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_env</span>
+
+
+<div class="viewcode-block" id="LinkedIn">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinkedIn</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""LinkedIn API client using OAuth 2.0."""</span>
+
+    <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"linkedin"</span>
+
+    <span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">"https://api.linkedin.com/v2"</span>
+    <span class="n">ME_ENDPOINT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/me"</span>
+    <span class="n">USERINFO_ENDPOINT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/userinfo"</span>  <span class="c1"># OpenID Connect endpoint</span>
+    <span class="n">UGC_POSTS_ENDPOINT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/ugcPosts"</span>
+    <span class="n">POSTS_ENDPOINT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/posts"</span>
+    <span class="n">SHARES_ENDPOINT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/shares"</span>
+
+<div class="viewcode-block" id="LinkedIn.__init__">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">http</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># ``http`` is an injectable requests-shaped HTTP client (anything</span>
+        <span class="c1"># exposing ``get`` / ``post`` / ``delete``).  Production code leaves</span>
+        <span class="c1"># it ``None`` so we use the ``requests`` module.  Tests inject a</span>
+        <span class="c1"># hand-rolled fake to assert call shape without hitting the network.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">access_token</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"LINKEDIN_ACCESS_TOKEN"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">client_id</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"LINKEDIN_CLIENT_ID"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">=</span> <span class="n">client_secret</span> <span class="ow">or</span> <span class="n">get_env</span><span class="p">(</span><span class="s2">"LINKEDIN_CLIENT_SECRET"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_http</span> <span class="o">=</span> <span class="n">http</span> <span class="ow">or</span> <span class="n">requests</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn._get_headers">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn._get_headers">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get headers for LinkedIn API requests."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"X-Restli-Protocol-Version"</span><span class="p">:</span> <span class="s2">"2.0.0"</span><span class="p">,</span>
+            <span class="s2">"LinkedIn-Version"</span><span class="p">:</span> <span class="s2">"202501"</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.validate_credentials">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.validate_credentials">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if access token is set."""</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn._get_user_urn">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn._get_user_urn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_user_urn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the authenticated user's URN."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Try OpenID Connect userinfo endpoint first (requires openid scope)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">USERINFO_ENDPOINT</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">user_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="c1"># OpenID returns 'sub' as the user identifier</span>
+            <span class="k">if</span> <span class="s2">"sub"</span> <span class="ow">in</span> <span class="n">user_data</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"urn:li:person:</span><span class="si">{</span><span class="n">user_data</span><span class="p">[</span><span class="s1">'sub'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span>
+
+        <span class="c1"># Fallback to /me endpoint (requires r_liteprofile scope)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ME_ENDPOINT</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">user_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"urn:li:person:</span><span class="si">{</span><span class="n">user_data</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_urn</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.post">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">visibility</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"PUBLIC"</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Post to LinkedIn feed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: Post content</span>
+<span class="sd">            visibility: PUBLIC, CONNECTIONS, or LOGGED_IN</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'id', 'url' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing access token"</span><span class="p">}</span>
+
+        <span class="n">author_urn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user_urn</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">author_urn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not get user URN"</span><span class="p">}</span>
+
+        <span class="c1"># Using UGC Posts API (more widely available)</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"author"</span><span class="p">:</span> <span class="n">author_urn</span><span class="p">,</span>
+            <span class="s2">"lifecycleState"</span><span class="p">:</span> <span class="s2">"PUBLISHED"</span><span class="p">,</span>
+            <span class="s2">"specificContent"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"com.linkedin.ugc.ShareContent"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"shareCommentary"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">},</span>
+                    <span class="s2">"shareMediaCategory"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="s2">"visibility"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"com.linkedin.ugc.MemberNetworkVisibility"</span><span class="p">:</span> <span class="n">visibility</span><span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">UGC_POSTS_ENDPOINT</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">(),</span> <span class="n">json</span><span class="o">=</span><span class="n">post_data</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span><span class="p">:</span>
+            <span class="n">post_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"X-RestLi-Id"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">post_id</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.linkedin.com/feed/update/</span><span class="si">{</span><span class="n">post_id</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.delete">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Delete a LinkedIn post.</span>
+
+<span class="sd">        Note: LinkedIn API has limited delete support.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            post_id: Post URN/ID to delete</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success' or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing access token"</span><span class="p">}</span>
+
+        <span class="c1"># LinkedIn delete endpoint</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">UGC_POSTS_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">post_id</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">204</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"deleted"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.get_token_info">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.get_token_info">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_token_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get information about the current access token."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"valid"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"No access token"</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ME_ENDPOINT</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"valid"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"user"</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"valid"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.me">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.me">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">me</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get authenticated user information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', user info or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing access token"</span><span class="p">}</span>
+
+        <span class="c1"># Try userinfo endpoint first</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">USERINFO_ENDPOINT</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sub"</span><span class="p">),</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">),</span>
+                <span class="s2">"email"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">),</span>
+                <span class="s2">"picture"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"picture"</span><span class="p">),</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.linkedin.com/in/</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'sub'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Fallback to /me endpoint</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ME_ENDPOINT</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'localizedFirstName'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'localizedLastName'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">"id"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">),</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.linkedin.com/in/</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'vanityName'</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LinkedIn.feed">
+<a class="viewcode-back" href="../../api/socialia.html#socialia.LinkedIn.feed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get user's recent posts/shares.</span>
+
+<span class="sd">        Note: LinkedIn API has limited support for reading posts.</span>
+<span class="sd">        Requires r_organization_social or w_member_social scopes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            limit: Maximum number of posts to return</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict with 'success', 'posts' list or 'error'</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_credentials</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Missing access token"</span><span class="p">}</span>
+
+        <span class="n">author_urn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user_urn</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">author_urn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"Could not get user URN"</span><span class="p">}</span>
+
+        <span class="c1"># Try to get shares</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"q"</span><span class="p">:</span> <span class="s2">"owners"</span><span class="p">,</span>
+            <span class="s2">"owners"</span><span class="p">:</span> <span class="n">author_urn</span><span class="p">,</span>
+            <span class="s2">"count"</span><span class="p">:</span> <span class="n">limit</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_http</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SHARES_ENDPOINT</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">(),</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"elements"</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">post_id</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"id"</span><span class="p">:</span> <span class="n">post_id</span><span class="p">,</span>
+                        <span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">200</span> <span class="k">else</span> <span class="n">text</span><span class="p">,</span>
+                        <span class="s2">"created_at"</span><span class="p">:</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"created"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"time"</span><span class="p">),</span>
+                        <span class="s2">"url"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"https://www.linkedin.com/feed/update/</span><span class="si">{</span><span class="n">post_id</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"posts"</span><span class="p">:</span> <span class="n">posts</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">posts</span><span class="p">)}</span>
+
+        <span class="c1"># API may not support this with current scopes</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"success"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Feed access requires additional scopes: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

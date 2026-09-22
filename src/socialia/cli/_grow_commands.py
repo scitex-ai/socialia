@@ -5,15 +5,14 @@ import json
 import sys
 
 from ..twitter import Twitter
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def cmd_grow(args, output_json: bool = False) -> int:
     """Handle grow command - discover and follow users."""
     if args.platform != "twitter":
-        print(
-            f"Error: grow command only supports twitter (got: {args.platform})",
-            file=sys.stderr,
-        )
+        log.error(f"Error: grow command only supports twitter (got: {args.platform})")
         return 1
 
     client = Twitter()
@@ -25,19 +24,17 @@ def cmd_grow(args, output_json: bool = False) -> int:
             min_followers=args.min_followers,
         )
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
-            print(f"Found {result['count']} users for: {args.query}\n")
+            log.info(f"Found {result['count']} users for: {args.query}\n")
             for user in result.get("users", []):
-                print(f"@{user['username']} ({user['followers']} followers)")
+                log.info(f"@{user['username']} ({user['followers']} followers)")
                 if user.get("description"):
                     desc = user["description"][:80]
-                    print(
-                        f"  {desc}{'...' if len(user.get('description', '')) > 80 else ''}"
-                    )
-                print()
+                    log.info(f"  {desc}{'...' if len(user.get('description', '')) > 80 else ''}")
+                log.info("")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
 
     elif args.grow_command == "follow":
@@ -57,17 +54,17 @@ def cmd_grow(args, output_json: bool = False) -> int:
                 repeat_interval=repeat_interval,
             )
             if output_json:
-                print(json.dumps(result, indent=2))
+                sys.stdout.write(json.dumps(result, indent=2) + "\n")
             elif result["success"]:
-                print(f"Scheduled grow job for {result['scheduled_for']}")
-                print(f"  Query: {args.query}")
-                print(f"  Limit: {args.limit} users")
-                print(f"  Job ID: {result['job_id']}")
+                log.info(f"Scheduled grow job for {result['scheduled_for']}")
+                log.info(f"  Query: {args.query}")
+                log.info(f"  Limit: {args.limit} users")
+                log.info(f"  Job ID: {result['job_id']}")
                 if repeat_interval:
-                    print(f"  Repeats: every {repeat_interval}")
-                print("\nRun 'socialia schedule daemon' to start the scheduler")
+                    log.info(f"  Repeats: every {repeat_interval}")
+                log.info("\nRun 'socialia schedule daemon' to start the scheduler")
             else:
-                print(f"Error: {result['error']}", file=sys.stderr)
+                log.error(f"Error: {result['error']}")
                 return 1
             return 0
 
@@ -79,74 +76,72 @@ def cmd_grow(args, output_json: bool = False) -> int:
             dry_run=args.dry_run,
         )
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
             if result["dry_run"]:
-                print(
-                    f"=== DRY RUN === Would follow {result['discovered_count']} users:\n"
-                )
+                sys.stdout.write(f"=== DRY RUN === Would follow {result['discovered_count']} users:\n" + "\n")
                 for user in result.get("discovered", []):
-                    print(f"  @{user['username']} ({user['followers']} followers)")
-                print("\nRun without --dry-run to actually follow.")
+                    sys.stdout.write(f"  @{user['username']} ({user['followers']} followers)" + "\n")
+                sys.stdout.write("\nRun without --dry-run to actually follow." + "\n")
             else:
-                print(f"Followed {result['followed_count']} users:")
+                log.info(f"Followed {result['followed_count']} users:")
                 for user in result.get("followed", []):
-                    print(f"  @{user['username']}")
+                    log.info(f"  @{user['username']}")
                 if result.get("rate_limited"):
-                    print("\n[Rate limited] Wait ~15 min before following more.")
+                    log.info("\n[Rate limited] Wait ~15 min before following more.")
                 if result.get("skipped"):
-                    print(f"\nSkipped {len(result['skipped'])}:")
+                    log.info(f"\nSkipped {len(result['skipped'])}:")
                     for user in result["skipped"][:3]:  # Show first 3 only
-                        print(f"  @{user['username']}: {user.get('error')}")
+                        log.info(f"  @{user['username']}: {user.get('error')}")
                     if len(result["skipped"]) > 3:
-                        print(f"  ... and {len(result['skipped']) - 3} more")
+                        log.info(f"  ... and {len(result['skipped']) - 3} more")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
 
     elif args.grow_command == "user":
         result = client.get_user(args.username)
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
-            print(f"@{result['username']} ({result['name']})")
-            print(f"  Followers: {result['followers']}")
-            print(f"  Following: {result['following']}")
-            print(f"  Tweets: {result['tweets']}")
+            log.info(f"@{result['username']} ({result['name']})")
+            log.info(f"  Followers: {result['followers']}")
+            log.info(f"  Following: {result['following']}")
+            log.info(f"  Tweets: {result['tweets']}")
             if result.get("description"):
-                print(f"  Bio: {result['description']}")
+                log.info(f"  Bio: {result['description']}")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
 
     elif args.grow_command == "follow-user":
         if args.dry_run:
-            print(f"=== DRY RUN === Would follow @{args.username}")
+            sys.stdout.write(f"=== DRY RUN === Would follow @{args.username}" + "\n")
             return 0
         result = client.follow_by_username(args.username)
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
             user = result.get("user", {})
-            print(f"Followed @{user.get('username', args.username)}")
+            log.info(f"Followed @{user.get('username', args.username)}")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
 
     elif args.grow_command == "search":
         result = client.search_tweets(args.query, limit=args.limit)
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result["success"]:
-            print(f"Found {result['count']} tweets for: {args.query}\n")
+            log.info(f"Found {result['count']} tweets for: {args.query}\n")
             for tweet in result.get("tweets", []):
-                print(f"@{tweet['author_username']}:")
+                log.info(f"@{tweet['author_username']}:")
                 text = tweet["text"][:200]
-                print(f"  {text}{'...' if len(tweet['text']) > 200 else ''}")
-                print(f"  Likes: {tweet['likes']} | RTs: {tweet['retweets']}")
-                print(f"  {tweet['url']}\n")
+                log.info(f"  {text}{'...' if len(tweet['text']) > 200 else ''}")
+                log.info(f"  Likes: {tweet['likes']} | RTs: {tweet['retweets']}")
+                log.info(f"  {tweet['url']}\n")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            log.error(f"Error: {result['error']}")
             return 1
 
     elif args.grow_command == "auto":
@@ -179,20 +174,17 @@ def cmd_grow(args, output_json: bool = False) -> int:
                 scheduled.append({"query": query, "job_id": result["job_id"]})
 
         if output_json:
-            print(json.dumps({"success": True, "scheduled": scheduled}, indent=2))
+            sys.stdout.write(json.dumps({"success": True, "scheduled": scheduled}, indent=2) + "\n")
         else:
-            print(f"Scheduled {len(scheduled)} recurring grow jobs:\n")
+            log.info(f"Scheduled {len(scheduled)} recurring grow jobs:\n")
             for s in scheduled:
-                print(f'  [{s["job_id"]}] "{s["query"]}"')
-            print(f"\nInterval: {interval}")
-            print(f"Limit: {limit} users per job")
-            print("\nRun 'socialia schedule daemon' to start")
+                log.info(f'  [{s["job_id"]}] "{s["query"]}"')
+            log.info(f"\nInterval: {interval}")
+            log.info(f"Limit: {limit} users per job")
+            log.info("\nRun 'socialia schedule daemon' to start")
 
     else:
-        print(
-            "Error: Specify grow subcommand (discover, follow, user, follow-user, search, auto)",
-            file=sys.stderr,
-        )
+        log.error("Error: Specify grow subcommand (discover, follow, user, follow-user, search, auto)")
         return 1
 
     return 0

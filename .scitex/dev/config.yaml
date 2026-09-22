@@ -6,3 +6,85 @@
 project-type:
   - pip
   - special
+
+audit:
+  # PS-231 workflow-duplication — TWO reasoned exemptions, one per file.
+  #
+  # The operator's ruling is that a fleet-wide red is the INTENDED outcome
+  # and duplicates get burned down, with ONE carve-out: "unless leaf
+  # package's version is really unique to the leaf". These two are that
+  # carve-out, each established by reading the org reusable's declared
+  # workflow_call surface against what the leaf actually does. cla.yml was
+  # NOT exempted: it converted to a caller with secrets passed by name, in
+  # this same branch.
+  #
+  # `line: 0` because a duplicated workflow is a whole FILE, not a line; the
+  # rule's own site key is the repo-relative path with line 0.
+  #
+  # THIS BLOCK IS READ ONLY FROM HERE. PS-231 does not read pyproject.toml,
+  # and an entry written under [tool.scitex_dev.audit] is ignored SILENTLY
+  # while the rule keeps firing at E.
+  exemptions:
+    PS-230:
+      - path: src/socialia/_twitter/growth.py
+        line: 29
+        reason: >-
+          'followers' is the Twitter API v2 user-object field name echoed in
+          the returned dict; the docstring must spell the wire key callers
+          read, or the document lies about the bytes.
+      - path: src/socialia/_twitter/growth.py
+        line: 142
+        reason: >-
+          'followers' is the dict key this method returns on success;
+          rewording the prose would misdocument the return contract.
+      - path: src/socialia/cli/_click_cli.py
+        line: 47
+        reason: >-
+          Documents the published `--min-followers` CLI flag in module help;
+          renaming the flag is a breaking change (alias first, remove later).
+      - path: src/socialia/cli/_click_cli.py
+        line: 48
+        reason: >-
+          Documents the published `--min-followers` CLI flag in module help;
+          renaming the flag is a breaking change (alias first, remove later).
+    PS-231:
+      - path: .github/workflows/quality-audit-on-ubuntu-latest.yml
+        line: 0
+        reason: >-
+          Not a copy — a per-package audit gate the org reusable's surface
+          cannot express. This leaf runs `scitex-dev ecosystem audit-all`
+          against just this package (mirroring tests/develop/test_audit.py),
+          with a `--new-only` ratchet (fetch-depth 0 plus an explicit
+          fetch/materialise-local-develop step so `git worktree add --detach`
+          resolves), a schedule trigger, and path filters on src/**,
+          tests/**, pyproject.toml and itself. The org reusable declares no
+          new-only/diff input, so converting deletes the ratchet that keeps
+          the scheduled gate cheap. Converting also renames the published
+          status context from `audit` to `audit / audit` (this leaf declares
+          `jobs: audit:` with no `name:`, so the context is the bare job id,
+          while the org callee hard-codes `name: audit` — and a caller can
+          neither suppress the reusable-workflow prefix nor rename the
+          callee's job), which strands branch protection on a context no
+          workflow can publish again unless a repo-admin protection edit lands
+          in the same change. Revisit via the staged migration (caller
+          ALONGSIDE the legacy file; read published contexts from a throwaway
+          PR; update required contexts while BOTH sets publish; then delete).
+      - path: .github/workflows/rtd-sphinx-build-on-ubuntu-latest.yml
+        line: 0
+        reason: >-
+          The org reusable is BUILD-ONLY; this leaf is BUILD + PUBLISH. On a
+          develop push it rebuilds Sphinx HTML, vendors
+          docs/sphinx/_build/html into src/socialia/_sphinx_html, and commits
+          it back — and that bundle is NOT a build artifact: setuptools ships
+          it inside the wheel via `[tool.setuptools.package-data]
+          _sphinx_html/**/*` (verified in the wheel file list), so the served
+          docs travel with the release. The reusable has no
+          contents:write, checks out at fetch-depth 1, and exposes no
+          vendor-dir, commit-back, artifact-upload or outputs surface — so a
+          bare `uses:` conversion would SILENTLY FREEZE the in-wheel
+          documentation: green CI, stale docs reaching users, nothing saying
+          so. Two further blockers: `sphinx-build -W` on pull_request (the org
+          build never passes -W and has no fail_on_warning/sphinx_opts input,
+          so conversion weakens the PR docs gate) and the bot-loop guard that
+          skips refresh commits. Revisit only if the org reusable grows
+          vendor/commit-back inputs.

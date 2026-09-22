@@ -7,7 +7,12 @@
 
 from __future__ import annotations
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+except ImportError as exc:
+    raise ImportError(
+        "socialia[mcp] is required for MCP tools: pip install socialia[mcp]"
+    ) from exc
 
 
 def register_all_tools(mcp: FastMCP) -> None:

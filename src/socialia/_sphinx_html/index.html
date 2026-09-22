@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Socialia - Unified Social Media Management &mdash; Socialia v0.5.12</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6262202b"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Socialia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#social-module-7-tools">Social Module (7 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#analytics-module-4-tools">Analytics Module (4 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/socialia.html#platform-clients">Platform Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#twitter">Twitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.Twitter"><code class="docutils literal notranslate"><span class="pre">Twitter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#linkedin">LinkedIn</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.LinkedIn"><code class="docutils literal notranslate"><span class="pre">LinkedIn</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#reddit">Reddit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.Reddit"><code class="docutils literal notranslate"><span class="pre">Reddit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#slack">Slack</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.Slack"><code class="docutils literal notranslate"><span class="pre">Slack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#youtube">YouTube</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.YouTube"><code class="docutils literal notranslate"><span class="pre">YouTube</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#analytics">Analytics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/socialia.html#socialia.GoogleAnalytics"><code class="docutils literal notranslate"><span class="pre">GoogleAnalytics</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/socialia.html#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#socialia.move_to_scheduled"><code class="docutils literal notranslate"><span class="pre">move_to_scheduled()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#socialia.move_to_posted"><code class="docutils literal notranslate"><span class="pre">move_to_posted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/socialia.html#socialia.ensure_project_dirs"><code class="docutils literal notranslate"><span class="pre">ensure_project_dirs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Socialia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Socialia - Unified Social Media Management</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ywatanabe1989/socialia/blob/main/docs/sphinx/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="socialia-unified-social-media-management">
+<h1>Socialia - Unified Social Media Management<a class="headerlink" href="#socialia-unified-social-media-management" title="Link to this heading"></a></h1>
+<p><strong>Socialia</strong> is a unified social media management package for posting, analytics, and insights. Part of <a class="reference external" href="https://scitex.ai">SciTeX</a> for scientific research automation.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#posting-content">Posting Content</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#scheduling-posts">Scheduling Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#reading-your-feed">Reading Your Feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#analytics">Analytics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mcp-server-for-ai-agents">MCP Server for AI Agents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#commands-overview">Commands Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#post">post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#feed">feed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#schedule">schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#analytics">analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#starting-the-server">Starting the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#available-tools">Available Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#claude-desktop-configuration">Claude Desktop Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#health-check">Health Check</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/socialia.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/socialia.html#platform-clients">Platform Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/socialia.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Multi-Platform Support</strong>: Twitter/X, LinkedIn, Reddit, Slack, YouTube</p></li>
+<li><p><strong>Three Interfaces</strong>: Python API, CLI commands, and MCP server (8 tools)</p></li>
+<li><p><strong>Analytics Integration</strong>: Google Analytics tracking and reporting</p></li>
+<li><p><strong>Scheduling</strong>: Schedule posts for later with daemon support</p></li>
+<li><p><strong>Org-mode Integration</strong>: Draft management with Emacs org-mode</p></li>
+<li><p><strong>AI Integration</strong>: MCP server for AI agent workflows</p></li>
+</ul>
+</section>
+<section id="quick-example">
+<h2>Quick Example<a class="headerlink" href="#quick-example" title="Link to this heading"></a></h2>
+<p>Python API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">socialia</span><span class="w"> </span><span class="kn">import</span> <span class="n">Twitter</span><span class="p">,</span> <span class="n">LinkedIn</span><span class="p">,</span> <span class="n">GoogleAnalytics</span>
+
+<span class="c1"># Post to Twitter</span>
+<span class="n">twitter</span> <span class="o">=</span> <span class="n">Twitter</span><span class="p">()</span>
+<span class="n">twitter</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"Hello World!"</span><span class="p">)</span>
+
+<span class="c1"># Post to LinkedIn</span>
+<span class="n">linkedin</span> <span class="o">=</span> <span class="n">LinkedIn</span><span class="p">()</span>
+<span class="n">linkedin</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"Professional update!"</span><span class="p">)</span>
+
+<span class="c1"># Track analytics</span>
+<span class="n">ga</span> <span class="o">=</span> <span class="n">GoogleAnalytics</span><span class="p">()</span>
+<span class="n">ga</span><span class="o">.</span><span class="n">track_event</span><span class="p">(</span><span class="s2">"page_view"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"page"</span><span class="p">:</span> <span class="s2">"/docs"</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>CLI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Post to Twitter</span>
+socialia<span class="w"> </span>post<span class="w"> </span>twitter<span class="w"> </span><span class="s2">"Hello World!"</span>
+
+<span class="c1"># Post with image</span>
+socialia<span class="w"> </span>post<span class="w"> </span>twitter<span class="w"> </span><span class="s2">"Check this out!"</span><span class="w"> </span>--image<span class="w"> </span>photo.jpg
+
+<span class="c1"># Schedule a post</span>
+socialia<span class="w"> </span>post<span class="w"> </span>twitter<span class="w"> </span><span class="s2">"Hello!"</span><span class="w"> </span>--schedule<span class="w"> </span><span class="s2">"10:00"</span>
+
+<span class="c1"># Check all platform connections</span>
+socialia<span class="w"> </span>check
+</pre></div>
+</div>
+<p>MCP Server:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start MCP server</span>
+socialia<span class="w"> </span>mcp<span class="w"> </span>start
+
+<span class="c1"># List available tools</span>
+socialia<span class="w"> </span>mcp<span class="w"> </span>list-tools<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Yusuke Watanabe.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

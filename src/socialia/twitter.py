@@ -8,8 +8,8 @@ from requests_oauthlib import OAuth1Session
 
 from ._branding import get_env
 from ._base import _Base
-from ._twitter_growth import TwitterGrowthMixin
-from ._twitter_read_backend import XquikReadBackend
+from ._twitter.growth import TwitterGrowthMixin
+from ._twitter.read_backend import XquikReadBackend
 
 
 class Twitter(TwitterGrowthMixin, _Base):
@@ -128,7 +128,7 @@ class Twitter(TwitterGrowthMixin, _Base):
         Returns:
             dict with 'success', 'media_id' or 'error'
         """
-        from . import _twitter_media
+        from ._twitter import media as _twitter_media
 
         if not self.validate_credentials():
             return {"success": False, "error": "Missing credentials"}

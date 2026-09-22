@@ -2,6 +2,8 @@
 """MCP CLI command handlers for socialia."""
 
 import sys
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def _style(text: str, fg: str = None, bold: bool = False) -> str:
@@ -76,10 +78,7 @@ def cmd_mcp(args) -> int:
         from ..mcp_server import main as mcp_main, HAS_MCP
 
         if not HAS_MCP:
-            print(
-                "Error: MCP package not installed. Run: pip install socialia[mcp]",
-                file=sys.stderr,
-            )
+            log.error("Error: MCP package not installed. Run: pip install socialia[mcp]")
             return 1
         asyncio.run(mcp_main())
         return 0
@@ -88,19 +87,19 @@ def cmd_mcp(args) -> int:
         from ..mcp_server import HAS_MCP
         from .. import __version__
 
-        print(f"socialia {__version__}\n")
-        print("Health Check")
-        print("=" * 40)
+        log.info(f"socialia {__version__}\n")
+        log.info("Health Check")
+        log.info("=" * 40)
 
         checks = []
 
         if HAS_MCP:
             try:
                 import fastmcp
-
-                checks.append(("fastmcp", True, fastmcp.__version__))
             except ImportError:
                 checks.append(("fastmcp", False, "not installed"))
+            else:
+                checks.append(("fastmcp", True, fastmcp.__version__))
         else:
             checks.append(("fastmcp", False, "not installed"))
 
@@ -132,7 +131,7 @@ def cmd_mcp(args) -> int:
             status = "✓" if ok else "✗"
             if not ok:
                 all_ok = False
-            print(f"  {status} {name}: {info}")
+            log.info(f"  {status} {name}: {info}")
 
         return 0 if all_ok else 1
 
@@ -146,10 +145,7 @@ def cmd_mcp(args) -> int:
             from .._server import mcp
             from scitex_dev import get_tools_sync
         except ImportError:
-            print(
-                "Error: MCP not installed. Run: pip install socialia[mcp]",
-                file=sys.stderr,
-            )
+            log.error("Error: MCP not installed. Run: pip install socialia[mcp]")
             return 1
 
         tools_map = get_tools_sync(mcp)
@@ -168,8 +164,8 @@ def cmd_mcp(args) -> int:
         if module_filter:
             module_filter = module_filter.lower()
             if module_filter not in modules:
-                print(f"ERROR: Unknown module '{module_filter}'")
-                print(f"Available modules: {', '.join(sorted(modules.keys()))}")
+                log.info(f"ERROR: Unknown module '{module_filter}'")
+                log.info(f"Available modules: {', '.join(sorted(modules.keys()))}")
                 return 1
             modules = {module_filter: modules[module_filter]}
 
@@ -186,50 +182,50 @@ def cmd_mcp(args) -> int:
                     "count": len(tool_list),
                     "tools": tool_list,
                 }
-            print(json.dumps(output, indent=2))
+            sys.stdout.write(json.dumps(output, indent=2) + "\n")
             return 0
 
-        print(_style("Socialia MCP: socialia", "cyan", bold=True))
-        print(f"Tools: {total} ({len(modules)} modules)\n")
+        sys.stdout.write(_style("Socialia MCP: socialia", "cyan", bold=True) + "\n")
+        sys.stdout.write(f"Tools: {total} ({len(modules)} modules)\n" + "\n")
 
         for module in sorted(modules.keys()):
             mod_tools = sorted(modules[module])
-            print(_style(f"{module}: {len(mod_tools)} tools", "green", bold=True))
+            sys.stdout.write(_style(f"{module}: {len(mod_tools)} tools", "green", bold=True) + "\n")
             for tool_name in mod_tools:
                 tool_obj = tools_map.get(tool_name)
 
                 if verbose == 0:
-                    print(f"  {tool_name}")
+                    sys.stdout.write(f"  {tool_name}" + "\n")
                 elif verbose == 1:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    sys.stdout.write(sig + "\n")
                 elif verbose == 2:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    sys.stdout.write(sig + "\n")
                     if tool_obj and tool_obj.description:
                         desc = tool_obj.description.split("\n")[0].strip()
-                        print(f"    {desc}")
-                    print()
+                        sys.stdout.write(f"    {desc}" + "\n")
+                    sys.stdout.write("\n")
                 else:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    sys.stdout.write(sig + "\n")
                     if tool_obj and tool_obj.description:
                         for line in tool_obj.description.strip().split("\n"):
-                            print(f"    {line}")
-                    print()
-            print()
+                            sys.stdout.write(f"    {line}" + "\n")
+                    sys.stdout.write("\n")
+            sys.stdout.write("\n")
 
         return 0
 
@@ -237,16 +233,14 @@ def cmd_mcp(args) -> int:
         from .. import __version__
         import shutil
 
-        print(f"socialia {__version__}\n")
-        print("Add this to your Claude Desktop config file:\n")
-        print(
-            "  macOS: ~/Library/Application Support/Claude/claude_desktop_config.json"
-        )
-        print("  Linux: ~/.config/Claude/claude_desktop_config.json\n")
+        log.info(f"socialia {__version__}\n")
+        log.info("Add this to your Claude Desktop config file:\n")
+        log.info("  macOS: ~/Library/Application Support/Claude/claude_desktop_config.json")
+        log.info("  Linux: ~/.config/Claude/claude_desktop_config.json\n")
 
         cli_path = shutil.which("socialia")
         if cli_path:
-            print(f"Your installation path: {cli_path}\n")
+            log.info(f"Your installation path: {cli_path}\n")
 
         config = f'''{{
   "mcpServers": {{
@@ -262,14 +256,11 @@ def cmd_mcp(args) -> int:
     }}
   }}
 }}'''
-        print(config)
+        sys.stdout.write(config + "\n")
         return 0
 
     else:
-        print(
-            "Usage: socialia mcp {start|doctor|list-tools|installation}",
-            file=sys.stderr,
-        )
+        log.error("Usage: socialia mcp {start|doctor|list-tools|installation}")
         return 1
 
 

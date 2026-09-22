@@ -4,6 +4,8 @@
 import json
 import sys
 from pathlib import Path
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def add_org_parser(subparsers, platforms: list[str]) -> None:
@@ -130,9 +132,7 @@ def cmd_org(args, output_json: bool = False) -> int:
     elif args.org_command == "sync":
         return cmd_org_sync(args, output_json=output_json)
     else:
-        print(
-            "Error: Specify org subcommand (status, list, post, schedule, init, sync)"
-        )
+        log.info("Error: Specify org subcommand (status, list, post, schedule, init, sync)")
         return 1
 
 
@@ -142,26 +142,26 @@ def cmd_org_status(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        log.error(f"Error: File not found: {filepath}")
         return 1
 
     manager = OrgDraftManager(filepath)
     report = manager.status_report()
 
     if output_json:
-        print(json.dumps(report, indent=2))
+        sys.stdout.write(json.dumps(report, indent=2) + "\n")
     else:
-        print(f"📄 {report['file']}")
-        print("=" * 50)
-        print(f"Total drafts: {report['total']}")
-        print(f"  Pending:    {report['pending']}")
-        print(f"  Done:       {report['done']}")
-        print(f"  Due now:    {report['due_now']}")
-        print(f"  Scheduled:  {report['scheduled']}")
-        print()
+        log.info(f"📄 {report['file']}")
+        log.info("=" * 50)
+        log.info(f"Total drafts: {report['total']}")
+        log.info(f"  Pending:    {report['pending']}")
+        log.info(f"  Done:       {report['done']}")
+        log.info(f"  Due now:    {report['due_now']}")
+        log.info(f"  Scheduled:  {report['scheduled']}")
+        log.info("")
 
         if report["drafts"]:
-            print("Drafts:")
+            log.info("Drafts:")
             for d in report["drafts"]:
                 status_icon = {
                     "TODO": "⬜",
@@ -172,10 +172,8 @@ def cmd_org_status(args, output_json: bool = False) -> int:
                 due_marker = " 🔴 DUE" if d["is_due"] else ""
                 sched = f" @ {d['scheduled']}" if d["scheduled"] else ""
 
-                print(
-                    f"  {status_icon} [{d['platform']}] {d['headline']}{sched}{due_marker}"
-                )
-                print(f"      {d['char_count']} chars")
+                log.info(f"  {status_icon} [{d['platform']}] {d['headline']}{sched}{due_marker}")
+                log.info(f"      {d['char_count']} chars")
 
     return 0
 
@@ -186,7 +184,7 @@ def cmd_org_list(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        log.error(f"Error: File not found: {filepath}")
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -205,7 +203,7 @@ def cmd_org_list(args, output_json: bool = False) -> int:
             }
             for d in drafts
         ]
-        print(json.dumps(data, indent=2))
+        sys.stdout.write(json.dumps(data, indent=2) + "\n")
     else:
         for d in drafts:
             status_icon = {"TODO": "⬜", "DONE": "✅", "CANCELLED": "❌"}.get(
@@ -214,13 +212,13 @@ def cmd_org_list(args, output_json: bool = False) -> int:
             sched = (
                 d.scheduled.strftime("%Y-%m-%d %H:%M") if d.scheduled else "unscheduled"
             )
-            print(f"{status_icon} [{d.platform}] {d.headline}")
-            print(f"   Scheduled: {sched}")
-            print(f"   Content ({len(d.content)} chars):")
+            log.info(f"{status_icon} [{d.platform}] {d.headline}")
+            log.info(f"   Scheduled: {sched}")
+            log.info(f"   Content ({len(d.content)} chars):")
             # Show first 100 chars
             preview = d.content[:100].replace("\n", " ")
-            print(f"   {preview}...")
-            print()
+            log.info(f"   {preview}...")
+            log.info("")
 
     return 0
 
@@ -231,7 +229,7 @@ def cmd_org_post(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        log.error(f"Error: File not found: {filepath}")
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -248,13 +246,11 @@ def cmd_org_post(args, output_json: bool = False) -> int:
 
     if not drafts:
         if output_json:
-            print(
-                json.dumps(
+            sys.stdout.write(json.dumps(
                     {"success": True, "message": "No drafts to post", "results": []}
-                )
-            )
+                ) + "\n")
         else:
-            print("No drafts due for posting.")
+            log.info("No drafts due for posting.")
         return 0
 
     results = []
@@ -264,16 +260,16 @@ def cmd_org_post(args, output_json: bool = False) -> int:
         results.append(result)
 
     if output_json:
-        print(json.dumps({"success": True, "results": results}, indent=2))
+        sys.stdout.write(json.dumps({"success": True, "results": results}, indent=2) + "\n")
     else:
         prefix = "[DRY RUN] " if dry_run else ""
         for r in results:
             status = "✅" if r.get("success") else "❌"
-            print(f"{prefix}{status} {r.get('headline', 'Unknown')}")
+            log.info(f"{prefix}{status} {r.get('headline', 'Unknown')}")
             if r.get("url"):
-                print(f"   URL: {r['url']}")
+                log.info(f"   URL: {r['url']}")
             if r.get("error"):
-                print(f"   Error: {r['error']}")
+                log.info(f"   Error: {r['error']}")
 
     return 0
 
@@ -284,7 +280,7 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        log.error(f"Error: File not found: {filepath}")
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -300,21 +296,19 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
 
     if not results:
         if output_json:
-            print(
-                json.dumps(
+            sys.stdout.write(json.dumps(
                     {"success": True, "message": "No drafts to schedule", "results": []}
-                )
-            )
+                ) + "\n")
         else:
-            print("No drafts with future scheduled times.")
+            log.info("No drafts with future scheduled times.")
         return 0
 
     if output_json:
-        print(json.dumps({"success": True, "results": results}, indent=2))
+        sys.stdout.write(json.dumps({"success": True, "results": results}, indent=2) + "\n")
     else:
         prefix = "[DRY RUN] " if dry_run else ""
         fluct_info = f" (±{fluctuation}min fluctuation)" if fluctuation > 0 else ""
-        print(f"{prefix}Scheduled {len(results)} draft(s){fluct_info}:")
+        log.info(f"{prefix}Scheduled {len(results)} draft(s){fluct_info}:")
         for r in results:
             status = "📅" if r.get("success") else "❌"
             sched = r.get("scheduled_for", "unknown")
@@ -327,18 +321,18 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
                 )
             else:
                 time_info = sched
-            print(f"  {status} {r.get('headline', 'Unknown')} -> {time_info}")
+            log.info(f"  {status} {r.get('headline', 'Unknown')} -> {time_info}")
             if r.get("job_id"):
-                print(f"     Job ID: {r['job_id']}")
+                log.info(f"     Job ID: {r['job_id']}")
             if r.get("error"):
-                print(f"     Error: {r['error']}")
+                log.info(f"     Error: {r['error']}")
 
         if not dry_run:
             # Show if file was moved
             moved_to = results[0].get("moved_to") if results else None
             if moved_to:
-                print(f"\n📁 Moved to: {moved_to}")
-            print("\nRun 'socialia schedule daemon' to start the scheduler.")
+                log.info(f"\n📁 Moved to: {moved_to}")
+            log.info("\nRun 'socialia schedule daemon' to start the scheduler.")
 
     return 0
 
@@ -349,8 +343,8 @@ def cmd_org_init(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if filepath.exists() and not getattr(args, "force", False):
-        print(f"Error: File already exists: {filepath}", file=sys.stderr)
-        print("Use --force to overwrite.", file=sys.stderr)
+        log.error(f"Error: File already exists: {filepath}")
+        log.error("Use --force to overwrite.")
         return 1
 
     # Ensure directory exists
@@ -396,13 +390,13 @@ Second draft content.
     filepath.write_text(template)
 
     if output_json:
-        print(json.dumps({"success": True, "file": str(filepath)}))
+        sys.stdout.write(json.dumps({"success": True, "file": str(filepath)}) + "\n")
     else:
-        print(f"Created: {filepath}")
-        print(f"Platform: {platform}")
-        print("\nEdit the file and run:")
-        print(f"  socialia org status {filepath}")
-        print(f"  socialia org schedule {filepath}")
+        log.info(f"Created: {filepath}")
+        log.info(f"Platform: {platform}")
+        log.info("\nEdit the file and run:")
+        log.info(f"  socialia org status {filepath}")
+        log.info(f"  socialia org schedule {filepath}")
 
     return 0
 
@@ -413,7 +407,7 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        log.error(f"Error: File not found: {filepath}")
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -447,22 +441,22 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
         }
 
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         else:
-            print(f"[DRY RUN] Sync preview for: {filepath}")
-            print("=" * 50)
+            sys.stdout.write(f"[DRY RUN] Sync preview for: {filepath}" + "\n")
+            sys.stdout.write("=" * 50 + "\n")
             if would_add:
-                print(f"Would ADD {len(would_add)} job(s):")
+                sys.stdout.write(f"Would ADD {len(would_add)} job(s):" + "\n")
                 for h in would_add:
-                    print(f"  + {h}")
+                    sys.stdout.write(f"  + {h}" + "\n")
             if would_cancel:
-                print(f"Would CANCEL {len(would_cancel)} job(s):")
+                sys.stdout.write(f"Would CANCEL {len(would_cancel)} job(s):" + "\n")
                 for jid in would_cancel:
-                    print(f"  - {jid}")
+                    sys.stdout.write(f"  - {jid}" + "\n")
             if unchanged:
-                print(f"Unchanged: {len(unchanged)} job(s)")
+                sys.stdout.write(f"Unchanged: {len(unchanged)} job(s)" + "\n")
             if not would_add and not would_cancel:
-                print("Already in sync.")
+                sys.stdout.write("Already in sync." + "\n")
         return 0
 
     # Actually sync
@@ -472,21 +466,21 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
     )
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     else:
-        print(f"Synced: {result['file']}")
-        print("=" * 50)
+        log.info(f"Synced: {result['file']}")
+        log.info("=" * 50)
         if result["added"]:
-            print(f"Added {len(result['added'])} job(s):")
+            log.info(f"Added {len(result['added'])} job(s):")
             for h in result["added"]:
-                print(f"  + {h}")
+                log.info(f"  + {h}")
         if result["cancelled"]:
-            print(f"Cancelled {len(result['cancelled'])} job(s):")
+            log.info(f"Cancelled {len(result['cancelled'])} job(s):")
             for jid in result["cancelled"]:
-                print(f"  - {jid}")
+                log.info(f"  - {jid}")
         if result["unchanged"]:
-            print(f"Unchanged: {len(result['unchanged'])} job(s)")
+            log.info(f"Unchanged: {len(result['unchanged'])} job(s)")
         if not result["added"] and not result["cancelled"]:
-            print("Already in sync.")
+            log.info("Already in sync.")
 
     return 0

@@ -3,12 +3,17 @@
 
 import json
 import random
+import sys
 import time
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import scitex_logging as slogging
+
 from ._paths import get_schedule_file as _get_schedule_file
+
+log = slogging.getLogger(__name__)
 
 SCHEDULE_FILE: Path = _get_schedule_file()
 """Path to the scheduled-jobs JSON file (under ``~/.scitex/socialia/runtime/``).
@@ -139,7 +144,7 @@ def schedule_grow(
         query: Search query for discovering users
         schedule_time: When to run (see parse_schedule_time)
         limit: Max users to follow per run
-        min_followers: Minimum follower count filter
+        min_followers: Minimum audience-size filter
         fluctuation: Max random fluctuation in minutes
         fluctuation_bias: "early", "late", or "none"
         repeat_interval: Repeat interval (e.g., "+1h", "+30m") or None
@@ -480,16 +485,16 @@ def run_due_jobs(*, schedule_file=None) -> list:
 
 def run_daemon(interval: int = 60):
     """Run scheduler daemon that checks for due jobs."""
-    print(f"Scheduler daemon started (checking every {interval}s)")
-    print(f"Schedule file: {SCHEDULE_FILE}")
-    print("Press Ctrl+C to stop")
+    log.info(f"Scheduler daemon started (checking every {interval}s)")
+    log.info(f"Schedule file: {SCHEDULE_FILE}")
+    log.info("Press Ctrl+C to stop")
 
     try:
         while True:
             results = run_due_jobs()
             for r in results:
                 status = "✅" if r.get("success") else "❌"
-                print(f"{status} Job {r['job_id']}: {r}")
+                log.info(f"{status} Job {r['job_id']}: {r}")
             time.sleep(interval)
     except KeyboardInterrupt:
-        print("\nDaemon stopped")
+        log.info("\nDaemon stopped")

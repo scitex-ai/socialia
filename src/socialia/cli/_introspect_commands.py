@@ -5,6 +5,8 @@ import argparse
 import importlib
 import inspect
 import sys
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 # Color mapping for types
 TYPE_COLORS = {"M": "blue", "C": "magenta", "F": "green", "V": "cyan"}
@@ -163,7 +165,7 @@ def cmd_list_python_apis(args: argparse.Namespace) -> int:
     try:
         module = importlib.import_module(dotted_path)
     except ImportError as e:
-        print(f"Error importing {dotted_path}: {e}", file=sys.stderr)
+        log.error(f"Error importing {dotted_path}: {e}")
         return 1
 
     verbose = getattr(args, "verbose", 0)
@@ -175,10 +177,10 @@ def cmd_list_python_apis(args: argparse.Namespace) -> int:
     if as_json:
         import json
 
-        print(json.dumps(df, indent=2))
+        sys.stdout.write(json.dumps(df, indent=2) + "\n")
         return 0
 
-    print(_style(f"API tree of {dotted_path} ({len(df)} items):", fg="cyan"))
+    log.info(_style(f"API tree of {dotted_path} ({len(df)} items):", fg="cyan"))
     legend = " ".join(
         _style(f"[{t}]={n}", fg=TYPE_COLORS[t])
         for t, n in [
@@ -188,7 +190,7 @@ def cmd_list_python_apis(args: argparse.Namespace) -> int:
             ("V", "Variable"),
         ]
     )
-    print(f"Legend: {legend}")
+    log.info(f"Legend: {legend}")
 
     for row in df:
         indent = "  " * row["Depth"]
@@ -206,23 +208,23 @@ def cmd_list_python_apis(args: argparse.Namespace) -> int:
                         break
                 if obj and callable(obj):
                     name_s, sig_s = _format_python_signature(obj, indent=indent)
-                    print(f"{indent}{type_s} {name_s}{sig_s}")
+                    log.info(f"{indent}{type_s} {name_s}{sig_s}")
                 else:
                     name_s = _style(name, "green", bold=True)
-                    print(f"{indent}{type_s} {name_s}")
+                    log.info(f"{indent}{type_s} {name_s}")
             except Exception:
                 name_s = _style(name, "green", bold=True)
-                print(f"{indent}{type_s} {name_s}")
+                log.info(f"{indent}{type_s} {name_s}")
         else:
             name_s = _style(name, fg=TYPE_COLORS.get(t, "white"), bold=True)
-            print(f"{indent}{type_s} {name_s}")
+            log.info(f"{indent}{type_s} {name_s}")
 
         if verbose >= 1 and row.get("Docstring"):
             if verbose == 1:
                 doc = row["Docstring"].split("\n")[0][:60]
-                print(f"{indent}    - {doc}")
+                log.info(f"{indent}    - {doc}")
             else:
                 for ln in row["Docstring"].split("\n"):
-                    print(f"{indent}    {ln}")
+                    log.info(f"{indent}    {ln}")
 
     return 0

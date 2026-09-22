@@ -10,6 +10,8 @@ from ..linkedin import LinkedIn
 from ..reddit import Reddit
 from ..slack import Slack
 from ..youtube import YouTube
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def get_client(platform: str):
@@ -69,13 +71,13 @@ def cmd_feed(args, output_json: bool = False) -> int:
         results[platform] = result
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        sys.stdout.write(json.dumps(results, indent=2) + "\n")
     else:
         for platform, result in results.items():
-            print(f"\n{platform.upper()}")
-            print("─" * 40)
+            log.info(f"\n{platform.upper()}")
+            log.info("─" * 40)
             if not result.get("success"):
-                print(f"  ⚠️  {result.get('error', 'Unknown error')}")
+                log.info(f"  ⚠️  {result.get('error', 'Unknown error')}")
                 continue
 
             # Get posts/tweets/mentions/replies
@@ -87,7 +89,7 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 or []
             )
             if not items:
-                print("  No recent posts")
+                log.info("  No recent posts")
                 continue
 
             for i, item in enumerate(items[:limit]):
@@ -106,9 +108,9 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 # Show author for replies/mentions
                 author = item.get("author_username", "")
                 if author:
-                    print(f"  • @{author}: {text}")
+                    log.info(f"  • @{author}: {text}")
                 else:
-                    print(f"  • {text}")
+                    log.info(f"  • {text}")
                 metrics = []
                 if created:
                     metrics.append(created)
@@ -117,13 +119,13 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 if retweets:
                     metrics.append(f"🔁 {retweets}")
                 if metrics:
-                    print(f"    {' · '.join(metrics)}")
+                    log.info(f"    {' · '.join(metrics)}")
                 if detail:
                     url = item.get("url", "")
                     if url:
-                        print(f"    🔗 {url}")
+                        log.info(f"    🔗 {url}")
                 if i < len(items[:limit]) - 1:
-                    print()  # Blank line between posts
+                    log.info("")  # Blank line between posts
 
     return 0
 
@@ -142,27 +144,27 @@ def cmd_check(args, output_json: bool = False) -> int:
         results[platform] = client.check()
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        sys.stdout.write(json.dumps(results, indent=2) + "\n")
     else:
-        print(f"Socialia v{__version__} - Connection Check")
-        print("=" * 50)
+        log.info(f"Socialia v{__version__} - Connection Check")
+        log.info("=" * 50)
         for platform, result in results.items():
             status = result.get("status", "unknown")
             if status == "connected":
                 user = result.get("user", {})
                 name = user.get("name") or user.get("username") or user.get("title", "")
-                print(f"\n✅ {platform.upper()}: Connected")
+                log.info(f"\n✅ {platform.upper()}: Connected")
                 if name:
-                    print(f"   User: {name}")
+                    log.info(f"   User: {name}")
                 url = user.get("url", "")
                 if url:
-                    print(f"   URL: {url}")
+                    log.info(f"   URL: {url}")
             elif status == "not_configured":
-                print(f"\n⚪ {platform.upper()}: Not configured")
+                log.info(f"\n⚪ {platform.upper()}: Not configured")
             else:
                 error = result.get("error", "Unknown error")
-                print(f"\n❌ {platform.upper()}: Error")
-                print(f"   {error}")
+                log.info(f"\n❌ {platform.upper()}: Error")
+                log.info(f"   {error}")
 
     return 0
 
@@ -173,15 +175,15 @@ def cmd_me(args, output_json: bool = False) -> int:
     result = client.me()
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        sys.stdout.write(json.dumps(result, indent=2) + "\n")
     elif result.get("success"):
-        print(f"{args.platform.upper()} User Info")
-        print("─" * 30)
+        log.info(f"{args.platform.upper()} User Info")
+        log.info("─" * 30)
         for key, value in result.items():
             if key != "success":
-                print(f"  {key}: {value}")
+                log.info(f"  {key}: {value}")
     else:
-        print(f"Error: {result.get('error')}", file=sys.stderr)
+        log.error(f"Error: {result.get('error')}")
         return 1
 
     return 0

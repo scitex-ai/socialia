@@ -32,4 +32,16 @@ permissions:
 jobs:
   call:
     uses: scitex-ai/.github/.github/workflows/cla.yml@main
-    secrets: inherit
+    with:
+      # JSON array STRING — the callee feeds it to fromJSON. A YAML list
+      # decodes to something fromJSON rejects, and the resulting label
+      # mismatch makes the job QUEUE FOREVER rather than fail.
+      runs_on: '["ubuntu-latest"]'
+    secrets:
+      # PS-224: passed BY NAME, not `inherit`. `secrets: inherit` forwards
+      # EVERY secret this repo holds into a job an outsider can start via
+      # `issue_comment` / `pull_request_target`; the callee declares exactly
+      # one required secret, so name it. Job id stays `call`: renaming it
+      # would rename the published check context and strand branch
+      # protection on a context no workflow can publish again.
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

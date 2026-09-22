@@ -3,6 +3,8 @@
 import json
 import sys
 from pathlib import Path
+import scitex_logging as slogging
+log = slogging.getLogger(__name__)
 
 
 def cmd_youtube(args, output_json: bool = False) -> int:
@@ -14,9 +16,7 @@ def cmd_youtube(args, output_json: bool = False) -> int:
     elif args.youtube_command == "list":
         return cmd_youtube_list(args, output_json)
     else:
-        print(
-            "Error: Specify youtube subcommand (batch, config, list)", file=sys.stderr
-        )
+        log.error("Error: Specify youtube subcommand (batch, config, list)")
         return 1
 
 
@@ -32,15 +32,15 @@ def cmd_youtube_batch(args, output_json: bool = False) -> int:
     # Load configuration
     if use_scitex:
         config = create_scitex_config()
-        print("Using SciTeX demo video configuration")
+        log.info("Using SciTeX demo video configuration")
     elif config_path:
         if not Path(config_path).exists():
-            print(f"Error: Config file not found: {config_path}", file=sys.stderr)
+            log.error(f"Error: Config file not found: {config_path}")
             return 1
         batch = YouTubeBatch(config_path=config_path)
         config = batch.config
     else:
-        print("Error: Provide --config or --scitex", file=sys.stderr)
+        log.error("Error: Provide --config or --scitex")
         return 1
 
     batch = YouTubeBatch(config=config)
@@ -48,77 +48,74 @@ def cmd_youtube_batch(args, output_json: bool = False) -> int:
     # Validate
     validation = batch.validate()
     if not validation["valid"]:
-        print("Configuration errors:", file=sys.stderr)
+        log.error("Configuration errors:")
         for error in validation["errors"]:
-            print(f"  - {error}", file=sys.stderr)
+            log.error(f"  - {error}")
         return 1
 
     # Single video upload
     if video_index is not None:
         if video_index < 1 or video_index > len(batch.videos):
-            print(
-                f"Error: Index must be 1-{len(batch.videos)}, got {video_index}",
-                file=sys.stderr,
-            )
+            log.error(f"Error: Index must be 1-{len(batch.videos)}, got {video_index}")
             return 1
 
         video = batch.videos[video_index - 1]
-        print(f"\nUploading video {video_index}: {video['title']}")
+        log.info(f"\nUploading video {video_index}: {video['title']}")
 
         if dry_run:
-            print("  [DRY RUN]")
+            sys.stdout.write("  [DRY RUN]" + "\n")
 
         result = batch.upload_one(video, dry_run=dry_run)
 
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         elif result.get("success"):
             if dry_run:
-                print(f"  Would upload: {result['path']}")
-                print(f"  Title: {result['title']}")
-                print(f"  Tags: {', '.join(result.get('tags', []))}")
+                sys.stdout.write(f"  Would upload: {result['path']}" + "\n")
+                sys.stdout.write(f"  Title: {result['title']}" + "\n")
+                sys.stdout.write(f"  Tags: {', '.join(result.get('tags', []))}" + "\n")
             else:
-                print(f"  SUCCESS: {result.get('url')}")
+                log.info(f"  SUCCESS: {result.get('url')}")
         else:
-            print(f"  FAILED: {result.get('error')}", file=sys.stderr)
+            log.error(f"  FAILED: {result.get('error')}")
             return 1
 
         return 0
 
     # Batch upload all
-    print(f"\nBatch uploading {len(batch.videos)} videos")
+    log.info(f"\nBatch uploading {len(batch.videos)} videos")
     if dry_run:
-        print("[DRY RUN MODE]")
-    print("-" * 50)
+        sys.stdout.write("[DRY RUN MODE]" + "\n")
+    log.info("-" * 50)
 
     def progress_callback(index, total, result):
         status = "OK" if result.get("success") else "FAIL"
         if dry_run:
             status = "DRY"
-        print(f"[{index}/{total}] {status}: {result.get('title', 'Unknown')}")
+        log.info(f"[{index}/{total}] {status}: {result.get('title', 'Unknown')}")
         if result.get("url"):
-            print(f"         URL: {result['url']}")
+            log.info(f"         URL: {result['url']}")
         elif result.get("error"):
-            print(f"         Error: {result['error']}")
+            log.info(f"         Error: {result['error']}")
 
     results = batch.upload_all(dry_run=dry_run, callback=progress_callback)
     summary = batch.summary()
 
-    print("-" * 50)
-    print(f"Complete: {summary['successful']}/{summary['total']} successful")
+    log.info("-" * 50)
+    log.info(f"Complete: {summary['successful']}/{summary['total']} successful")
 
     if output_json:
-        print(json.dumps({"results": results, "summary": summary}, indent=2))
+        sys.stdout.write(json.dumps({"results": results, "summary": summary}, indent=2) + "\n")
 
     if summary["urls"]:
-        print("\nUploaded URLs:")
+        log.info("\nUploaded URLs:")
         for url in summary["urls"]:
-            print(f"  {url}")
+            log.info(f"  {url}")
 
     if summary["errors"]:
-        print("\nErrors:")
+        log.info("\nErrors:")
         for err in summary["errors"]:
-            print(f"  {err['title']}: {err['error']}")
+            log.info(f"  {err['title']}: {err['error']}")
 
     return 0 if summary["failed"] == 0 else 1
 
@@ -134,28 +131,28 @@ def cmd_youtube_config(args, output_json: bool = False) -> int:
 
     if use_scitex:
         config = create_scitex_config(output_path=output_path)
-        print("Generated SciTeX demo configuration")
+        log.info("Generated SciTeX demo configuration")
     elif directory:
         if not Path(directory).is_dir():
-            print(f"Error: Not a directory: {directory}", file=sys.stderr)
+            log.error(f"Error: Not a directory: {directory}")
             return 1
         config = generate_config_from_directory(
             directory, preset=preset, output_path=output_path
         )
-        print(f"Generated configuration for {len(config['videos'])} videos")
+        log.info(f"Generated configuration for {len(config['videos'])} videos")
     else:
-        print("Error: Provide --directory or --scitex", file=sys.stderr)
+        log.error("Error: Provide --directory or --scitex")
         return 1
 
     if output_json:
-        print(json.dumps(config, indent=2))
+        sys.stdout.write(json.dumps(config, indent=2) + "\n")
     elif output_path:
-        print(f"Saved to: {output_path}")
+        log.info(f"Saved to: {output_path}")
     else:
         # Print YAML to stdout
         import yaml
 
-        print(yaml.dump(config, default_flow_style=False, sort_keys=False))
+        sys.stdout.write(yaml.dump(config, default_flow_style=False, sort_keys=False) + "\n")
 
     return 0
 
@@ -174,23 +171,23 @@ def cmd_youtube_list(args, output_json: bool = False) -> int:
         # List videos from YouTube channel
         yt = YouTube()
         if not yt.validate_credentials():
-            print("Error: YouTube credentials not configured", file=sys.stderr)
+            log.error("Error: YouTube credentials not configured")
             return 1
 
         result = yt.list_videos(max_results=limit)
         if not result.get("success"):
-            print(f"Error: {result.get('error')}", file=sys.stderr)
+            log.error(f"Error: {result.get('error')}")
             return 1
 
         if output_json:
-            print(json.dumps(result, indent=2))
+            sys.stdout.write(json.dumps(result, indent=2) + "\n")
         else:
-            print(f"Channel videos ({result.get('count', 0)}):\n")
+            log.info(f"Channel videos ({result.get('count', 0)}):\n")
             for video in result.get("videos", []):
-                print(f"  {video['title']}")
-                print(f"    URL: {video['url']}")
-                print(f"    Published: {video['published_at'][:10]}")
-                print()
+                log.info(f"  {video['title']}")
+                log.info(f"    URL: {video['url']}")
+                log.info(f"    Published: {video['published_at'][:10]}")
+                log.info("")
 
         return 0
 
@@ -202,27 +199,27 @@ def cmd_youtube_list(args, output_json: bool = False) -> int:
 
         config = load_video_config(config_path)
     else:
-        print("Error: Provide --config, --scitex, or --channel", file=sys.stderr)
+        log.error("Error: Provide --config, --scitex, or --channel")
         return 1
 
     videos = config.get("videos", [])
 
     if output_json:
-        print(json.dumps({"videos": videos, "count": len(videos)}, indent=2))
+        sys.stdout.write(json.dumps({"videos": videos, "count": len(videos)}, indent=2) + "\n")
     else:
-        print(f"Configured videos ({len(videos)}):\n")
+        log.info(f"Configured videos ({len(videos)}):\n")
         for i, video in enumerate(videos, 1):
             path = Path(video["path"])
             exists = path.exists()
             size = f"{path.stat().st_size / 1024 / 1024:.1f}MB" if exists else "N/A"
             status = "OK" if exists else "MISSING"
 
-            print(f"  {i}. {video.get('title', path.name)}")
-            print(f"     Path: {video['path']}")
-            print(f"     Size: {size} [{status}]")
+            log.info(f"  {i}. {video.get('title', path.name)}")
+            log.info(f"     Path: {video['path']}")
+            log.info(f"     Size: {size} [{status}]")
             if video.get("tags"):
-                print(f"     Tags: {', '.join(video['tags'][:5])}")
-            print()
+                log.info(f"     Tags: {', '.join(video['tags'][:5])}")
+            log.info("")
 
     return 0
 

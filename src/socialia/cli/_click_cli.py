@@ -51,6 +51,9 @@ Canonical subcommands (read verbs):
     socialia grow <platform> follow-user <username> [--dry-run] [--yes]
     socialia grow <platform> search <query> [--limit] [--json]
     socialia list-python-apis [-v|-vv|-vvv] [--json]
+    socialia skills list [--json]
+    socialia skills get <name> [--json]
+    socialia skills install [--dry-run]
 
 Deprecated aliases (still accepted, rewritten to canonical names):
     delete                  -> delete-post
@@ -1493,6 +1496,15 @@ def cmd_list_python_apis_click(verbose, max_depth, as_json):
 
     args = _ns(verbose=verbose, max_depth=max_depth, json=as_json)
     sys.exit(cmd_list_python_apis(args))
+
+
+# =========================================================================
+# skills group (§1a: list / get / install over the bundled _skills/ tree)
+# =========================================================================
+
+from ._skills_commands import skills_group as _skills_group
+
+main_group.add_command(_skills_group)
 
 
 # =========================================================================

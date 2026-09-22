@@ -1,6 +1,6 @@
 """Tests for the optional Xquik Twitter read backend."""
 
-from socialia._twitter_read_backend import XquikReadBackend
+from socialia._twitter.read_backend import XquikReadBackend
 
 from tests.conftest import FakeResponse
 

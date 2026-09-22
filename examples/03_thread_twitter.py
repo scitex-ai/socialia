@@ -19,11 +19,16 @@ Environment:
 """
 
 import argparse
+import scitex as stx
 
 from socialia import Twitter
 
 
-def main():
+@stx.session
+def main(
+    CONFIG=stx.session.INJECTED,
+    logger=stx.session.INJECTED,
+):
     parser = argparse.ArgumentParser(description="Post a Twitter thread")
     parser.add_argument(
         "--dry-run", action="store_true", help="Preview without posting"
@@ -35,7 +40,7 @@ def main():
 
     # Check credentials
     if not twitter.validate_credentials():
-        print("ERROR: Twitter credentials not configured")
+        logger.error("ERROR: Twitter credentials not configured")
         return 1
 
     # Thread content
@@ -46,28 +51,28 @@ def main():
     ]
 
     if args.dry_run:
-        print("=== DRY RUN (Thread) ===")
-        print("Platform: Twitter")
-        print(f"Posts: {len(tweets)}")
+        logger.info("=== DRY RUN (Thread) ===")
+        logger.info("Platform: Twitter")
+        logger.info(f"Posts: {len(tweets)}")
         for i, tweet in enumerate(tweets, 1):
-            print(f"\n--- Tweet {i} ({len(tweet)} chars) ---")
-            print(tweet)
+            logger.info(f"\n--- Tweet {i} ({len(tweet)} chars) ---")
+            logger.info(tweet)
         return 0
 
     # Post thread
     result = twitter.post_thread(tweets)
 
     if result["success"]:
-        print(f"Thread posted! ({len(result['ids'])} tweets)")
+        logger.info(f"Thread posted! ({len(result['ids'])} tweets)")
         for url in result["urls"]:
-            print(f"  {url}")
+            logger.info(f"  {url}")
         return 0
     else:
-        print(f"ERROR: {result['error']}")
+        logger.error(f"ERROR: {result['error']}")
         if "partial_ids" in result:
-            print(f"Partial success: {len(result['partial_ids'])} tweets posted")
+            logger.info(f"Partial success: {len(result['partial_ids'])} tweets posted")
         return 1
 
 
 if __name__ == "__main__":
-    exit(main())
+    main()

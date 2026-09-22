@@ -7,7 +7,7 @@ from urllib.parse import quote, urljoin
 
 import requests
 
-from ._branding import get_env
+from .._branding import get_env
 
 DEFAULT_BASE_URL = "https://xquik.com"
 TIMEOUT_SECONDS = 30

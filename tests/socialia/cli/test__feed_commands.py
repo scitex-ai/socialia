@@ -248,7 +248,7 @@ class TestMCPCommands:
         # Arrange
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Health Check" in out
 
@@ -256,7 +256,7 @@ class TestMCPCommands:
         # Arrange
         main(["mcp", "doctor"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Twitter" in out
 
@@ -272,7 +272,7 @@ class TestMCPCommands:
         # Arrange
         main(["mcp", "show-installation"])
         # Act
-        out = capsys.readouterr().out
+        out = capsys.readouterr().err
         # Assert
         assert "Claude Desktop" in out
 
@@ -355,7 +355,7 @@ class TestScheduleCommands:
         try:
             main(["schedule", "list"])
             # Act
-            out = capsys.readouterr().out
+            out = capsys.readouterr().err
             # Assert
             assert "No scheduled" in out or "pending" in out.lower()
         finally:

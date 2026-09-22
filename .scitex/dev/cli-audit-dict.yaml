@@ -13,3 +13,17 @@ nouns:
   ## `analytics show-realtime`, `analytics show-pageviews`)
   - realtime
   - pageviews
+
+intransitive_verbs:
+  ## audit-cli §1 escape hatch (same mechanism `next` uses): Moby's
+  ## corpus classifies each of these as BOTH a noun and a verb, so the
+  ## leaf-noun check flags them as multi-class homonyms. In socialia's
+  ## CLI grammar they are unambiguously verbs — the imperative the user
+  ## types to act on a platform:
+  ##   socialia post <platform> <text>  — publish content (verb: utter/post)
+  ##   socialia thread <platform> ...   — compose a thread (verb: string together)
+  ##   socialia feed [platform] ...     — fetch/supply the feed (verb: supply)
+  ## Declaring them intransitive verbs records that intent and clears §1.
+  - post
+  - thread
+  - feed

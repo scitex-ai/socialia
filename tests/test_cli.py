@@ -225,6 +225,62 @@ class TestCLICompletion:
         # Assert
         assert "Completion Status" in out
 
+    def test_completion_install_returns_exit_zero(self, capsys, tmp_path, monkeypatch):
+        # Arrange — isolate SCITEX_DIR so the real home is untouched
+        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
+        # Act
+        result = main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        assert result == 0
+
+    def test_completion_install_writes_dropin_and_prints_path(
+        self, capsys, tmp_path, monkeypatch
+    ):
+        # Arrange
+        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
+        # Act
+        main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        out = capsys.readouterr().out.strip()
+        dropin = tmp_path / "socialia" / "runtime" / "completion" / "socialia"
+        assert dropin.exists()
+        assert out == str(dropin)
+
+    def test_completion_install_never_touches_rc_files(
+        self, tmp_path, monkeypatch
+    ):
+        # Arrange — fake HOME with rc files present
+        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
+        monkeypatch.setenv("HOME", str(tmp_path))
+        bashrc = tmp_path / ".bashrc"
+        zshrc = tmp_path / ".zshrc"
+        bashrc.write_text("# user rc\n")
+        zshrc.write_text("# user rc\n")
+        before_bash = bashrc.read_text()
+        before_zsh = zshrc.read_text()
+        # Act
+        main(["completion", "install", "--shell", "bash", "--yes"])
+        main(["completion", "install", "--shell", "zsh", "--yes"])
+        # Assert
+        assert bashrc.read_text() == before_bash
+        assert zshrc.read_text() == before_zsh
+
+    def test_completion_install_is_idempotent(
+        self, capsys, tmp_path, monkeypatch
+    ):
+        # Arrange
+        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
+        main(["completion", "install", "--shell", "bash", "--yes"])
+        capsys.readouterr()
+        # Act
+        result = main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        assert result == 0
+        out = capsys.readouterr().out.strip()
+        assert out == str(
+            tmp_path / "socialia" / "runtime" / "completion" / "socialia"
+        )
+
 
 # --- deprecation aliases ---------------------------------------------------
 

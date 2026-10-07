@@ -1,16 +1,35 @@
 #!/usr/bin/env python3
-"""Completion CLI command handlers for socialia."""
+"""Completion CLI command handlers for socialia.
 
+Fleet standard: completion drop-in contract v1. ``install`` writes the
+static completion script to ``~/.scitex/socialia/runtime/completion/``
+(dotfiles discovers the drop-in) and never touches shell rc files.
+"""
+
+import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from .._paths import get_completion_dir as _get_completion_dir
 
 
-BASH_COMPLETION_DIR = _get_completion_dir()
-ZSH_COMPLETION_DIR = _get_completion_dir()
+def _completion_dir() -> Path:
+    """Resolve the drop-in directory at call time (honours SCITEX_DIR)."""
+    return _get_completion_dir()
+
+
+#: Drop-in filenames per shell (contract v1: ``<cmd>`` under the package
+#: runtime completion dir).
+_DROPIN_NAMES = {"bash": "socialia", "zsh": "socialia"}
+
+
+def _dropin_path(shell: str) -> Path:
+    """Return the canonical drop-in path for *shell*."""
+    return _completion_dir() / _DROPIN_NAMES[shell]
 
 
 def _get_bash_script() -> str:
@@ -43,15 +62,33 @@ eval "$(register-python-argcomplete socialia)"
 """
 
 
+def _atomic_write(path: Path, content: str) -> None:
+    """Write *content* to *path* atomically (tmp + os.replace)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(
+        dir=str(path.parent), prefix=path.name + ".", suffix=".tmp"
+    )
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(content)
+        os.replace(tmp_name, path)
+    except BaseException:
+        try:
+            os.unlink(tmp_name)
+        except OSError:
+            pass
+        raise
+
+
 def cmd_completion(args, output_json: bool = False) -> int:
     """Handle completion command."""
 
     if args.completion_command == "bash":
-        print(_get_bash_script())
+        sys.stdout.write(_get_bash_script())
         return 0
 
     elif args.completion_command == "zsh":
-        print(_get_zsh_script())
+        sys.stdout.write(_get_zsh_script())
         return 0
 
     elif args.completion_command == "install":
@@ -61,14 +98,18 @@ def cmd_completion(args, output_json: bool = False) -> int:
         return _show_status(output_json)
 
     else:
-        print("Usage: socialia completion {bash|zsh|install|status}", file=sys.stderr)
+        sys.stderr.write("Usage: socialia completion {bash|zsh|install|status}\n")
         return 1
 
 
 def _install_completion(args, output_json: bool = False) -> int:
-    """Install completion to shell configuration."""
-    import json
+    """Install the completion drop-in (contract v1).
 
+    Writes ``$HOME/.scitex/socialia/runtime/completion/socialia``
+    atomically and idempotently, then prints the path. Never touches
+    shell rc files — sourcing is owned by the dotfiles drop-in
+    discovery rail.
+    """
     shell = getattr(args, "shell", None)
     if not shell:
         # Auto-detect shell
@@ -78,125 +119,75 @@ def _install_completion(args, output_json: bool = False) -> int:
         else:
             shell = "bash"
 
-    results = {"shell": shell, "installed": False, "files": []}
-
-    if shell == "bash":
-        # Create completion directory
-        BASH_COMPLETION_DIR.mkdir(parents=True, exist_ok=True)
-        completion_file = BASH_COMPLETION_DIR / "socialia.bash"
-
-        # Write completion script
-        completion_file.write_text(_get_bash_script())
-        results["files"].append(str(completion_file))
-
-        # Check if sourced in bashrc
-        bashrc = Path.home() / ".bashrc"
-        source_line = f'[[ -f "{completion_file}" ]] && source "{completion_file}"'
-
-        if bashrc.exists():
-            content = bashrc.read_text()
-            if str(completion_file) not in content:
-                # Add source line
-                with bashrc.open("a") as f:
-                    f.write(f"\n# Socialia completion\n{source_line}\n")
-                results["bashrc_updated"] = True
-            else:
-                results["bashrc_updated"] = False
+    if shell not in _DROPIN_NAMES:
+        if output_json:
+            sys.stdout.write(json.dumps({"shell": shell, "installed": False,
+                                          "error": f"unsupported shell: {shell}"}))
         else:
-            results["bashrc_updated"] = False
+            sys.stderr.write(f"Unsupported shell: {shell}\n")
+        return 1
 
-        results["installed"] = True
+    script = _get_zsh_script() if shell == "zsh" else _get_bash_script()
+    target = _dropin_path(shell)
+    _atomic_write(target, script)
 
-    elif shell == "zsh":
-        # Create completion directory
-        ZSH_COMPLETION_DIR.mkdir(parents=True, exist_ok=True)
-        completion_file = ZSH_COMPLETION_DIR / "_socialia"
-
-        # Write completion script
-        completion_file.write_text(_get_zsh_script())
-        results["files"].append(str(completion_file))
-
-        # Check if fpath includes our directory
-        zshrc = Path.home() / ".zshrc"
-        fpath_line = f'fpath=("{ZSH_COMPLETION_DIR}" $fpath)'
-
-        if zshrc.exists():
-            content = zshrc.read_text()
-            if str(ZSH_COMPLETION_DIR) not in content:
-                with zshrc.open("a") as f:
-                    f.write(
-                        f"\n# Socialia completion\n{fpath_line}\nautoload -Uz compinit && compinit\n"
-                    )
-                results["zshrc_updated"] = True
-            else:
-                results["zshrc_updated"] = False
-        else:
-            results["zshrc_updated"] = False
-
-        results["installed"] = True
+    results = {"shell": shell, "installed": True, "files": [str(target)],
+               "path": str(target)}
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        sys.stdout.write(json.dumps(results, indent=2) + "\n")
     else:
-        if results["installed"]:
-            print(f"Installed {shell} completion:")
-            for f in results["files"]:
-                print(f"  {f}")
-            if results.get("bashrc_updated") or results.get("zshrc_updated"):
-                print(f"\nRestart your shell or run: source ~/.{shell}rc")
-            else:
-                print("\nShell config already configured.")
-        else:
-            print(f"Failed to install {shell} completion", file=sys.stderr)
-            return 1
+        sys.stdout.write(str(target) + "\n")
 
     return 0
 
 
 def _show_status(output_json: bool = False) -> int:
-    """Show completion installation status."""
-    import json
-    import shutil
-
+    """Show completion drop-in status (checks the drop-in file)."""
     status = {
         "argcomplete_installed": shutil.which("register-python-argcomplete")
         is not None,
         "bash": {
-            "completion_file": str(BASH_COMPLETION_DIR / "socialia.bash"),
-            "installed": (BASH_COMPLETION_DIR / "socialia.bash").exists(),
+            "completion_file": str(_dropin_path("bash")),
+            "installed": _dropin_path("bash").exists(),
         },
         "zsh": {
-            "completion_file": str(ZSH_COMPLETION_DIR / "_socialia"),
-            "installed": (ZSH_COMPLETION_DIR / "_socialia").exists(),
+            "completion_file": str(_dropin_path("zsh")),
+            "installed": _dropin_path("zsh").exists(),
         },
         "current_shell": os.environ.get("SHELL", "unknown"),
     }
 
     if output_json:
-        print(json.dumps(status, indent=2))
+        sys.stdout.write(json.dumps(status, indent=2) + "\n")
     else:
-        print("Socialia Completion Status")
-        print("=" * 40)
-        print()
-        print(f"Current shell: {status['current_shell']}")
-        print(
-            f"argcomplete:   {'installed' if status['argcomplete_installed'] else 'NOT INSTALLED'}"
+        sys.stdout.write("Socialia Completion Status\n")
+        sys.stdout.write("=" * 40 + "\n")
+        sys.stdout.write("\n")
+        sys.stdout.write(f"Current shell: {status['current_shell']}\n")
+        sys.stdout.write(
+            f"argcomplete:   {'installed' if status['argcomplete_installed'] else 'NOT INSTALLED'}\n"
         )
-        print()
-        print("Bash:")
-        print(f"  File: {status['bash']['completion_file']}")
-        print(
-            f"  Status: {'installed' if status['bash']['installed'] else 'not installed'}"
+        sys.stdout.write("\n")
+        sys.stdout.write("Bash:\n")
+        sys.stdout.write(f"  File: {status['bash']['completion_file']}\n")
+        sys.stdout.write(
+            f"  Status: {'installed' if status['bash']['installed'] else 'not installed'}\n"
         )
-        print()
-        print("Zsh:")
-        print(f"  File: {status['zsh']['completion_file']}")
-        print(
-            f"  Status: {'installed' if status['zsh']['installed'] else 'not installed'}"
+        sys.stdout.write("\n")
+        sys.stdout.write("Zsh:\n")
+        sys.stdout.write(f"  File: {status['zsh']['completion_file']}\n")
+        sys.stdout.write(
+            f"  Status: {'installed' if status['zsh']['installed'] else 'not installed'}\n"
         )
-        print()
+        sys.stdout.write("\n")
+        sys.stdout.write(
+            "Sourcing is owned by the dotfiles drop-in discovery rail;\n"
+            "this command never modifies shell rc files.\n"
+        )
+        sys.stdout.write("\n")
         if not status["argcomplete_installed"]:
-            print("Note: Install argcomplete for dynamic completion:")
-            print("  pip install argcomplete")
+            sys.stdout.write("Note: Install argcomplete for dynamic completion:\n")
+            sys.stdout.write("  pip install argcomplete\n")
 
     return 0

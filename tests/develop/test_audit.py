@@ -66,6 +66,11 @@ def test_audit_all_clean_for_socialia_package():
             # CLI: noun catalog + audit-cli §-rules need full overhaul
             # alongside the source-tree reorg.
             "§1d",
+            # §1/§2/§10: also surfaced by CI's develop-corpus audit
+            # (2026-10-17) with the package installed — noun-verb command
+            # names (published CLI surface), single-token `usage` tool,
+            # 1438ms cold start. Covered below; config skip-rules carries
+            # the rationales.
             "§1a",
             "§1",
             "§2",

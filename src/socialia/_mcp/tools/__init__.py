@@ -7,7 +7,15 @@
 
 from __future__ import annotations
 
-from fastmcp import FastMCP
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: no cover - import-time typing only
+    from fastmcp import FastMCP
+
+try:
+    from fastmcp import FastMCP
+except ImportError:  # optional [mcp] extra; imported only under HAS_MCP
+    FastMCP = None  # type: ignore[assignment]
 
 
 def register_all_tools(mcp: FastMCP) -> None:

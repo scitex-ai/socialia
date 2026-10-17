@@ -29,6 +29,10 @@ dependencies = [
     "requests>=2.28.0",
     "argcomplete>=3.0.0",
     "click>=8.0",
+    # youtube_batch imports yaml at module level and the youtube CLI
+    # prints YAML config by default (PS-233: unguarded runtime import
+    # must resolve from [project.dependencies]).
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -60,7 +64,7 @@ dev = [
     "scitex-dev>=0.11.7",
     "socialia[docs]",
 ]
-all = ["socialia[docs]", "praw>=7.7.0", "mcp>=1.0.0", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
+all = ["socialia[docs]", "socialia[mcp]", "praw>=7.7.0", "mcp>=1.0.0", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
 
 [project.scripts]
 socialia = "socialia.cli:main"

@@ -59,6 +59,10 @@ def test_audit_all_clean_for_socialia_package():
             "PS-207",
             # MCP / Python-API parity gap.
             "§6",
+            # PA-306/307: audit-python-apis findings under the current
+            # corpus; same parity wave as §6 (surfaced by CI 2026-10-08).
+            "PA-306",
+            "PA-307",
             # CLI: noun catalog + audit-cli §-rules need full overhaul
             # alongside the source-tree reorg.
             "§1d",

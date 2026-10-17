@@ -32,4 +32,16 @@ permissions:
 jobs:
   call:
     uses: scitex-ai/.github/.github/workflows/cla.yml@main
-    secrets: inherit
+    # PS-224 §1: pass the ONE secret the callee declares, never
+    # `secrets: inherit`. This job is outsider-triggerable
+    # (`issue_comment`, `pull_request_target`) and the callee runs on a
+    # persistent shared runner — inheriting would forward every repo
+    # secret, including the fleet PAT, into that job. Same fix as
+    # scitex-ai/scitex-scholar (whose identical shape passes PS-168:
+    # `GH_PERSONAL_ACCESS_TOKEN` is the auditor's cross-cutting
+    # exception). NOTE: this repo has no GH_PERSONAL_ACCESS_TOKEN
+    # secret yet (only PERSONAL_ACCESS_TOKEN) — provisioning it is
+    # tracked as a follow-up; the signatures branch now exists so the
+    # allowlisted owner no longer trips branch creation.
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

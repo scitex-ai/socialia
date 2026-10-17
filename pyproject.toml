@@ -29,6 +29,9 @@ dependencies = [
     "requests>=2.28.0",
     "argcomplete>=3.0.0",
     "click>=8.0",
+    # PS-233: src/socialia/youtube_batch.py + cli/_youtube_commands.py
+    # `import yaml` at runtime — declare it instead of riding a transitive pin.
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -60,7 +63,10 @@ dev = [
     "scitex-dev>=0.11.7",
     "socialia[docs]",
 ]
-all = ["socialia[docs]", "praw>=7.7.0", "mcp>=1.0.0", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
+# PS-221 closure-by-inclusion: every public extra must be a SUBSET of `all`
+# (added the two `mcp`-extra requirements directly; a self-referential
+# `socialia[mcp]` inside its own extras is legal but harder to read).
+all = ["socialia[docs]", "praw>=7.7.0", "mcp>=1.0.0", "fastmcp>=2.0.0", "scitex-dev[mcp]>=0.11.7", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
 
 [project.scripts]
 socialia = "socialia.cli:main"

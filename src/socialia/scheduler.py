@@ -8,6 +8,8 @@ import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import click
+
 from ._paths import get_schedule_file as _get_schedule_file
 
 SCHEDULE_FILE: Path = _get_schedule_file()
@@ -369,11 +371,11 @@ def _run_grow_job(job: dict) -> dict:
 
 def run_due_jobs(*, schedule_file=None) -> list:
     """Run all jobs that are due. Returns list of results."""
-    from .twitter import Twitter
     from .linkedin import LinkedIn
-    from .reddit import Reddit
-    from .youtube import YouTube
     from .org_files import move_to_posted
+    from .reddit import Reddit
+    from .twitter import Twitter
+    from .youtube import YouTube
 
     def get_client(platform):
         if platform == "twitter":
@@ -480,16 +482,16 @@ def run_due_jobs(*, schedule_file=None) -> list:
 
 def run_daemon(interval: int = 60):
     """Run scheduler daemon that checks for due jobs."""
-    print(f"Scheduler daemon started (checking every {interval}s)")
-    print(f"Schedule file: {SCHEDULE_FILE}")
-    print("Press Ctrl+C to stop")
+    click.echo(f"Scheduler daemon started (checking every {interval}s)")
+    click.echo(f"Schedule file: {SCHEDULE_FILE}")
+    click.echo("Press Ctrl+C to stop")
 
     try:
         while True:
             results = run_due_jobs()
             for r in results:
                 status = "✅" if r.get("success") else "❌"
-                print(f"{status} Job {r['job_id']}: {r}")
+                click.echo(f"{status} Job {r['job_id']}: {r}")
             time.sleep(interval)
     except KeyboardInterrupt:
-        print("\nDaemon stopped")
+        click.echo("\nDaemon stopped")

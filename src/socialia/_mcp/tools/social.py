@@ -7,9 +7,15 @@
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Literal, Optional, TYPE_CHECKING
 
-from fastmcp import FastMCP
+if TYPE_CHECKING:  # pragma: no cover - import-time typing only
+    from fastmcp import FastMCP
+
+try:
+    from fastmcp import FastMCP
+except ImportError:  # optional [mcp] extra; imported only under HAS_MCP
+    FastMCP = None  # type: ignore[assignment]
 
 from ..handlers import social_delete as _social_delete
 from ..handlers import social_post as _social_post

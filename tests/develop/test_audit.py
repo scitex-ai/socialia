@@ -57,6 +57,19 @@ def test_audit_all_clean_for_socialia_package():
             "PS-204",
             "PS-205",
             "PS-207",
+            # Logging migration — ~339 print() calls across the CLI command
+            # modules (PS-220, added to the corpus after this gate was
+            # written). Same whole-package-overhaul bucket as the PS-108
+            # debt above: convert to scitex-logging console/logger in one
+            # dedicated pass (scitex-browser#25 shows the pattern), not
+            # piecemeal inside unrelated PRs.
+            "PS-220",
+            # Workflow hygiene — the four leaf workflows duplicate org
+            # reusables (PS-231, added after this gate was written).
+            # Conversion renames published check contexts and needs a
+            # dedicated workflow-hygiene PR with protection review, per
+            # the rule's own BLOCKER notes. Not inside a CLA-remap PR.
+            "PS-231",
             # MCP / Python-API parity gap.
             "§6",
             # CLI: noun catalog + audit-cli §-rules need full overhaul

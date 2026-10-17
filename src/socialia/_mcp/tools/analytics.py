@@ -7,9 +7,15 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
-from fastmcp import FastMCP
+if TYPE_CHECKING:  # pragma: no cover - import-time typing only
+    from fastmcp import FastMCP
+
+try:
+    from fastmcp import FastMCP
+except ImportError:  # optional [mcp] extra; imported only under HAS_MCP
+    FastMCP = None  # type: ignore[assignment]
 
 from ..handlers import analytics_pageviews as _analytics_pageviews
 from ..handlers import analytics_realtime as _analytics_realtime

@@ -17,7 +17,15 @@ import os
 import sys
 from pathlib import Path
 
-from fastmcp import FastMCP
+try:
+    from fastmcp import FastMCP
+except ImportError:
+    # Optional [mcp] extra: _server loads only under HAS_MCP (see
+    # mcp_server.py and the guarded import in socialia/__init__.py).
+    # Re-raise with the install remedy so those guards keep working.
+    raise ImportError(
+        "socialia._server requires the [mcp] extra: pip install socialia[mcp]"
+    ) from None
 
 from ._branding import get_mcp_server_name
 from ._mcp.tools import register_all_tools

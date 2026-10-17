@@ -32,11 +32,13 @@ permissions:
 jobs:
   call:
     uses: scitex-ai/.github/.github/workflows/cla.yml@main
-    # `secrets: inherit` (same as develop): the callee declares
-    # GH_PERSONAL_ACCESS_TOKEN as required, but this repo has NO secret by
-    # that name (only PERSONAL_ACCESS_TOKEN) — an explicit mapping would
-    # hand the callee an empty value and break the CLA job for every future
-    # PR after this merges. Keep inherit until a GH_PERSONAL_ACCESS_TOKEN
-    # repo secret is actually provisioned; only then switch to the explicit
-    # PS-224 mapping used by scitex-scholar. (socialia#62, 2026-10-17.)
-    secrets: inherit
+    # PS-224 §1 (arm 2): pass the ONE secret the callee declares, never
+    # `secrets: inherit` — this job is outsider-triggerable
+    # (`issue_comment`, `pull_request_target`) and inherit would forward
+    # every repo secret, including the fleet PAT, into that job. Same fix
+    # as scitex-ai/scitex-scholar. GH_PERSONAL_ACCESS_TOKEN provisioned
+    # on this repo 2026-10-17 (was missing; the placeholder mapping to a
+    # nonexistent name would have starved the callee's required secret).
+    # (socialia#62.)
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

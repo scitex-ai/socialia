@@ -5,9 +5,34 @@ the public ``main(argv)`` entry point, which now wraps Click + a backward-compat
 argv-rewrite shim so deprecated subcommand names still work.
 """
 
+import os
+
 import pytest
 
 from socialia.cli import main
+
+
+@pytest.fixture
+def isolated_scitex_dir(tmp_path):
+    """Point $SCITEX_DIR and $HOME at tmp dirs; restore after.
+
+    No mock fixtures (PA-306 no-mocks): flip os.environ directly with
+    save/restore — same idiom as scitex-writer's audit-clean completion
+    tests (yield-based fixture, filesystem state via tmp_path).
+    """
+    prev = {key: os.environ.get(key) for key in ("SCITEX_DIR", "HOME")}
+    home = tmp_path / "home"
+    home.mkdir()
+    os.environ["SCITEX_DIR"] = str(tmp_path)
+    os.environ["HOME"] = str(home)
+    try:
+        yield tmp_path
+    finally:
+        for key, value in prev.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
 
 
 # --- dry-run --------------------------------------------------------------
@@ -225,61 +250,78 @@ class TestCLICompletion:
         # Assert
         assert "Completion Status" in out
 
-    def test_completion_install_returns_exit_zero(self, capsys, tmp_path, monkeypatch):
-        # Arrange — isolate SCITEX_DIR so the real home is untouched
-        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
+    def test_completion_install_returns_exit_zero(self, isolated_scitex_dir):
+        # Arrange — fixture isolates SCITEX_DIR so the real home is untouched
         # Act
         result = main(["completion", "install", "--shell", "bash", "--yes"])
         # Assert
         assert result == 0
 
-    def test_completion_install_writes_dropin_and_prints_path(
-        self, capsys, tmp_path, monkeypatch
+    def test_completion_install_writes_dropin(self, isolated_scitex_dir):
+        # Arrange
+        # Act
+        main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        dropin = (
+            isolated_scitex_dir / "socialia" / "runtime" / "completion" / "socialia"
+        )
+        assert dropin.exists()
+
+    def test_completion_install_prints_dropin_path(
+        self, capsys, isolated_scitex_dir
     ):
         # Arrange
-        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
         # Act
         main(["completion", "install", "--shell", "bash", "--yes"])
         # Assert
         out = capsys.readouterr().out.strip()
-        dropin = tmp_path / "socialia" / "runtime" / "completion" / "socialia"
-        assert dropin.exists()
+        dropin = (
+            isolated_scitex_dir / "socialia" / "runtime" / "completion" / "socialia"
+        )
         assert out == str(dropin)
 
-    def test_completion_install_never_touches_rc_files(
-        self, tmp_path, monkeypatch
-    ):
-        # Arrange — fake HOME with rc files present
-        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
-        monkeypatch.setenv("HOME", str(tmp_path))
-        bashrc = tmp_path / ".bashrc"
-        zshrc = tmp_path / ".zshrc"
+    def test_completion_install_leaves_bashrc_untouched(self, isolated_scitex_dir):
+        # Arrange — rc file present under the faked HOME
+        bashrc = isolated_scitex_dir / "home" / ".bashrc"
         bashrc.write_text("# user rc\n")
-        zshrc.write_text("# user rc\n")
-        before_bash = bashrc.read_text()
-        before_zsh = zshrc.read_text()
+        before = bashrc.read_text()
         # Act
         main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        assert bashrc.read_text() == before
+
+    def test_completion_install_leaves_zshrc_untouched(self, isolated_scitex_dir):
+        # Arrange — rc file present under the faked HOME
+        zshrc = isolated_scitex_dir / "home" / ".zshrc"
+        zshrc.write_text("# user rc\n")
+        before = zshrc.read_text()
+        # Act
         main(["completion", "install", "--shell", "zsh", "--yes"])
         # Assert
-        assert bashrc.read_text() == before_bash
-        assert zshrc.read_text() == before_zsh
+        assert zshrc.read_text() == before
 
-    def test_completion_install_is_idempotent(
-        self, capsys, tmp_path, monkeypatch
+    def test_second_install_returns_exit_zero(self, isolated_scitex_dir):
+        # Arrange
+        main(["completion", "install", "--shell", "bash", "--yes"])
+        # Act
+        result = main(["completion", "install", "--shell", "bash", "--yes"])
+        # Assert
+        assert result == 0
+
+    def test_second_install_prints_same_dropin_path(
+        self, capsys, isolated_scitex_dir
     ):
         # Arrange
-        monkeypatch.setenv("SCITEX_DIR", str(tmp_path))
         main(["completion", "install", "--shell", "bash", "--yes"])
         capsys.readouterr()
         # Act
-        result = main(["completion", "install", "--shell", "bash", "--yes"])
+        main(["completion", "install", "--shell", "bash", "--yes"])
         # Assert
-        assert result == 0
         out = capsys.readouterr().out.strip()
-        assert out == str(
-            tmp_path / "socialia" / "runtime" / "completion" / "socialia"
+        dropin = (
+            isolated_scitex_dir / "socialia" / "runtime" / "completion" / "socialia"
         )
+        assert out == str(dropin)
 
 
 # --- deprecation aliases ---------------------------------------------------

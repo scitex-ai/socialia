@@ -7,7 +7,13 @@
 
 from __future__ import annotations
 
-from fastmcp import FastMCP
+# PS-233: fastmcp lives in the optional [mcp] extra — guard the import so
+# lean installs keep working. Annotation-only use below (this module has
+# `from __future__ import annotations`), so None is safe.
+try:
+    from fastmcp import FastMCP
+except ImportError:  # lean install without socialia[mcp]
+    FastMCP = None  # type: ignore[assignment]
 
 
 def register_all_tools(mcp: FastMCP) -> None:

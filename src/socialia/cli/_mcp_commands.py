@@ -2,6 +2,10 @@
 """MCP CLI command handlers for socialia."""
 
 import sys
+from importlib.metadata import PackageNotFoundError as _PkgNotFound
+from importlib.metadata import version as _dist_version
+
+import click
 
 
 def _style(text: str, fg: str = None, bold: bool = False) -> str:
@@ -73,40 +77,42 @@ def cmd_mcp(args) -> int:
 
     if args.mcp_command == "start":
         import asyncio
-        from ..mcp_server import main as mcp_main, HAS_MCP
+
+        from ..mcp_server import HAS_MCP
+        from ..mcp_server import main as mcp_main
 
         if not HAS_MCP:
-            print(
-                "Error: MCP package not installed. Run: pip install socialia[mcp]",
-                file=sys.stderr,
+            click.echo(
+                "Error: MCP package not installed. Run: pip install socialia[mcp]", err=True,
             )
             return 1
         asyncio.run(mcp_main())
         return 0
 
     elif args.mcp_command == "doctor":
-        from ..mcp_server import HAS_MCP
         from .. import __version__
+        from ..mcp_server import HAS_MCP
 
-        print(f"socialia {__version__}\n")
-        print("Health Check")
-        print("=" * 40)
+        click.echo(f"socialia {__version__}\n")
+        click.echo("Health Check")
+        click.echo("=" * 40)
 
         checks = []
 
         if HAS_MCP:
+            # PS-233: probe the dist version instead of importing fastmcp —
+            # this module must stay importable on lean installs.
             try:
-                import fastmcp
-
-                checks.append(("fastmcp", True, fastmcp.__version__))
-            except ImportError:
+                checks.append(("fastmcp", True, _dist_version("fastmcp")))
+            except _PkgNotFound:
                 checks.append(("fastmcp", False, "not installed"))
         else:
             checks.append(("fastmcp", False, "not installed"))
 
         # Check platform credentials
-        from .._branding import get_env
         import shutil
+
+        from .._branding import get_env
 
         platforms = {
             "Twitter": ["X_CONSUMER_KEY", "X_ACCESSTOKEN"],
@@ -132,7 +138,7 @@ def cmd_mcp(args) -> int:
             status = "✓" if ok else "✗"
             if not ok:
                 all_ok = False
-            print(f"  {status} {name}: {info}")
+            click.echo(f"  {status} {name}: {info}")
 
         return 0 if all_ok else 1
 
@@ -143,12 +149,12 @@ def cmd_mcp(args) -> int:
         as_json = getattr(args, "json", False)
 
         try:
-            from .._server import mcp
             from scitex_dev import get_tools_sync
+
+            from .._server import mcp
         except ImportError:
-            print(
-                "Error: MCP not installed. Run: pip install socialia[mcp]",
-                file=sys.stderr,
+            click.echo(
+                "Error: MCP not installed. Run: pip install socialia[mcp]", err=True,
             )
             return 1
 
@@ -168,8 +174,8 @@ def cmd_mcp(args) -> int:
         if module_filter:
             module_filter = module_filter.lower()
             if module_filter not in modules:
-                print(f"ERROR: Unknown module '{module_filter}'")
-                print(f"Available modules: {', '.join(sorted(modules.keys()))}")
+                click.echo(f"ERROR: Unknown module '{module_filter}'")
+                click.echo(f"Available modules: {', '.join(sorted(modules.keys()))}")
                 return 1
             modules = {module_filter: modules[module_filter]}
 
@@ -186,67 +192,68 @@ def cmd_mcp(args) -> int:
                     "count": len(tool_list),
                     "tools": tool_list,
                 }
-            print(json.dumps(output, indent=2))
+            click.echo(json.dumps(output, indent=2))
             return 0
 
-        print(_style("Socialia MCP: socialia", "cyan", bold=True))
-        print(f"Tools: {total} ({len(modules)} modules)\n")
+        click.echo(_style("Socialia MCP: socialia", "cyan", bold=True))
+        click.echo(f"Tools: {total} ({len(modules)} modules)\n")
 
         for module in sorted(modules.keys()):
             mod_tools = sorted(modules[module])
-            print(_style(f"{module}: {len(mod_tools)} tools", "green", bold=True))
+            click.echo(_style(f"{module}: {len(mod_tools)} tools", "green", bold=True))
             for tool_name in mod_tools:
                 tool_obj = tools_map.get(tool_name)
 
                 if verbose == 0:
-                    print(f"  {tool_name}")
+                    click.echo(f"  {tool_name}")
                 elif verbose == 1:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    click.echo(sig)
                 elif verbose == 2:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    click.echo(sig)
                     if tool_obj and tool_obj.description:
                         desc = tool_obj.description.split("\n")[0].strip()
-                        print(f"    {desc}")
-                    print()
+                        click.echo(f"    {desc}")
+                    click.echo("")
                 else:
                     sig = (
                         _format_tool_signature(tool_obj, compact=compact)
                         if tool_obj
                         else f"  {tool_name}"
                     )
-                    print(sig)
+                    click.echo(sig)
                     if tool_obj and tool_obj.description:
                         for line in tool_obj.description.strip().split("\n"):
-                            print(f"    {line}")
-                    print()
-            print()
+                            click.echo(f"    {line}")
+                    click.echo("")
+            click.echo("")
 
         return 0
 
     elif args.mcp_command == "installation":
-        from .. import __version__
         import shutil
 
-        print(f"socialia {__version__}\n")
-        print("Add this to your Claude Desktop config file:\n")
-        print(
+        from .. import __version__
+
+        click.echo(f"socialia {__version__}\n")
+        click.echo("Add this to your Claude Desktop config file:\n")
+        click.echo(
             "  macOS: ~/Library/Application Support/Claude/claude_desktop_config.json"
         )
-        print("  Linux: ~/.config/Claude/claude_desktop_config.json\n")
+        click.echo("  Linux: ~/.config/Claude/claude_desktop_config.json\n")
 
         cli_path = shutil.which("socialia")
         if cli_path:
-            print(f"Your installation path: {cli_path}\n")
+            click.echo(f"Your installation path: {cli_path}\n")
 
         config = f'''{{
   "mcpServers": {{
@@ -262,13 +269,12 @@ def cmd_mcp(args) -> int:
     }}
   }}
 }}'''
-        print(config)
+        click.echo(config)
         return 0
 
     else:
-        print(
-            "Usage: socialia mcp {start|doctor|list-tools|installation}",
-            file=sys.stderr,
+        click.echo(
+            "Usage: socialia mcp {start|doctor|list-tools|installation}", err=True,
         )
         return 1
 

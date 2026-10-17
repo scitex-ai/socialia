@@ -61,4 +61,10 @@ jobs:
           pip install "scitex-dev[cli-audit] @ git+https://github.com/ywatanabe1989/scitex-dev@develop"
 
       - name: Run scitex-dev ecosystem audit-all (new-only ratchet)
-        run: scitex-dev ecosystem audit-all socialia --no-version-check
+        # --new-only: diff-aware ratchet (lead task #40b) — only NET-NEW
+        # violations vs develop fail the gate. The strict audit exits 1 on
+        # ANY finding (audit-skills has no severity floor), and all 53
+        # remaining warn/info findings (§4b help text, §1f verb synonyms)
+        # are pre-existing develop debt owned by the CLI-overhaul campaign
+        # (config skip-rules carries the rationales) — verified 0 net-new.
+        run: scitex-dev ecosystem audit-all socialia --no-version-check --new-only

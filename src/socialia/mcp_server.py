@@ -16,6 +16,8 @@ For new code, use:
 
 from __future__ import annotations
 
+import click
+
 # Check if FastMCP is available
 from scitex_dev import try_import_optional
 
@@ -25,7 +27,7 @@ del fastmcp
 
 # Re-export from new location for backwards compatibility
 if HAS_MCP:
-    from socialia._server import mcp, run_server, PLATFORM_STRATEGIES
+    from socialia._server import PLATFORM_STRATEGIES, mcp, run_server
 
     # Legacy entry point
     async def main():
@@ -42,7 +44,7 @@ else:
         """Stub when MCP not installed."""
         import sys
 
-        print("Error: MCP package not installed. Run: pip install socialia[mcp]")
+        click.echo("Error: MCP package not installed. Run: pip install socialia[mcp]")
         sys.exit(1)
 
     create_server = lambda: None  # noqa: E731

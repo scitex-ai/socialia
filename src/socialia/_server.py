@@ -17,11 +17,23 @@ import os
 import sys
 from pathlib import Path
 
-from fastmcp import FastMCP
+# PS-233: fastmcp lives in the optional [mcp] extra. Use the fleet idiom
+# (`scitex_dev.try_import_optional`, same as socialia/mcp_server.py) and
+# preserve the ImportError contract: socialia/__init__ imports this module
+# under `try/except ImportError` for lean installs, so a missing fastmcp
+# must still surface as ImportError, never as a half-built module.
+from scitex_dev import try_import_optional as _try_import_optional
+
+_FastMCPMod = _try_import_optional("fastmcp", extra="mcp", pkg="fastmcp")
+if _FastMCPMod is None:  # lean install without socialia[mcp]
+    raise ImportError("fastmcp is required for socialia._server; install socialia[mcp]")
+FastMCP = _FastMCPMod.FastMCP
+del _FastMCPMod, _try_import_optional
+
+import click
 
 from ._branding import get_mcp_server_name
 from ._mcp.tools import register_all_tools
-
 
 # =============================================================================
 # Environment Loading
@@ -32,7 +44,7 @@ def _load_env_file(env_file: str) -> None:
     """Load environment variables from a file."""
     path = Path(os.path.expandvars(env_file)).expanduser()
     if not path.exists():
-        print(f"Warning: SOCIALIA_ENV_FILE not found: {path}", file=sys.stderr)
+        click.echo(f"Warning: SOCIALIA_ENV_FILE not found: {path}", err=True)
         return
 
     with open(path) as f:

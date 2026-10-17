@@ -16,6 +16,8 @@ in its source tree. Two outcomes:
   (which installs every peer) catches cross-package renames.
 """
 
+import importlib
+
 import pytest
 
 # ===== AUTO-GENERATED: cross-package imports =====
@@ -32,7 +34,9 @@ def test_cross_package_import(module_name):
     """Importing socialia's declared cross-package dependency must succeed."""
     # Arrange
     target = module_name
-    # Act
-    module = pytest.importorskip(target)
+    # Act — PS-140: skip on the ROOT so a renamed submodule is never
+    # silently skipped, then hard-import the FULL path (scitex-ai/scitex-hpc#88).
+    pytest.importorskip(target.split(".")[0])
+    module = importlib.import_module(target)
     # Assert
     assert module.__name__ == target

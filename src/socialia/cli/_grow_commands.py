@@ -4,15 +4,16 @@
 import json
 import sys
 
+import click
+
 from ..twitter import Twitter
 
 
 def cmd_grow(args, output_json: bool = False) -> int:
     """Handle grow command - discover and follow users."""
     if args.platform != "twitter":
-        print(
-            f"Error: grow command only supports twitter (got: {args.platform})",
-            file=sys.stderr,
+        click.echo(
+            f"Error: grow command only supports twitter (got: {args.platform})", err=True,
         )
         return 1
 
@@ -25,19 +26,19 @@ def cmd_grow(args, output_json: bool = False) -> int:
             min_followers=args.min_followers,
         )
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         elif result["success"]:
-            print(f"Found {result['count']} users for: {args.query}\n")
+            click.echo(f"Found {result['count']} users for: {args.query}\n")
             for user in result.get("users", []):
-                print(f"@{user['username']} ({user['followers']} followers)")
+                click.echo(f"@{user['username']} ({user['followers']} followers)")
                 if user.get("description"):
                     desc = user["description"][:80]
-                    print(
+                    click.echo(
                         f"  {desc}{'...' if len(user.get('description', '')) > 80 else ''}"
                     )
-                print()
+                click.echo("")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            click.echo(f"Error: {result['error']}", err=True)
             return 1
 
     elif args.grow_command == "follow":
@@ -57,17 +58,17 @@ def cmd_grow(args, output_json: bool = False) -> int:
                 repeat_interval=repeat_interval,
             )
             if output_json:
-                print(json.dumps(result, indent=2))
+                click.echo(json.dumps(result, indent=2))
             elif result["success"]:
-                print(f"Scheduled grow job for {result['scheduled_for']}")
-                print(f"  Query: {args.query}")
-                print(f"  Limit: {args.limit} users")
-                print(f"  Job ID: {result['job_id']}")
+                click.echo(f"Scheduled grow job for {result['scheduled_for']}")
+                click.echo(f"  Query: {args.query}")
+                click.echo(f"  Limit: {args.limit} users")
+                click.echo(f"  Job ID: {result['job_id']}")
                 if repeat_interval:
-                    print(f"  Repeats: every {repeat_interval}")
-                print("\nRun 'socialia schedule daemon' to start the scheduler")
+                    click.echo(f"  Repeats: every {repeat_interval}")
+                click.echo("\nRun 'socialia schedule daemon' to start the scheduler")
             else:
-                print(f"Error: {result['error']}", file=sys.stderr)
+                click.echo(f"Error: {result['error']}", err=True)
                 return 1
             return 0
 
@@ -79,74 +80,74 @@ def cmd_grow(args, output_json: bool = False) -> int:
             dry_run=args.dry_run,
         )
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         elif result["success"]:
             if result["dry_run"]:
-                print(
+                click.echo(
                     f"=== DRY RUN === Would follow {result['discovered_count']} users:\n"
                 )
                 for user in result.get("discovered", []):
-                    print(f"  @{user['username']} ({user['followers']} followers)")
-                print("\nRun without --dry-run to actually follow.")
+                    click.echo(f"  @{user['username']} ({user['followers']} followers)")
+                click.echo("\nRun without --dry-run to actually follow.")
             else:
-                print(f"Followed {result['followed_count']} users:")
+                click.echo(f"Followed {result['followed_count']} users:")
                 for user in result.get("followed", []):
-                    print(f"  @{user['username']}")
+                    click.echo(f"  @{user['username']}")
                 if result.get("rate_limited"):
-                    print("\n[Rate limited] Wait ~15 min before following more.")
+                    click.echo("\n[Rate limited] Wait ~15 min before following more.")
                 if result.get("skipped"):
-                    print(f"\nSkipped {len(result['skipped'])}:")
+                    click.echo(f"\nSkipped {len(result['skipped'])}:")
                     for user in result["skipped"][:3]:  # Show first 3 only
-                        print(f"  @{user['username']}: {user.get('error')}")
+                        click.echo(f"  @{user['username']}: {user.get('error')}")
                     if len(result["skipped"]) > 3:
-                        print(f"  ... and {len(result['skipped']) - 3} more")
+                        click.echo(f"  ... and {len(result['skipped']) - 3} more")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            click.echo(f"Error: {result['error']}", err=True)
             return 1
 
     elif args.grow_command == "user":
         result = client.get_user(args.username)
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         elif result["success"]:
-            print(f"@{result['username']} ({result['name']})")
-            print(f"  Followers: {result['followers']}")
-            print(f"  Following: {result['following']}")
-            print(f"  Tweets: {result['tweets']}")
+            click.echo(f"@{result['username']} ({result['name']})")
+            click.echo(f"  Followers: {result['followers']}")
+            click.echo(f"  Following: {result['following']}")
+            click.echo(f"  Tweets: {result['tweets']}")
             if result.get("description"):
-                print(f"  Bio: {result['description']}")
+                click.echo(f"  Bio: {result['description']}")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            click.echo(f"Error: {result['error']}", err=True)
             return 1
 
     elif args.grow_command == "follow-user":
         if args.dry_run:
-            print(f"=== DRY RUN === Would follow @{args.username}")
+            click.echo(f"=== DRY RUN === Would follow @{args.username}")
             return 0
         result = client.follow_by_username(args.username)
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         elif result["success"]:
             user = result.get("user", {})
-            print(f"Followed @{user.get('username', args.username)}")
+            click.echo(f"Followed @{user.get('username', args.username)}")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            click.echo(f"Error: {result['error']}", err=True)
             return 1
 
     elif args.grow_command == "search":
         result = client.search_tweets(args.query, limit=args.limit)
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         elif result["success"]:
-            print(f"Found {result['count']} tweets for: {args.query}\n")
+            click.echo(f"Found {result['count']} tweets for: {args.query}\n")
             for tweet in result.get("tweets", []):
-                print(f"@{tweet['author_username']}:")
+                click.echo(f"@{tweet['author_username']}:")
                 text = tweet["text"][:200]
-                print(f"  {text}{'...' if len(tweet['text']) > 200 else ''}")
-                print(f"  Likes: {tweet['likes']} | RTs: {tweet['retweets']}")
-                print(f"  {tweet['url']}\n")
+                click.echo(f"  {text}{'...' if len(tweet['text']) > 200 else ''}")
+                click.echo(f"  Likes: {tweet['likes']} | RTs: {tweet['retweets']}")
+                click.echo(f"  {tweet['url']}\n")
         else:
-            print(f"Error: {result['error']}", file=sys.stderr)
+            click.echo(f"Error: {result['error']}", err=True)
             return 1
 
     elif args.grow_command == "auto":
@@ -179,19 +180,18 @@ def cmd_grow(args, output_json: bool = False) -> int:
                 scheduled.append({"query": query, "job_id": result["job_id"]})
 
         if output_json:
-            print(json.dumps({"success": True, "scheduled": scheduled}, indent=2))
+            click.echo(json.dumps({"success": True, "scheduled": scheduled}, indent=2))
         else:
-            print(f"Scheduled {len(scheduled)} recurring grow jobs:\n")
+            click.echo(f"Scheduled {len(scheduled)} recurring grow jobs:\n")
             for s in scheduled:
-                print(f'  [{s["job_id"]}] "{s["query"]}"')
-            print(f"\nInterval: {interval}")
-            print(f"Limit: {limit} users per job")
-            print("\nRun 'socialia schedule daemon' to start")
+                click.echo(f'  [{s["job_id"]}] "{s["query"]}"')
+            click.echo(f"\nInterval: {interval}")
+            click.echo(f"Limit: {limit} users per job")
+            click.echo("\nRun 'socialia schedule daemon' to start")
 
     else:
-        print(
-            "Error: Specify grow subcommand (discover, follow, user, follow-user, search, auto)",
-            file=sys.stderr,
+        click.echo(
+            "Error: Specify grow subcommand (discover, follow, user, follow-user, search, auto)", err=True,
         )
         return 1
 

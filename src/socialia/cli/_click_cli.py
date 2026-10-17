@@ -871,7 +871,8 @@ def cmd_schedule_update_source(old_path, new_path, dry_run, yes, as_json):
 @main_group.group("completion", invoke_without_command=True)
 @click.pass_context
 def completion_group(ctx):
-    """Shell tab-completion management.
+    """Shell tab-completion management (drop-in contract v1: install writes
+    the drop-in file and never touches rc files).
 
     \b
     Example:
@@ -899,7 +900,7 @@ def completion_group(ctx):
 @click.option("-y", "--yes", is_flag=True, default=False, help="Skip confirmation.")
 @click.option("--json", "as_json", is_flag=True, default=False, help="Output as JSON.")
 def cmd_completion_install(shell, dry_run, yes, as_json):
-    """Install shell completion to RC file.
+    """Install the shell completion drop-in (never touches rc files).
 
     \b
     Example:
@@ -918,7 +919,7 @@ def cmd_completion_install(shell, dry_run, yes, as_json):
 @main_group.command("show-completion-status")
 @click.option("--json", "as_json", is_flag=True, default=False, help="Output as JSON.")
 def cmd_show_completion_status(as_json):
-    """Show shell completion installation status.
+    """Show shell completion drop-in status (checks the drop-in file).
 
     \b
     Example:
@@ -952,7 +953,7 @@ def cmd_show_completion_zsh(as_json):
 
     \b
     Example:
-        $ socialia show-completion-zsh > ~/.zsh/completions/_socialia
+        $ socialia completion install --shell zsh
     """
     from ._completion_commands import cmd_completion
 
@@ -1621,6 +1622,10 @@ try:
     attach_shell_completion(main_group, prog_name="socialia")
 except ImportError:
     pass
+
+# Drop-in contract v1: socialia's own `completion` group (install/status)
+# must win over the hidden `completion` rename stub registered above.
+main_group.add_command(completion_group, name="completion")
 
 
 # Inject version line into root --help (§4).

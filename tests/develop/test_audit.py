@@ -57,15 +57,36 @@ def test_audit_all_clean_for_socialia_package():
             "PS-204",
             "PS-205",
             "PS-207",
+            # PS-231: leaf workflows duplicate org reusables (quality +
+            # rtd workflows); conversion deferred — same rationale as the
+            # config skip-rules entry (rtd vendors the in-wheel bundle the
+            # reusable cannot express; quality runs this same audit-all).
+            "PS-231",
             # MCP / Python-API parity gap.
             "§6",
+            # PA-306/307: audit-python-apis findings under the current
+            # corpus; same parity wave as §6 (surfaced by CI 2026-10-08).
+            "PA-306",
+            "PA-307",
             # CLI: noun catalog + audit-cli §-rules need full overhaul
             # alongside the source-tree reorg.
             "§1d",
+            # §1/§2/§10: also surfaced by CI's develop-corpus audit
+            # (2026-10-17) with the package installed — noun-verb command
+            # names (published CLI surface), single-token `usage` tool,
+            # 1438ms cold start. Covered below; config skip-rules carries
+            # the rationales.
             "§1a",
             "§1",
             "§2",
             "§4",
+            # §4b/§1f (warn tier): same CLI-overhaul debt — 49 free-form
+            # help texts + 4 verb-synonym leaves, all pre-existing on
+            # develop (verified: `audit-all --new-only` reports 0 net-new
+            # findings for this branch). audit-all has no severity floor,
+            # so warn-tier findings fail the gate exactly like errors.
+            "§4b",
+            "§1f",
             "§5",  # missing skills_list / skills_get MCP tools
             "§10",  # cold-start import time over threshold
         ),

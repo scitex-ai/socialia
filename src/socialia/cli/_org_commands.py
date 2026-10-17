@@ -5,6 +5,8 @@ import json
 import sys
 from pathlib import Path
 
+import click
+
 
 def add_org_parser(subparsers, platforms: list[str]) -> None:
     """Add org subcommand to main parser."""
@@ -130,7 +132,7 @@ def cmd_org(args, output_json: bool = False) -> int:
     elif args.org_command == "sync":
         return cmd_org_sync(args, output_json=output_json)
     else:
-        print(
+        click.echo(
             "Error: Specify org subcommand (status, list, post, schedule, init, sync)"
         )
         return 1
@@ -142,26 +144,26 @@ def cmd_org_status(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        click.echo(f"Error: File not found: {filepath}", err=True)
         return 1
 
     manager = OrgDraftManager(filepath)
     report = manager.status_report()
 
     if output_json:
-        print(json.dumps(report, indent=2))
+        click.echo(json.dumps(report, indent=2))
     else:
-        print(f"📄 {report['file']}")
-        print("=" * 50)
-        print(f"Total drafts: {report['total']}")
-        print(f"  Pending:    {report['pending']}")
-        print(f"  Done:       {report['done']}")
-        print(f"  Due now:    {report['due_now']}")
-        print(f"  Scheduled:  {report['scheduled']}")
-        print()
+        click.echo(f"📄 {report['file']}")
+        click.echo("=" * 50)
+        click.echo(f"Total drafts: {report['total']}")
+        click.echo(f"  Pending:    {report['pending']}")
+        click.echo(f"  Done:       {report['done']}")
+        click.echo(f"  Due now:    {report['due_now']}")
+        click.echo(f"  Scheduled:  {report['scheduled']}")
+        click.echo("")
 
         if report["drafts"]:
-            print("Drafts:")
+            click.echo("Drafts:")
             for d in report["drafts"]:
                 status_icon = {
                     "TODO": "⬜",
@@ -172,10 +174,10 @@ def cmd_org_status(args, output_json: bool = False) -> int:
                 due_marker = " 🔴 DUE" if d["is_due"] else ""
                 sched = f" @ {d['scheduled']}" if d["scheduled"] else ""
 
-                print(
+                click.echo(
                     f"  {status_icon} [{d['platform']}] {d['headline']}{sched}{due_marker}"
                 )
-                print(f"      {d['char_count']} chars")
+                click.echo(f"      {d['char_count']} chars")
 
     return 0
 
@@ -186,7 +188,7 @@ def cmd_org_list(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        click.echo(f"Error: File not found: {filepath}", err=True)
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -205,7 +207,7 @@ def cmd_org_list(args, output_json: bool = False) -> int:
             }
             for d in drafts
         ]
-        print(json.dumps(data, indent=2))
+        click.echo(json.dumps(data, indent=2))
     else:
         for d in drafts:
             status_icon = {"TODO": "⬜", "DONE": "✅", "CANCELLED": "❌"}.get(
@@ -214,13 +216,13 @@ def cmd_org_list(args, output_json: bool = False) -> int:
             sched = (
                 d.scheduled.strftime("%Y-%m-%d %H:%M") if d.scheduled else "unscheduled"
             )
-            print(f"{status_icon} [{d.platform}] {d.headline}")
-            print(f"   Scheduled: {sched}")
-            print(f"   Content ({len(d.content)} chars):")
+            click.echo(f"{status_icon} [{d.platform}] {d.headline}")
+            click.echo(f"   Scheduled: {sched}")
+            click.echo(f"   Content ({len(d.content)} chars):")
             # Show first 100 chars
             preview = d.content[:100].replace("\n", " ")
-            print(f"   {preview}...")
-            print()
+            click.echo(f"   {preview}...")
+            click.echo("")
 
     return 0
 
@@ -231,7 +233,7 @@ def cmd_org_post(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        click.echo(f"Error: File not found: {filepath}", err=True)
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -248,13 +250,13 @@ def cmd_org_post(args, output_json: bool = False) -> int:
 
     if not drafts:
         if output_json:
-            print(
+            click.echo(
                 json.dumps(
                     {"success": True, "message": "No drafts to post", "results": []}
                 )
             )
         else:
-            print("No drafts due for posting.")
+            click.echo("No drafts due for posting.")
         return 0
 
     results = []
@@ -264,16 +266,16 @@ def cmd_org_post(args, output_json: bool = False) -> int:
         results.append(result)
 
     if output_json:
-        print(json.dumps({"success": True, "results": results}, indent=2))
+        click.echo(json.dumps({"success": True, "results": results}, indent=2))
     else:
         prefix = "[DRY RUN] " if dry_run else ""
         for r in results:
             status = "✅" if r.get("success") else "❌"
-            print(f"{prefix}{status} {r.get('headline', 'Unknown')}")
+            click.echo(f"{prefix}{status} {r.get('headline', 'Unknown')}")
             if r.get("url"):
-                print(f"   URL: {r['url']}")
+                click.echo(f"   URL: {r['url']}")
             if r.get("error"):
-                print(f"   Error: {r['error']}")
+                click.echo(f"   Error: {r['error']}")
 
     return 0
 
@@ -284,7 +286,7 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        click.echo(f"Error: File not found: {filepath}", err=True)
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -300,21 +302,21 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
 
     if not results:
         if output_json:
-            print(
+            click.echo(
                 json.dumps(
                     {"success": True, "message": "No drafts to schedule", "results": []}
                 )
             )
         else:
-            print("No drafts with future scheduled times.")
+            click.echo("No drafts with future scheduled times.")
         return 0
 
     if output_json:
-        print(json.dumps({"success": True, "results": results}, indent=2))
+        click.echo(json.dumps({"success": True, "results": results}, indent=2))
     else:
         prefix = "[DRY RUN] " if dry_run else ""
         fluct_info = f" (±{fluctuation}min fluctuation)" if fluctuation > 0 else ""
-        print(f"{prefix}Scheduled {len(results)} draft(s){fluct_info}:")
+        click.echo(f"{prefix}Scheduled {len(results)} draft(s){fluct_info}:")
         for r in results:
             status = "📅" if r.get("success") else "❌"
             sched = r.get("scheduled_for", "unknown")
@@ -327,18 +329,18 @@ def cmd_org_schedule(args, output_json: bool = False) -> int:
                 )
             else:
                 time_info = sched
-            print(f"  {status} {r.get('headline', 'Unknown')} -> {time_info}")
+            click.echo(f"  {status} {r.get('headline', 'Unknown')} -> {time_info}")
             if r.get("job_id"):
-                print(f"     Job ID: {r['job_id']}")
+                click.echo(f"     Job ID: {r['job_id']}")
             if r.get("error"):
-                print(f"     Error: {r['error']}")
+                click.echo(f"     Error: {r['error']}")
 
         if not dry_run:
             # Show if file was moved
             moved_to = results[0].get("moved_to") if results else None
             if moved_to:
-                print(f"\n📁 Moved to: {moved_to}")
-            print("\nRun 'socialia schedule daemon' to start the scheduler.")
+                click.echo(f"\n📁 Moved to: {moved_to}")
+            click.echo("\nRun 'socialia schedule daemon' to start the scheduler.")
 
     return 0
 
@@ -349,8 +351,8 @@ def cmd_org_init(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if filepath.exists() and not getattr(args, "force", False):
-        print(f"Error: File already exists: {filepath}", file=sys.stderr)
-        print("Use --force to overwrite.", file=sys.stderr)
+        click.echo(f"Error: File already exists: {filepath}", err=True)
+        click.echo("Use --force to overwrite.", err=True)
         return 1
 
     # Ensure directory exists
@@ -396,13 +398,13 @@ Second draft content.
     filepath.write_text(template)
 
     if output_json:
-        print(json.dumps({"success": True, "file": str(filepath)}))
+        click.echo(json.dumps({"success": True, "file": str(filepath)}))
     else:
-        print(f"Created: {filepath}")
-        print(f"Platform: {platform}")
-        print("\nEdit the file and run:")
-        print(f"  socialia org status {filepath}")
-        print(f"  socialia org schedule {filepath}")
+        click.echo(f"Created: {filepath}")
+        click.echo(f"Platform: {platform}")
+        click.echo("\nEdit the file and run:")
+        click.echo(f"  socialia org status {filepath}")
+        click.echo(f"  socialia org schedule {filepath}")
 
     return 0
 
@@ -413,7 +415,7 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
 
     filepath = Path(args.file)
     if not filepath.exists():
-        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        click.echo(f"Error: File not found: {filepath}", err=True)
         return 1
 
     manager = OrgDraftManager(filepath)
@@ -447,22 +449,22 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
         }
 
         if output_json:
-            print(json.dumps(result, indent=2))
+            click.echo(json.dumps(result, indent=2))
         else:
-            print(f"[DRY RUN] Sync preview for: {filepath}")
-            print("=" * 50)
+            click.echo(f"[DRY RUN] Sync preview for: {filepath}")
+            click.echo("=" * 50)
             if would_add:
-                print(f"Would ADD {len(would_add)} job(s):")
+                click.echo(f"Would ADD {len(would_add)} job(s):")
                 for h in would_add:
-                    print(f"  + {h}")
+                    click.echo(f"  + {h}")
             if would_cancel:
-                print(f"Would CANCEL {len(would_cancel)} job(s):")
+                click.echo(f"Would CANCEL {len(would_cancel)} job(s):")
                 for jid in would_cancel:
-                    print(f"  - {jid}")
+                    click.echo(f"  - {jid}")
             if unchanged:
-                print(f"Unchanged: {len(unchanged)} job(s)")
+                click.echo(f"Unchanged: {len(unchanged)} job(s)")
             if not would_add and not would_cancel:
-                print("Already in sync.")
+                click.echo("Already in sync.")
         return 0
 
     # Actually sync
@@ -472,21 +474,21 @@ def cmd_org_sync(args, output_json: bool = False) -> int:
     )
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        click.echo(json.dumps(result, indent=2))
     else:
-        print(f"Synced: {result['file']}")
-        print("=" * 50)
+        click.echo(f"Synced: {result['file']}")
+        click.echo("=" * 50)
         if result["added"]:
-            print(f"Added {len(result['added'])} job(s):")
+            click.echo(f"Added {len(result['added'])} job(s):")
             for h in result["added"]:
-                print(f"  + {h}")
+                click.echo(f"  + {h}")
         if result["cancelled"]:
-            print(f"Cancelled {len(result['cancelled'])} job(s):")
+            click.echo(f"Cancelled {len(result['cancelled'])} job(s):")
             for jid in result["cancelled"]:
-                print(f"  - {jid}")
+                click.echo(f"  - {jid}")
         if result["unchanged"]:
-            print(f"Unchanged: {len(result['unchanged'])} job(s)")
+            click.echo(f"Unchanged: {len(result['unchanged'])} job(s)")
         if not result["added"] and not result["cancelled"]:
-            print("Already in sync.")
+            click.echo("Already in sync.")
 
     return 0

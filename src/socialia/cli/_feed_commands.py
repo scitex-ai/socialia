@@ -4,11 +4,13 @@
 import json
 import sys
 
+import click
+
 from .. import __version__
-from ..twitter import Twitter
 from ..linkedin import LinkedIn
 from ..reddit import Reddit
 from ..slack import Slack
+from ..twitter import Twitter
 from ..youtube import YouTube
 
 
@@ -69,13 +71,13 @@ def cmd_feed(args, output_json: bool = False) -> int:
         results[platform] = result
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        click.echo(json.dumps(results, indent=2))
     else:
         for platform, result in results.items():
-            print(f"\n{platform.upper()}")
-            print("─" * 40)
+            click.echo(f"\n{platform.upper()}")
+            click.echo("─" * 40)
             if not result.get("success"):
-                print(f"  ⚠️  {result.get('error', 'Unknown error')}")
+                click.echo(f"  ⚠️  {result.get('error', 'Unknown error')}")
                 continue
 
             # Get posts/tweets/mentions/replies
@@ -87,7 +89,7 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 or []
             )
             if not items:
-                print("  No recent posts")
+                click.echo("  No recent posts")
                 continue
 
             for i, item in enumerate(items[:limit]):
@@ -106,9 +108,9 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 # Show author for replies/mentions
                 author = item.get("author_username", "")
                 if author:
-                    print(f"  • @{author}: {text}")
+                    click.echo(f"  • @{author}: {text}")
                 else:
-                    print(f"  • {text}")
+                    click.echo(f"  • {text}")
                 metrics = []
                 if created:
                     metrics.append(created)
@@ -117,13 +119,13 @@ def cmd_feed(args, output_json: bool = False) -> int:
                 if retweets:
                     metrics.append(f"🔁 {retweets}")
                 if metrics:
-                    print(f"    {' · '.join(metrics)}")
+                    click.echo(f"    {' · '.join(metrics)}")
                 if detail:
                     url = item.get("url", "")
                     if url:
-                        print(f"    🔗 {url}")
+                        click.echo(f"    🔗 {url}")
                 if i < len(items[:limit]) - 1:
-                    print()  # Blank line between posts
+                    click.echo("")  # Blank line between posts
 
     return 0
 
@@ -142,27 +144,27 @@ def cmd_check(args, output_json: bool = False) -> int:
         results[platform] = client.check()
 
     if output_json:
-        print(json.dumps(results, indent=2))
+        click.echo(json.dumps(results, indent=2))
     else:
-        print(f"Socialia v{__version__} - Connection Check")
-        print("=" * 50)
+        click.echo(f"Socialia v{__version__} - Connection Check")
+        click.echo("=" * 50)
         for platform, result in results.items():
             status = result.get("status", "unknown")
             if status == "connected":
                 user = result.get("user", {})
                 name = user.get("name") or user.get("username") or user.get("title", "")
-                print(f"\n✅ {platform.upper()}: Connected")
+                click.echo(f"\n✅ {platform.upper()}: Connected")
                 if name:
-                    print(f"   User: {name}")
+                    click.echo(f"   User: {name}")
                 url = user.get("url", "")
                 if url:
-                    print(f"   URL: {url}")
+                    click.echo(f"   URL: {url}")
             elif status == "not_configured":
-                print(f"\n⚪ {platform.upper()}: Not configured")
+                click.echo(f"\n⚪ {platform.upper()}: Not configured")
             else:
                 error = result.get("error", "Unknown error")
-                print(f"\n❌ {platform.upper()}: Error")
-                print(f"   {error}")
+                click.echo(f"\n❌ {platform.upper()}: Error")
+                click.echo(f"   {error}")
 
     return 0
 
@@ -173,15 +175,15 @@ def cmd_me(args, output_json: bool = False) -> int:
     result = client.me()
 
     if output_json:
-        print(json.dumps(result, indent=2))
+        click.echo(json.dumps(result, indent=2))
     elif result.get("success"):
-        print(f"{args.platform.upper()} User Info")
-        print("─" * 30)
+        click.echo(f"{args.platform.upper()} User Info")
+        click.echo("─" * 30)
         for key, value in result.items():
             if key != "success":
-                print(f"  {key}: {value}")
+                click.echo(f"  {key}: {value}")
     else:
-        print(f"Error: {result.get('error')}", file=sys.stderr)
+        click.echo(f"Error: {result.get('error')}", err=True)
         return 1
 
     return 0

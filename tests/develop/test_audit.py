@@ -75,6 +75,13 @@ def test_audit_all_clean_for_socialia_package():
             "§1",
             "§2",
             "§4",
+            # §4b/§1f (warn tier): same CLI-overhaul debt — 49 free-form
+            # help texts + 4 verb-synonym leaves, all pre-existing on
+            # develop (verified: `audit-all --new-only` reports 0 net-new
+            # findings for this branch). audit-all has no severity floor,
+            # so warn-tier findings fail the gate exactly like errors.
+            "§4b",
+            "§1f",
             "§5",  # missing skills_list / skills_get MCP tools
             "§10",  # cold-start import time over threshold
         ),

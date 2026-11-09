@@ -240,9 +240,29 @@ def cmd_mcp(args) -> int:
         return 0
 
     elif args.mcp_command == "installation":
+        import json
         import shutil
 
         from .. import __version__
+
+        suffixes = (
+            "X_CONSUMER_KEY",
+            "X_CONSUMER_KEY_SECRET",
+            "X_ACCESSTOKEN",
+            "X_ACCESSTOKEN_SECRET",
+        )
+        config = {
+            "mcpServers": {
+                "socialia": {
+                    "command": "socialia",
+                    "args": ["mcp", "start"],
+                    "env": {get_env_var_name(name): "..." for name in suffixes},
+                }
+            }
+        }
+        if getattr(args, "json", False):
+            click.echo(json.dumps(config, indent=2))
+            return 0
 
         click.echo(f"socialia {__version__}\n")
         click.echo("Add this to your Claude Desktop config file:\n")
@@ -255,21 +275,7 @@ def cmd_mcp(args) -> int:
         if cli_path:
             click.echo(f"Your installation path: {cli_path}\n")
 
-        config = f'''{{
-  "mcpServers": {{
-    "socialia": {{
-      "command": "socialia",
-      "args": ["mcp", "start"],
-      "env": {{
-        "{get_env_var_name("X_CONSUMER_KEY")}": "...",
-        "{get_env_var_name("X_CONSUMER_KEY_SECRET")}": "...",
-        "{get_env_var_name("X_ACCESSTOKEN")}": "...",
-        "{get_env_var_name("X_ACCESSTOKEN_SECRET")}": "..."
-      }}
-    }}
-  }}
-}}'''
-        click.echo(config)
+        click.echo(json.dumps(config, indent=2))
         return 0
 
     else:

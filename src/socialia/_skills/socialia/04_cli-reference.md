@@ -46,7 +46,14 @@ socialia youtube                 # YouTube batch operations
 socialia mcp start
 socialia mcp list-tools
 socialia mcp doctor
+socialia mcp show-installation --json
 
 # Introspection
 socialia list-python-apis [-v]
 ```
+
+In source after 0.5.15, `mcp show-installation --json` emits only an `mcpServers`
+configuration object with placeholder credential values. The legacy
+`mcp installation --json` alias has the same output. Plain output retains the
+human-readable setup instructions. Older 0.5.15 installations print those
+instructions even with `--json`; upgrade after this fix is released.

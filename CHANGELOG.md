@@ -7,6 +7,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Honor `mcp show-installation --json` and its legacy `installation` alias:
+  emit only the MCP client configuration object with placeholder credentials,
+  while preserving the human-readable instructions without `--json`.
+
 ## [0.5.11]
 
 ### Changed

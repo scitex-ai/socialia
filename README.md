@@ -292,14 +292,18 @@ socialia mcp doctor
 # List available MCP tools
 socialia mcp list-tools
 
-# Show Claude Desktop configuration
-socialia mcp installation
+# Show configuration for clients that accept an mcpServers object
+socialia mcp show-installation --json
 
 # Start the MCP server
 socialia mcp start
 ```
 
-Add to Claude Code settings:
+`--json` emits only the configuration object, with credential placeholders.
+This source fix requires the next release after 0.5.15. Without `--json`, the
+existing human-readable setup instructions remain available.
+
+For clients that accept an `mcpServers` object:
 
 ```json
 {

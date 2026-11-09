@@ -23,7 +23,7 @@ on:
       - "src/**"
       - "tests/**"
       - "pyproject.toml"
-      - ".github/workflows/socialia-quality-audit-on-ubuntu-latest.yml"
+      - ".github/workflows/quality-audit-on-ubuntu-latest.yml"
   pull_request:
     branches: [main, develop]
 
@@ -37,14 +37,18 @@ jobs:
           # --new-only stages `develop` via `git worktree add --detach`;
           # we need the full history + a local `develop` ref for that to
           # work. fetch-depth=0 pulls the full history; the explicit
-          # fetch step below materialises a local `develop` branch from
-          # origin/develop so worktree-add can resolve the ref.
+          # fetch step below materialises `develop` for detached/PR checkouts.
+          # A checked-out `develop` already names the selected immutable source.
           fetch-depth: 0
 
       - name: Ensure local develop ref exists (for diff)
         run: |
-          git fetch origin develop:develop || \
-            git fetch origin develop && git branch -f develop origin/develop
+          set -euo pipefail
+          git fetch origin develop
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          if [ "$current_branch" != "develop" ]; then
+            git branch --force develop origin/develop
+          fi
 
       - uses: actions/setup-python@v5
         with:

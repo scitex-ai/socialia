@@ -439,3 +439,15 @@ def share_results(twitter=stx.INJECTED):
   <br>
   AGPL-3.0
 </p>
+
+## Release maintenance
+
+The release workflow accepts an existing stable tag in `vX.Y.Z` form, either
+from a tag push or the manual version input. Branch names, commit IDs,
+prereleases, and multiline values are rejected before writing workflow outputs.
+All four release jobs check out the selected tag explicitly; the publication
+helper therefore comes from that tag rather than the default branch.
+
+Run `pytest tests/integration/test_release_tag_admission.py` to check the
+resolver with local Bash processes. These tests do not publish packages or
+qualify the release runtime, dependency profile, or built artifacts.

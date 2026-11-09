@@ -9,6 +9,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Treat manual release versions as data, reject non-release refs and extra
+  workflow outputs, and require stable `vX.Y.Z` tags. Test, build, publish,
+  and release checkouts now select the tag explicitly, including the
+  publication helper checkout.
+
 - Classify `social_analytics_*` tools as analytics before applying the broader
   social namespace match. The analytics catalog filter now exposes its four
   tools; the social filter contains only posting/status tools. Registered tools

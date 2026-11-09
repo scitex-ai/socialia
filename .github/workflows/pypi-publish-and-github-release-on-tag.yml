@@ -46,7 +46,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Tag to publish (e.g. v0.10.19) — must already exist on the repo'
+        description: 'Existing stable tag to publish (vX.Y.Z)'
         required: true
         type: string
 
@@ -64,16 +64,29 @@ jobs:
     steps:
       - name: Resolve version
         id: ver
+        env:
+          RELEASE_EVENT: ${{ github.event_name }}
+          REQUESTED_VERSION: ${{ inputs.version }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            v="${GITHUB_REF#refs/tags/}"
-          else
-            v="${{ inputs.version }}"
+          set -euo pipefail
+          case "$RELEASE_EVENT" in
+            push)
+              case "$GITHUB_REF" in
+                refs/tags/*) v="${GITHUB_REF#refs/tags/}" ;;
+                *) echo "Release pushes must select a tag" >&2; exit 1 ;;
+              esac
+              ;;
+            workflow_dispatch) v="$REQUESTED_VERSION" ;;
+            *) echo "Unsupported release event" >&2; exit 1 ;;
+          esac
+          if [[ ! "$v" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Expected a stable release tag vX.Y.Z" >&2
+            exit 1
           fi
-          echo "version=$v" >> "$GITHUB_OUTPUT"
+          printf 'version=%s\n' "$v" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
-          ref: ${{ steps.ver.outputs.version }}
+          ref: refs/tags/${{ steps.ver.outputs.version }}
           fetch-depth: 0
       # SIF-based self-hosted test run — mirrors pytest-matrix exactly. No
       # setup-python (the bare Spartan node has no Python tool cache; that step
@@ -92,16 +105,29 @@ jobs:
     steps:
       - name: Resolve version
         id: ver
+        env:
+          RELEASE_EVENT: ${{ github.event_name }}
+          REQUESTED_VERSION: ${{ inputs.version }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            v="${GITHUB_REF#refs/tags/}"
-          else
-            v="${{ inputs.version }}"
+          set -euo pipefail
+          case "$RELEASE_EVENT" in
+            push)
+              case "$GITHUB_REF" in
+                refs/tags/*) v="${GITHUB_REF#refs/tags/}" ;;
+                *) echo "Release pushes must select a tag" >&2; exit 1 ;;
+              esac
+              ;;
+            workflow_dispatch) v="$REQUESTED_VERSION" ;;
+            *) echo "Unsupported release event" >&2; exit 1 ;;
+          esac
+          if [[ ! "$v" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Expected a stable release tag vX.Y.Z" >&2
+            exit 1
           fi
-          echo "version=$v" >> "$GITHUB_OUTPUT"
+          printf 'version=%s\n' "$v" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
-          ref: ${{ steps.ver.outputs.version }}
+          ref: refs/tags/${{ steps.ver.outputs.version }}
           fetch-depth: 0
       # Build INSIDE the SIF (no setup-python on the bare Spartan node).
       # build-in-sif.sh installs the `build` frontend into a writable --target
@@ -128,6 +154,8 @@ jobs:
       # Need the repo checked out so .github/ci/exec-in-sif.sh +
       # publish-in-sif.sh are on disk (the build job uploaded only dist/).
       - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ needs.build.outputs.version }}
       - uses: actions/download-artifact@v4
         with:
           name: dist
@@ -148,7 +176,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.build.outputs.version }}
+          ref: refs/tags/${{ needs.build.outputs.version }}
       - uses: actions/download-artifact@v4
         with:
           name: dist

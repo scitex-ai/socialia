@@ -45,6 +45,7 @@ socialia youtube                 # YouTube batch operations
 # MCP server
 socialia mcp start
 socialia mcp list-tools
+socialia mcp list-tools --module analytics --json
 socialia mcp doctor
 socialia mcp show-installation --json
 
@@ -57,3 +58,9 @@ configuration object with placeholder credential values. The legacy
 `mcp installation --json` alias has the same output. Plain output retains the
 human-readable setup instructions. Older 0.5.15 installations print those
 instructions even with `--json`; upgrade after this fix is released.
+
+The analytics metadata filter likewise requires the source fixes after 0.5.15:
+four `social_analytics_*` tools belong to analytics, not the broader social
+namespace. Filtering changes printed metadata only. In the current source JSON,
+`total` counts the displayed tools; the selected module's `count` reports its
+displayed group. The unfiltered registry still has the same eight tools.

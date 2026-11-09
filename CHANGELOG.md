@@ -9,6 +9,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Classify `social_analytics_*` tools as analytics before applying the broader
+  social namespace match. The analytics catalog filter now exposes its four
+  tools; the social filter contains only posting/status tools. Registered tools
+  and the full registry total are unchanged.
+
 - Preserve the selected source when preparing a checked-out `develop` for
   quality auditing. Detached and feature checkouts still materialize the
   local audit baseline. Changes to the actual quality workflow now trigger

@@ -47,10 +47,8 @@ socialia post linkedin --file drafts/announce.md
 
 # Schedule + analytics
 socialia schedule list
-socialia analytics show-pageviews --days 7
+socialia analytics show-pageviews --start 7daysAgo --end today
 ```
-
-![socialia CLI demo](docs/cli-demo.svg)
 
 ## Architecture
 

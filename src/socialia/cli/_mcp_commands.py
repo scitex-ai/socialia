@@ -31,10 +31,11 @@ def _style(text: str, fg: str = None, bold: bool = False) -> str:
 
 def _get_tool_module(name: str) -> str:
     """Get logical module for a tool name."""
-    if "social" in name:
-        return "social"
+    # Analytics tools also carry the social_ namespace prefix.
     if "analytics" in name:
         return "analytics"
+    if "social" in name:
+        return "social"
     return "general"
 
 

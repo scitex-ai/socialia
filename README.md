@@ -289,6 +289,7 @@ socialia mcp doctor
 
 # List available MCP tools
 socialia mcp list-tools
+socialia mcp list-tools --module analytics --json
 
 # Show configuration for clients that accept an mcpServers object
 socialia mcp show-installation --json
@@ -300,6 +301,12 @@ socialia mcp start
 `--json` emits only the configuration object, with credential placeholders.
 This source fix requires the next release after 0.5.15. Without `--json`, the
 existing human-readable setup instructions remain available.
+
+The analytics catalog filter also requires the source fixes after 0.5.15.
+It selects printed tool metadata; it does not disable other server tools.
+In the current source JSON, `total` counts the displayed tools and each
+module's `count` describes its displayed group. The unfiltered catalog still
+contains the same eight registered tools.
 
 For clients that accept an `mcpServers` object:
 

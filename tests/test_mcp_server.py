@@ -1,8 +1,67 @@
 """Tests for socialia MCP server module."""
 
+import json
+
 import pytest
 
 fastmcp = pytest.importorskip("fastmcp", reason="fastmcp not installed")
+
+
+def _read_catalog(capsys, module=None):
+    from socialia.cli import main
+
+    arguments = ["mcp", "list-tools", "--json"]
+    if module is not None:
+        arguments.extend(["--module", module])
+    code = main(arguments)
+    output = capsys.readouterr()
+    if code != 0:
+        raise AssertionError((code, output.out, output.err))
+    return json.loads(output.out)
+
+
+def test_analytics_catalog_filter_returns_its_four_registered_tools(capsys):
+    # Arrange
+    expected = {
+        "social_analytics_track",
+        "social_analytics_realtime",
+        "social_analytics_pageviews",
+        "social_analytics_sources",
+    }
+    # Act
+    catalog = _read_catalog(capsys, "analytics")
+    names = set(catalog["modules"]["analytics"]["tools"])
+    # Assert
+    assert (set(catalog["modules"]), names, catalog["total"]) == (
+        {"analytics"},
+        expected,
+        4,
+    )
+
+
+def test_social_catalog_filter_excludes_analytics_tools(capsys):
+    # Arrange
+    expected = {"social_post", "social_delete", "social_status"}
+    # Act
+    catalog = _read_catalog(capsys, "social")
+    names = set(catalog["modules"]["social"]["tools"])
+    # Assert
+    assert (set(catalog["modules"]), names, catalog["total"]) == (
+        {"social"},
+        expected,
+        3,
+    )
+
+
+def test_unfiltered_catalog_retains_all_tools_with_correct_module_counts(capsys):
+    # Arrange
+    expected = {"social": 3, "analytics": 4, "general": 1}
+    # Act
+    catalog = _read_catalog(capsys)
+    counts = {name: group["count"] for name, group in catalog["modules"].items()}
+    names = [tool for group in catalog["modules"].values() for tool in group["tools"]]
+    # Assert
+    assert (counts, catalog["total"], len(set(names))) == (expected, 8, 8)
 
 
 # --- mcp list-tools --------------------------------------------------------
@@ -12,6 +71,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_returns_exit_zero(self, capsys):
         # Arrange
         from socialia.cli import main
+
         # Act
         result = main(["mcp", "list-tools"])
         # Assert
@@ -20,6 +80,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_output_includes_social_post(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "list-tools"])
         # Act
         out = capsys.readouterr().out
@@ -29,6 +90,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_output_includes_social_delete(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "list-tools"])
         # Act
         out = capsys.readouterr().out
@@ -38,6 +100,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_output_includes_social_status(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "list-tools"])
         # Act
         out = capsys.readouterr().out
@@ -47,6 +110,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_output_includes_analytics_track(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "list-tools"])
         # Act
         out = capsys.readouterr().out
@@ -56,6 +120,7 @@ class TestMCPToolsList:
     def test_mcp_list_tools_output_includes_analytics_realtime(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "list-tools"])
         # Act
         out = capsys.readouterr().out
@@ -70,6 +135,7 @@ class TestMCPDoctor:
     def test_mcp_doctor_returns_zero_or_one(self, capsys):
         # Arrange
         from socialia.cli import main
+
         # Act
         result = main(["mcp", "doctor"])
         # Assert
@@ -78,6 +144,7 @@ class TestMCPDoctor:
     def test_mcp_doctor_output_contains_health_check_header(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "doctor"])
         # Act
         out = capsys.readouterr().out
@@ -87,6 +154,7 @@ class TestMCPDoctor:
     def test_mcp_doctor_output_lists_twitter_platform(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "doctor"])
         # Act
         out = capsys.readouterr().out
@@ -96,6 +164,7 @@ class TestMCPDoctor:
     def test_mcp_doctor_output_lists_linkedin_platform(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "doctor"])
         # Act
         out = capsys.readouterr().out
@@ -105,6 +174,7 @@ class TestMCPDoctor:
     def test_mcp_doctor_output_lists_reddit_platform(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "doctor"])
         # Act
         out = capsys.readouterr().out
@@ -119,6 +189,7 @@ class TestMCPInstallation:
     def test_mcp_installation_returns_exit_zero(self, capsys):
         # Arrange
         from socialia.cli import main
+
         # Act
         rc = main(["mcp", "installation"])
         # Assert
@@ -127,6 +198,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_mentions_claude_desktop(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -136,6 +208,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_renders_mcp_servers_section(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -145,6 +218,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_mentions_socialia_entry(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -154,6 +228,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_renders_json_open_brace(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -163,6 +238,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_renders_json_close_brace(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -172,6 +248,7 @@ class TestMCPInstallation:
     def test_mcp_installation_output_documents_command_key(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "installation"])
         # Act
         out = capsys.readouterr().out
@@ -186,6 +263,7 @@ class TestMCPServerModuleImports:
     def test_mcp_server_module_imports_cleanly(self):
         # Arrange
         from socialia import mcp_server
+
         # Act
         module = mcp_server
         # Assert
@@ -213,6 +291,7 @@ class TestMCPStartHelp:
     def test_mcp_start_help_returns_exit_zero(self, capsys):
         # Arrange
         from socialia.cli import main
+
         # Act
         rc = main(["mcp", "start", "--help"])
         # Assert
@@ -221,6 +300,7 @@ class TestMCPStartHelp:
     def test_mcp_start_help_mentions_start_subcommand(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "start", "--help"])
         # Act
         out = capsys.readouterr().out
@@ -230,6 +310,7 @@ class TestMCPStartHelp:
     def test_mcp_start_help_documents_dry_run_flag(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "start", "--help"])
         # Act
         out = capsys.readouterr().out
@@ -239,6 +320,7 @@ class TestMCPStartHelp:
     def test_mcp_start_help_documents_yes_flag(self, capsys):
         # Arrange
         from socialia.cli import main
+
         main(["mcp", "start", "--help"])
         # Act
         out = capsys.readouterr().out
@@ -248,6 +330,7 @@ class TestMCPStartHelp:
     def test_mcp_root_without_subcommand_returns_zero_or_one(self, capsys):
         # Arrange
         from socialia.cli import main
+
         # Act
         result = main(["mcp"])
         # Assert

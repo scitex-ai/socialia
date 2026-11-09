@@ -451,3 +451,8 @@ helper therefore comes from that tag rather than the default branch.
 Run `pytest tests/integration/test_release_tag_admission.py` to check the
 resolver with local Bash processes. These tests do not publish packages or
 qualify the release runtime, dependency profile, or built artifacts.
+
+The legacy SIF test helper installs the complete `.[all,dev]` profile once and
+stops if that install fails. Its local shell-control regression tests check
+command selection and failure propagation only; native SIF/runtime and package
+artifact qualification remain separate release requirements.

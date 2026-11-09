@@ -9,6 +9,9 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Stop release tests when the complete `[all,dev]` dependency installation
+  fails. Do not retry a reduced profile and report it as full qualification.
+
 - Treat manual release versions as data, reject non-release refs and extra
   workflow outputs, and require stable `vX.Y.Z` tags. Test, build, publish,
   and release checkouts now select the tag explicitly, including the

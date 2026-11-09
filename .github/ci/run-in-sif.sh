@@ -68,14 +68,10 @@ export PATH="$VENV/bin:$PATH"
 
 echo "py=$("$VENV/bin/python" -V) target=$TMPDIR/site"
 
-# Install socialia + its [all,dev] extras WITH deps into the writable target.
-# Fallback chain mirrors socialia's historical bare-uv/pip workflow so a
-# packaging hiccup in an optional extra doesn't strand CI: [all,dev] → [dev] →
-# bare. uv first (fast resolver), pip as a final safety net.
-uv pip install --python "$VENV/bin/python" --target="$TMPDIR/site" -e ".[all,dev]" ||
-    uv pip install --python "$VENV/bin/python" --target="$TMPDIR/site" -e ".[dev]" ||
-    uv pip install --python "$VENV/bin/python" --target="$TMPDIR/site" -e "." ||
-    pip install --target="$TMPDIR/site" -e ".[dev]"
+# Install the complete declared profile once. A failed full install must stop
+# the release test helper; reduced extras or another installer cannot qualify
+# a different dependency graph as the requested [all,dev] profile.
+uv pip install --python "$VENV/bin/python" --target="$TMPDIR/site" -e ".[all,dev]"
 
 export PYTHONPATH="$TMPDIR/site:$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
 

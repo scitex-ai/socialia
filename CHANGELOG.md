@@ -9,6 +9,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Preserve the selected source when preparing a checked-out `develop` for
+  quality auditing. Detached and feature checkouts still materialize the
+  local audit baseline. Changes to the actual quality workflow now trigger
+  its push gate; the audit policy and commands are unchanged.
+
 - Honor `mcp show-installation --json` and its legacy `installation` alias:
   emit only the MCP client configuration object with placeholder credentials,
   while preserving the human-readable instructions without `--json`.

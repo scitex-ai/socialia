@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Outer apptainer-exec wrapper for scitex-tex's self-hosted (Spartan) CI.
+# Outer apptainer-exec wrapper for Socialia's configured release runner.
 #
 # Runs ON THE RUNNER (outside the SIF). Resolves the apptainer shim + SIF image
 # from the repo Actions Variables, then `apptainer exec`s the SIF and hands off
@@ -30,7 +30,7 @@ APPTAINER="${SCITEX_CI_APPTAINER:?SCITEX_CI_APPTAINER not set (repo Actions Vari
 SIF="${SCITEX_CI_SIF:?SCITEX_CI_SIF not set (repo Actions Variable)}"
 APPTAINER="${APPTAINER/#\~/$HOME}"
 SIF="${SIF/#\~/$HOME}"
-export PATH="$HOME/.env-3.11/bin:$PATH"
+export PATH="$(dirname "$APPTAINER"):$PATH"
 
 [ -x "$APPTAINER" ] || {
     echo "::error::apptainer shim not executable at $APPTAINER"
@@ -41,11 +41,18 @@ export PATH="$HOME/.env-3.11/bin:$PATH"
     exit 1
 }
 
-# apptainer scratch on the shared FS — keeps HOME clean.
-export APPTAINER_TMPDIR="/data/gpfs/projects/punim0264/ywatanabe/ci/apptainer-tmp"
+# Respect the container runtime's standard scratch override. Otherwise use
+# the runner's writable scratch, with the normal temporary directory fallback.
+export APPTAINER_TMPDIR="${APPTAINER_TMPDIR:-${RUNNER_TEMP:-${TMPDIR:-/tmp}}/scitex-socialia-apptainer}"
 mkdir -p "$APPTAINER_TMPDIR"
 
-# --bind punim0264: $HOME/.scitex is a symlink into punim0264; bind it so the
-# symlink resolves inside the container. --pwd "$PWD" keeps the checkout as cwd.
-exec "$APPTAINER" exec --pwd "$PWD" --bind /data/gpfs/projects/punim0264 \
+# Mounts are host configuration, not a package-owned filesystem assumption.
+# Preserve standard Apptainer bindings unless the CI-specific override is set.
+if [ -n "${SCITEX_CI_BINDPATH:-}" ]; then
+    export APPTAINER_BINDPATH="$SCITEX_CI_BINDPATH"
+fi
+
+# Apptainer handles its normal home/cwd mounts; additional symlink targets or
+# shared filesystems must be declared by the host via the binding variables.
+exec "$APPTAINER" exec --pwd "$PWD" \
     "$SIF" bash ".github/ci/$INNER" "$@"

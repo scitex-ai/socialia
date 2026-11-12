@@ -7,6 +7,10 @@ tags: [socialia-python-api]
 
 # Python API
 
+In source after 0.5.15, public clients and helpers load on first attribute
+access. Plain imports and CLI setup metadata do not construct the MCP registry.
+`dir(socialia)` still exposes the public names.
+
 ## Platform Clients
 
 | Class | Methods | Notes |
@@ -25,4 +29,4 @@ tags: [socialia-python-api]
 | `move_to_scheduled(path)` | Move draft to scheduled directory |
 | `move_to_posted(path)` | Move to posted directory after publishing |
 | `ensure_project_dirs()` | Create project directory structure |
-| `PLATFORM_STRATEGIES` | Dict mapping platform names to client classes |
+| `PLATFORM_STRATEGIES` | Platform content-strategy guidance text; `{}` if optional MCP support cannot import |

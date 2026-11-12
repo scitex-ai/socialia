@@ -9,6 +9,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Await FastMCP's asynchronous runner from the legacy async entry point.
+  `socialia mcp start` now initializes stdio without nesting event loops; a real
+  initialize/list-tools integration test covers the CLI startup path. Include
+  nested Python tests in source distributions so this regression ships.
+
 - Stop release tests when the complete `[all,dev]` dependency installation
   fails. Do not retry a reduced profile and report it as full qualification.
 

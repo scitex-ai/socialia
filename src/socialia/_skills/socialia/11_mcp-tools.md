@@ -26,3 +26,7 @@ In source after 0.5.15, `--module analytics --json` selects the four analytics
 tools, while `--module social --json` selects the three posting/status tools.
 This filters catalog output only, not the server's callable tools. The current
 source JSON's `total` and module `count` describe the displayed tool metadata.
+
+The source startup fix after 0.5.15 keeps `socialia mcp start` in a single
+event loop. `tests/integration/test_mcp_stdio_start.py` checks a real stdio
+initialization and tool listing without invoking any platform operation.

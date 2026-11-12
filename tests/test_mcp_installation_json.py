@@ -15,7 +15,9 @@ def _invoke(tmp_path, command, as_json):
         "PATH": os.environ.get("PATH", os.defpath),
         "HOME": str(tmp_path),
         "SCITEX_DIR": str(tmp_path / "state"),
-        "PYTHONPATH": str(source),
+        "PYTHONPATH": os.pathsep.join(
+            filter(None, (str(source), os.environ.get("PYTHONPATH", "")))
+        ),
         "LANG": "C.UTF-8",
         "SOCIALIA_X_CONSUMER_KEY": "owned-canary-not-for-export",
         "COVERAGE_FILE": str(tmp_path / ".coverage"),

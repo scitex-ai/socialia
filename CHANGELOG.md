@@ -9,6 +9,10 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Defer public provider imports until attribute access, so plain imports and
+  CLI setup metadata do not construct the MCP registry. Preserve public names,
+  provider identity, discovery and the legacy optional-MCP strategy fallback.
+
 - Preserve the active dependency layer when subprocess tests select source
   code. Remove requests for the undeclared `scitex-dev[mcp]` extra; MCP dependencies
   remain explicit in Socialia's extras. Launch the inert install recorder with

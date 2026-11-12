@@ -36,7 +36,7 @@ dependencies = [
 
 [project.optional-dependencies]
 reddit = ["praw>=7.7.0"]
-mcp = ["fastmcp>=2.0.0", "scitex-dev[mcp]>=0.11.7"]
+mcp = ["fastmcp>=2.0.0", "scitex-dev>=0.11.7"]
 analytics = ["google-analytics-data>=0.18.0"]
 youtube = ["google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
 docs = [
@@ -66,7 +66,7 @@ dev = [
 # PS-221 closure-by-inclusion: every public extra must be a SUBSET of `all`
 # (added the two `mcp`-extra requirements directly; a self-referential
 # `socialia[mcp]` inside its own extras is legal but harder to read).
-all = ["socialia[docs]", "praw>=7.7.0", "mcp>=1.0.0", "fastmcp>=2.0.0", "scitex-dev[mcp]>=0.11.7", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
+all = ["socialia[docs]", "praw>=7.7.0", "mcp>=1.0.0", "fastmcp>=2.0.0", "scitex-dev>=0.11.7", "google-analytics-data>=0.18.0", "google-api-python-client>=2.100.0", "google-auth-oauthlib>=1.1.0"]
 
 [project.scripts]
 socialia = "socialia.cli:main"

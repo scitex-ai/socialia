@@ -2,7 +2,9 @@
 
 import json
 import os
+import shlex
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -18,7 +20,7 @@ def _install(tmp_path, status):
     command_dir.mkdir()
     command = command_dir / "installer"
     command.write_text(
-        "#!/usr/bin/env python3\n"
+        f"#!/bin/sh\n'''exec' {shlex.quote(sys.executable)} \"$0\" \"$@\"\n' '''\n"
         "import json,os,sys\nfrom pathlib import Path\n"
         "name=Path(sys.argv[0]).name\n"
         "with open(os.environ['CALLS'],'a') as stream:\n"

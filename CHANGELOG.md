@@ -9,6 +9,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Preserve the active dependency layer when subprocess tests select source
+  code. Remove requests for the undeclared `scitex-dev[mcp]` extra; MCP dependencies
+  remain explicit in Socialia's extras. Launch the inert install recorder with
+  the active interpreter instead of requiring `python3` on its hermetic PATH.
+
 - Await FastMCP's asynchronous runner from the legacy async entry point.
   `socialia mcp start` now initializes stdio without nesting event loops; a real
   initialize/list-tools integration test covers the CLI startup path. Include

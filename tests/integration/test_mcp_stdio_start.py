@@ -11,6 +11,7 @@ from mcp.client.stdio import stdio_client
 
 def test_cli_stdio_initializes_and_lists_registered_tools(tmp_path):
     # Arrange
+    source = Path(__file__).resolve().parents[2] / "src"
     expected = {
         "social_post",
         "social_delete",
@@ -28,7 +29,9 @@ def test_cli_stdio_initializes_and_lists_registered_tools(tmp_path):
             "PATH": os.environ.get("PATH", os.defpath),
             "HOME": str(tmp_path),
             "SCITEX_DIR": str(tmp_path / "state"),
-            "PYTHONPATH": str(Path(__file__).resolve().parents[2] / "src"),
+            "PYTHONPATH": os.pathsep.join(
+                filter(None, (str(source), os.environ.get("PYTHONPATH", "")))
+            ),
         },
         cwd=tmp_path,
     )

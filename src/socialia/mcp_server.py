@@ -31,8 +31,8 @@ if HAS_MCP:
 
     # Legacy entry point
     async def main():
-        """Legacy async main entry point."""
-        run_server()
+        """Run the legacy entry point inside the caller's event loop."""
+        await mcp.run_async(transport="stdio")
 
     create_server = lambda: mcp  # noqa: E731
 else:

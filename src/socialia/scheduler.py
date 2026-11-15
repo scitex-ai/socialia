@@ -11,6 +11,7 @@ from pathlib import Path
 import click
 
 from ._paths import get_schedule_file as _get_schedule_file
+from ._schedule_store import _decode_schedule
 
 SCHEDULE_FILE: Path = _get_schedule_file()
 """Path to the scheduled-jobs JSON file (under ``~/.scitex/socialia/runtime/``).
@@ -70,10 +71,7 @@ def _ensure_schedule_file(schedule_file=None):
 def _load_schedule(schedule_file=None) -> list:
     """Load jobs without discarding corrupt or unsupported schedule data."""
     sf = _ensure_schedule_file(schedule_file)
-    jobs = json.loads(sf.read_text())
-    if not isinstance(jobs, list) or any(not isinstance(job, dict) for job in jobs):
-        raise ValueError(f"Schedule file {sf} must contain a list of job objects")
-    return jobs
+    return _decode_schedule(sf.read_text(), source=sf)
 
 
 def _save_schedule(jobs: list, schedule_file=None):

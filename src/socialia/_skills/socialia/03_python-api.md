@@ -35,13 +35,21 @@ access. Plain imports and CLI setup metadata do not construct the MCP registry.
 
 Scheduler functions in `socialia.scheduler` initialize a missing schedule file
 with an empty list. An existing file must contain a JSON list of dictionaries.
-Malformed JSON or another container shape raises `ValueError` without replacing
+Malformed JSON, duplicate object fields (including escaped names or nested
+objects), or another container shape raises `ValueError` without replacing
 the file; filesystem read errors also propagate. Inspect and repair a damaged
 queue before retrying. Existing job fields and extension metadata are retained.
 
-`scheduler._load_schedule` owns this check. The source controls in
+`scheduler._load_schedule` delegates decoding to `socialia._schedule_store`. The source controls in
 `tests/test_scheduler_integrity.py` exercise byte preservation through load,
 add, list, cancel and due-job entry points using owned invalid/future-only files;
 `tests/test_scheduler.py` covers the existing scheduler behavior. These checks
 cover container integrity, with per-job schema and concurrent-writer handling
 requiring separate validation.
+
+Duplicate field names are rejected within each JSON object, even if their values
+are equal. Different objects may reuse field names normally. The strict decoder
+is `socialia/_schedule_store.py`, with owning controls in
+`tests/test__schedule_store.py`; public file-preservation controls are in
+`tests/test_scheduler_integrity.py`. This does not validate every job schema,
+lock concurrent writers, or make file writes atomic.

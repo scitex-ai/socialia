@@ -25,6 +25,10 @@ _BAD_STORES = [
     b"42",
     b'"not a job list"',
     b"[null]",
+    b'[{"id":"first","id":"owned","status":"cancelled"}]',
+    b'[{"id":"first","i\\u0064":"owned","status":"cancelled"}]',
+    b'[{"id":"owned","status":"cancelled","status":"cancelled"}]',
+    b'[{"id":"owned","status":"cancelled","extension":{"key":1,"key":2}}]',
     json.dumps([_FUTURE_JOB, None]).encode(),
 ]
 
@@ -69,6 +73,22 @@ def test_missing_schedule_initializes_an_empty_list(tmp_path):
 def test_valid_job_objects_retain_legacy_and_extension_fields(tmp_path):
     # Arrange
     jobs = [{"id": "legacy", "status": "cancelled", "extension": {"nested": [1, 2]}}]
+    payload = json.dumps(jobs, indent=4).encode()
+    path = tmp_path / "scheduled.json"
+    path.write_bytes(payload)
+    # Act
+    result = _load_schedule(path)
+    # Assert
+    assert (result, path.read_bytes()) == (jobs, payload)
+
+
+
+def test_distinct_objects_may_reuse_keys_without_changing_bytes(tmp_path):
+    # Arrange
+    jobs = [
+        {"id": "one", "status": "cancelled", "extension": {"key": 1}},
+        {"id": "two", "status": "cancelled", "extension": {"key": 2}},
+    ]
     payload = json.dumps(jobs, indent=4).encode()
     path = tmp_path / "scheduled.json"
     path.write_bytes(payload)

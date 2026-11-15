@@ -78,12 +78,12 @@ def social_status(platform: str) -> dict[str, Any]:
 
 def social_feed(platform: str, count: int = 10) -> dict[str, Any]:
     """Get recent posts from feed."""
-    return run_cli("feed", platform, "--count", str(count))
+    return run_cli("feed", platform, "--limit", str(count), "--json")
 
 
 def social_check(platform: str) -> dict[str, Any]:
-    """Check recent posts from configured accounts."""
-    return run_cli("check", platform)
+    """Check connection status for the requested platform."""
+    return run_cli("check-platforms", platform, "--json")
 
 
 # =============================================================================

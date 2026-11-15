@@ -68,12 +68,12 @@ def _ensure_schedule_file(schedule_file=None):
 
 
 def _load_schedule(schedule_file=None) -> list:
-    """Load scheduled jobs."""
+    """Load jobs without discarding corrupt or unsupported schedule data."""
     sf = _ensure_schedule_file(schedule_file)
-    try:
-        return json.loads(sf.read_text())
-    except (json.JSONDecodeError, FileNotFoundError):
-        return []
+    jobs = json.loads(sf.read_text())
+    if not isinstance(jobs, list) or any(not isinstance(job, dict) for job in jobs):
+        raise ValueError(f"Schedule file {sf} must contain a list of job objects")
+    return jobs
 
 
 def _save_schedule(jobs: list, schedule_file=None):

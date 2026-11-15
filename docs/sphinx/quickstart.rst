@@ -88,6 +88,14 @@ Reading Your Feed
 Analytics
 ---------
 
+Event tracking uses ``SOCIALIA_GOOGLE_ANALYTICS_MEASUREMENT_ID`` and
+``SOCIALIA_GOOGLE_ANALYTICS_API_SECRET``. Reporting additionally requires the
+``socialia[analytics]`` extra, ``SOCIALIA_GOOGLE_ANALYTICS_PROPERTY_ID`` and
+Google application credentials (for example, ``GOOGLE_APPLICATION_CREDENTIALS``).
+
+Methods return dictionaries. Check ``result["success"]`` before reading metrics;
+on failure, inspect ``result["error"]``.
+
 Python API:
 
 .. code-block:: python
@@ -103,7 +111,10 @@ Python API:
     realtime = ga.get_realtime_users()
 
     # Get page views
-    views = ga.get_page_views(start_date="7daysAgo")
+    views = ga.get_page_views(start_date="7daysAgo", end_date="today")
+
+    # Get traffic sources
+    sources = ga.get_traffic_sources(start_date="7daysAgo", end_date="today")
 
 CLI:
 
@@ -113,13 +124,22 @@ CLI:
     socialia analytics track page_view --param page /docs
 
     # Get realtime users
-    socialia analytics realtime
+    socialia analytics show-realtime
 
     # Get page views
-    socialia analytics pageviews --start 7daysAgo
+    socialia analytics show-pageviews --start 7daysAgo
 
     # Get traffic sources
-    socialia analytics sources
+    socialia analytics show-sources
+
+The older ``realtime``, ``pageviews`` and ``sources`` subcommands remain
+supported aliases. The commands above use their canonical names.
+
+Source: ``socialia.analytics.GoogleAnalytics`` and
+``socialia.cli._commands.cmd_analytics``. The offline controls in
+``tests/test_analytics.py`` cover event submission with an injected HTTP client,
+credential lookup and CLI help; live ingestion and successful credentialed
+Data API reports require separate verification.
 
 MCP Server for AI Agents
 ------------------------

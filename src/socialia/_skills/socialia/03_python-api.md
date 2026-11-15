@@ -20,7 +20,21 @@ access. Plain imports and CLI setup metadata do not construct the MCP registry.
 | `Reddit()` | `post()`, `delete()` | Reddit API |
 | `Slack()` | `post()`, `delete()` | Slack webhooks |
 | `YouTube()` | `post()`, `delete()` | YouTube Data API |
-| `GoogleAnalytics()` | `track()`, `pageviews()`, `sources()`, `realtime()` | GA4 |
+| `GoogleAnalytics()` | `track_event()`, `get_page_views()`, `get_traffic_sources()`, `get_realtime_users()` | GA4; Measurement Protocol for events, Data API for reports |
+
+## Analytics setup and results
+
+`GoogleAnalytics.track_event()` sends events using the measurement ID and API
+secret. The three `get_*` methods query the Data API and require the
+`socialia[analytics]` extra, a property ID and Google application credentials.
+Methods return dictionaries: check `result["success"]` before reading metrics;
+failed requests include `result["error"]`.
+
+The implementation is `src/socialia/analytics.py`; the public CLI adapter is
+`src/socialia/cli/_commands.py::cmd_analytics`. Existing controls in
+`tests/test_analytics.py` cover event success/failure with an injected HTTP
+client, credential lookup and analytics CLI help. They do not establish live
+Google ingestion or successful credentialed Data API reports.
 
 ## Utility Functions
 

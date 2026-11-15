@@ -50,6 +50,6 @@ requiring separate validation.
 Duplicate field names are rejected within each JSON object, even if their values
 are equal. Different objects may reuse field names normally. The strict decoder
 is `socialia/_schedule_store.py`, with owning controls in
-`tests/test__schedule_store.py`; public file-preservation controls are in
+`tests/socialia/test__schedule_store.py`; public file-preservation controls are in
 `tests/test_scheduler_integrity.py`. This does not validate every job schema,
 lock concurrent writers, or make file writes atomic.

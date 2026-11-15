@@ -5,17 +5,22 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import os
+from pathlib import Path
 import sys
+import tomllib
 
-sys.path.insert(0, os.path.abspath("../../src"))
+# Keep the import path and version tied to this checkout, independent of cwd.
+# Behavioral controls: tests/develop/test_docs_configuration.py.
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(_PROJECT_ROOT / "src"))
 
 # -- Project information -----------------------------------------------------
 
 project = "Socialia"
 copyright = "2026, Yusuke Watanabe"
 author = "Yusuke Watanabe"
-release = "0.5.12"
+with (_PROJECT_ROOT / "pyproject.toml").open("rb") as _metadata_file:
+    release = tomllib.load(_metadata_file)["project"]["version"]
 
 # -- General configuration ---------------------------------------------------
 

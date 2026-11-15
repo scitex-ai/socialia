@@ -4,7 +4,7 @@ Installation
 Requirements
 ------------
 
-- Python 3.10 or higher
+- Python 3.11 or higher (``pyproject.toml``: ``requires-python = ">=3.11"``)
 - API credentials for platforms you want to use
 
 Install from PyPI

@@ -57,7 +57,7 @@ def register_tools(mcp: FastMCP) -> None:
     def social_status(
         platform: Literal["twitter", "linkedin", "reddit", "slack", "youtube"],
     ) -> dict:
-        """Use when the user asks to check if Twitter/LinkedIn/Reddit/Slack/YouTube OAuth credentials are configured and the token is valid before posting, or to verify "am I logged in" / "is auth working" — drop-in replacement for manually calling each platform's /me or verify_credentials endpoint. CLI: socialia status <platform>"""
+        """Use when the user asks to check if Twitter/LinkedIn/Reddit/Slack/YouTube OAuth credentials are configured and the token is valid before posting, or to verify "am I logged in" / "is auth working" — drop-in replacement for manually calling each platform's /me or verify_credentials endpoint. CLI: socialia check-platforms <platform> --json"""
         return _social_status(platform)
 
 

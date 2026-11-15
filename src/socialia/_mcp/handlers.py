@@ -73,7 +73,7 @@ def social_delete(platform: str, post_id: str) -> dict[str, Any]:
 
 def social_status(platform: str) -> dict[str, Any]:
     """Check authentication status for a platform."""
-    return run_cli("status", platform)
+    return run_cli("check-platforms", platform, "--json")
 
 
 def social_feed(platform: str, count: int = 10) -> dict[str, Any]:

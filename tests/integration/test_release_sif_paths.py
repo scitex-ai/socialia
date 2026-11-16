@@ -2,6 +2,7 @@
 
 import json
 import os
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -11,14 +12,19 @@ import pytest
 WRAPPER = Path(__file__).resolve().parents[2] / ".github/ci/exec-in-sif.sh"
 
 
-@pytest.fixture
-def wrapper_case(tmp_path):
+@pytest.fixture(params=["normal", "spaced"])
+def wrapper_case(tmp_path, request):
     """Own every executable, path and recorded effect used by the wrapper."""
     commands = tmp_path / "bin with spaces"
     commands.mkdir()
+    interpreter = Path(sys.executable)
+    if request.param == "spaced":
+        interpreter = tmp_path / "python with spaces" / "bin" / "python"
+        interpreter.parent.mkdir(parents=True)
+        interpreter.symlink_to(sys.executable)
     recorder = commands / "record"
     recorder.write_text(
-        f"#!{sys.executable}\n"
+        f"#!/bin/sh\n'''exec' {shlex.quote(str(interpreter))} \"$0\" \"$@\"\n' '''\n"
         "import json,os,sys\nfrom pathlib import Path\n"
         "root=Path(os.environ['OWNED_ROOT']).resolve()\n"
         "if Path(sys.argv[0]).name=='mkdir':\n"

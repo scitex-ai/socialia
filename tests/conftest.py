@@ -1,8 +1,6 @@
 """Pytest fixtures for socialia tests.
 
-Also wires module-import-time coverage configuration (parallel + subprocess
-support). ``os.environ.setdefault`` would be a no-op here because pytest-cov
-has already set ``COVERAGE_FILE`` to a tmp dir by the time conftest is loaded.
+Subprocess coverage is configured in pyproject.toml via coverage.py's subprocess patch; test collection must not install .pth files or overwrite caller-owned coverage environment variables.
 
 All fixtures here are real hand-rolled fakes — no ``unittest.mock``,
 ``pytest-mock``, or ``monkeypatch`` is used anywhere in the socialia test
@@ -13,52 +11,9 @@ tree (rule PA-306 / STX-NM00*). See
 from __future__ import annotations
 
 import os
-import sysconfig
-from pathlib import Path
 from typing import Any, Callable, Optional
 
 import pytest
-
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-# Pin coverage's data file at the repo root and point process_startup
-# at our pyproject so child interpreters configure themselves correctly.
-os.environ["COVERAGE_PROCESS_START"] = str(_PROJECT_ROOT / "pyproject.toml")
-os.environ["COVERAGE_FILE"] = str(_PROJECT_ROOT / ".coverage")
-
-
-def _ensure_subprocess_coverage_shim() -> None:
-    """Drop an idempotent ``.pth`` file in site-packages that auto-starts
-    coverage in every child Python interpreter via
-    ``coverage.process_startup()``.
-    """
-    purelib = Path(sysconfig.get_paths()["purelib"])
-    pth = purelib / "_socialia_subprocess_coverage.pth"
-    # Defensive against subprocesses launched in interpreters that don't
-    # have `coverage` installed (e.g. `scitex-dev audit-all` invoked via
-    # /opt/hostedtoolcache/.../bin/scitex-dev on CI): a bare `import
-    # coverage` in a .pth file produces a noisy ``ModuleNotFoundError``
-    # at every interpreter startup and pollutes the subprocess's stderr,
-    # which trips audit-conformance tests that compare stderr to "".
-    shim = (
-        "import os\n"
-        "if os.environ.get('COVERAGE_PROCESS_START'):\n"
-        "    try:\n"
-        "        import coverage\n"
-        "        coverage.process_startup()\n"
-        "    except ImportError:\n"
-        "        pass\n"
-    )
-    try:
-        if not pth.exists() or pth.read_text() != shim:
-            pth.write_text(shim)
-    except OSError:
-        # site-packages may be read-only (e.g. system Python); silently
-        # skip — local dev venvs are writable and that's where this matters.
-        pass
-
-
-_ensure_subprocess_coverage_shim()
 
 
 # --- env_save_restore -------------------------------------------------------

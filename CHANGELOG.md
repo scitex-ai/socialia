@@ -44,6 +44,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 - Honor `mcp show-installation --json` and its legacy `installation` alias:
   emit only the MCP client configuration object with placeholder credentials,
   while preserving the human-readable instructions without `--json`.
+- Configure subprocess coverage declaratively via coverage.py `patch = ["subprocess"]`; `tests/conftest.py` no longer writes `.pth` files into site-packages nor overwrites caller-owned `COVERAGE_PROCESS_START` / `COVERAGE_FILE`.
 
 ## [0.5.11]
 
